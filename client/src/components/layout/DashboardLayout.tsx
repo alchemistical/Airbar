@@ -54,11 +54,11 @@ const navigationItems = [
 ];
 
 const userDropdownItems = [
+  { icon: User, label: "Profile", description: "KYC, personal details, settings", href: "/dashboard/profile" },
   { icon: DollarSign, label: "Wallet", description: "Manage funds, view earnings", href: "/dashboard/wallet" },
   { icon: Bell, label: "Notifications", description: "Updates and alerts", href: "/dashboard/notifications", hasUnread: true },
-  { icon: User, label: "Profile", description: "KYC, personal details, settings", href: "/dashboard/profile" },
-  { icon: Gift, label: "Referrals", description: "Invite friends, bonus status", href: "/dashboard/referrals" },
   { icon: Clock, label: "History", description: "Activity log, past deliveries", href: "/dashboard/history" },
+  { icon: Gift, label: "Referrals", description: "Invite friends, bonus status", href: "/dashboard/referrals" },
 ];
 
 interface DashboardLayoutProps {
