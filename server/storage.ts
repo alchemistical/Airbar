@@ -289,17 +289,35 @@ export class MemStorage implements IStorage {
       request => request.status === "pending"
     );
     
-    const pendingEarnings = Array.from(this.earnings.values())
-      .filter(earning => earning.userId === userId && earning.status === "pending")
-      .reduce((total, earning) => total + parseFloat(earning.amount), 0);
+    const userEarnings = Array.from(this.earnings.values()).filter(e => e.userId === userId);
+    
+    const availableBalance = userEarnings
+      .filter(e => e.status === "completed")
+      .reduce((sum, e) => sum + parseFloat(e.amount), 0);
+    
+    const pendingEarnings = userEarnings
+      .filter(e => e.status === "pending")
+      .reduce((sum, e) => sum + parseFloat(e.amount), 0);
+    
+    const totalEarned = userEarnings
+      .reduce((sum, e) => sum + parseFloat(e.amount), 0);
     
     const user = this.users.get(userId);
     
     return {
-      upcomingTrips: userTrips.length,
+      activeTrips: userTrips.length,
       parcelRequests: userParcelRequests.length,
-      pendingEarnings: `$${pendingEarnings.toFixed(0)}`,
-      rating: user?.rating || "0.0",
+      inEscrowAmount: `$${(pendingEarnings * 0.3).toFixed(2)}`,
+      averageRating: user?.rating || "0.0",
+      availableBalance: `$${availableBalance.toFixed(2)}`,
+      pendingEarnings: `$${pendingEarnings.toFixed(2)}`,
+      totalEarned: `$${totalEarned.toFixed(2)}`,
+      role: "traveler", // Could be dynamic based on user data
+      unacceptedMatches: 2,
+      pendingConfirmations: 1,
+      receiptsRequired: 1,
+      kycComplete: user?.isKycVerified || false,
+      payoutsPending: 0
     };
   }
 

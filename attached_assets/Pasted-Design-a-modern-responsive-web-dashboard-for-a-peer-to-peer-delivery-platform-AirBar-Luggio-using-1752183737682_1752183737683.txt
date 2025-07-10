@@ -1,0 +1,85 @@
+Design a modern, responsive web dashboard for a peer-to-peer delivery platform (AirBar/Luggio) using Tailwind CSS and React (or Next.js if needed). This dashboard should serve as the central hub for both **travelers** and **senders**, displaying personalized info, KPIs, and actionable items.
+
+👥 ROLE-BASED RENDERING:
+- If the logged-in user is a **Traveler**, show Parcel Requests and Upcoming Trips.
+- If the user is a **Sender**, show Active Matches and Tracking Info.
+- Show default dashboard with core info if no role is set yet.
+
+📐 LAYOUT STRUCTURE:
+- Use a 2-column layout:
+  - Left Sidebar (collapsed option)
+  - Main dashboard view with grid-based content cards
+
+🎯 TOP HEADER STATS (4 tiles, dynamic by role):
+- Active Trips (or Deliveries in Progress)
+- Parcel Requests (or Matches Pending)
+- In Escrow Amount (💸 for traveler only)
+- Average Rating (link to Reviews)
+
+💡 QUICK ACTIONS WIDGET:
+Add a horizontally scrollable "Quick Actions" row or buttons:
+- ➕ Add Trip
+- 📦 Create Parcel Request
+- 🧾 Track a Parcel
+- 💰 Withdraw Funds
+- 🏷 Invite Friends
+
+📊 WALLET SNAPSHOT OR GRAPH:
+Replace the current unclear earnings graph with:
+- “Available Balance”
+- “Pending Earnings”
+- “Total Earned”
+- Show “Withdraw” CTA and link to Wallet page
+- Optional: toggle between Line Graph and Summary Stats
+
+📋 TO-DO LIST WIDGET:
+A personalized action list showing:
+- Unaccepted Matches
+- Pending Delivery Confirmations
+- Uploaded receipt required
+- KYC incomplete
+- Payout pending
+
+📍 TRIP TIMELINE WIDGET:
+Combine **Upcoming Trips** and **Past Trips** with a toggle or tabs:
+- Card layout showing origin ➝ destination, dates, and match count
+- Show status: Pending / In Progress / Completed
+
+🆕 RECENT ACTIVITY STREAM:
+Scrollable list showing latest events:
+- Parcel delivered
+- Funds released
+- New review
+- Trip confirmed
+- Request received
+
+🚫 REMOVE/REPLACE:
+- Notifications widget (redundant with dropdown)
+- Current graph (vague and non-actionable)
+- Hardcoded Parcel Requests (irrelevant to some users)
+
+📦 COMPONENT DESIGN:
+Use Tailwind cards with subtle shadows and icons.
+Maintain consistency in spacing (e.g., padding-6, rounded-xl).
+All icons should be accessible and labeled with tooltips.
+Responsive layout: collapses on mobile to accordion view.
+
+📲 TOP-RIGHT DROPDOWN:
+Move the following from sidebar to profile dropdown:
+- Wallet
+- Notifications
+- Profile
+- Referrals
+- History
+
+🧩 TECHNOLOGIES:
+- React or Next.js
+- Tailwind CSS
+- Role-based rendering logic
+- Reusable components and card containers
+- Accessible navigation and responsive layout
+
+🎨 STYLE NOTES:
+- Clean, airy, and soft interface
+- Use hover feedback and transition animations
+- Consistent iconography and color language across cards

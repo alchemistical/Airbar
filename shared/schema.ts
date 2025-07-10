@@ -103,10 +103,19 @@ export type InsertNotification = z.infer<typeof insertNotificationSchema>;
 
 // Dashboard specific types
 export type DashboardMetrics = {
-  upcomingTrips: number;
+  activeTrips: number;
   parcelRequests: number;
+  inEscrowAmount: string;
+  averageRating: string;
+  availableBalance: string;
   pendingEarnings: string;
-  rating: string;
+  totalEarned: string;
+  role: "traveler" | "sender" | "both";
+  unacceptedMatches: number;
+  pendingConfirmations: number;
+  receiptsRequired: number;
+  kycComplete: boolean;
+  payoutsPending: number;
 };
 
 export type TripWithRequests = Trip & {
