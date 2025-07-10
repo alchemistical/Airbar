@@ -1,0 +1,128 @@
+
+
+TASK:
+Design and implement a responsive, dark-themed universal footer for the AirBar web application. This footer will appear on all public-facing pages of the platform (e.g., Homepage, Support, How It Works, Browse, etc.).
+
+🔧 Component: 
+<Footer />
+
+🧱 Layout Structure
+Full-width, dark background (#0D1117)
+
+
+Grid layout with 4 columns:
+
+
+Brand Info
+
+
+Services
+
+
+Support
+
+
+Legal
+
+
+Language selection + copyright
+
+
+Social media icons (Twitter, LinkedIn, GitHub)
+
+
+Mobile responsive (stacked on small screens)
+
+
+
+✍️ Content
+🟠 Brand Section (Column 1)
+Logo + brand name: ✈ AirBar
+
+
+Tagline: The world's most trusted crowdshipping platform connecting travelers with package senders. Safe, reliable, and affordable international delivery made simple.
+
+
+Icons + quick stats:
+
+
+🌍 150+ Countries
+
+
+👥 2M+ Users
+
+
+📦 50K+ Deliveries
+
+
+
+📦 Services (Column 2)
+- Find Travelers
+- Browse Packages
+- How It Works
+- Pricing Calculator
+- Business Solutions
+- API Integration
+
+🛟 Support (Column 3)
+- Help Center
+- Safety Guidelines
+- Insurance Claims
+- Contact Support
+- Community Forum
+- Report Issue
+
+⚖ Legal (Column 4)
+- Terms of Service
+- Privacy Policy
+- Cookie Policy
+- Prohibited Items
+- About Us
+- Admin Portal
+
+🌐 Language Selector
+<LanguageSelector
+  options={['English 🇺🇸', 'Français 🇫🇷', 'Español 🇪🇸']}
+  default="English"
+/>
+
+📢 Social Icons
+<SocialIcons
+  links={{
+    twitter: "https://twitter.com/airbar",
+    linkedin: "https://linkedin.com/company/airbar",
+    github: "https://github.com/airbar"
+  }}
+  style="iconOnly"
+  size="small"
+/>
+
+🧑‍💻 Code Structure (React + Tailwind suggested)
+<footer className="bg-[#0D1117] text-white py-10 px-6">
+  <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+    {/* Brand */}
+    {/* Services */}
+    {/* Support */}
+    {/* Legal */}
+  </div>
+  <div className="mt-10 border-t border-gray-700 pt-4 text-sm flex flex-col md:flex-row justify-between items-center">
+    <p>© 2025 AirBar. All rights reserved.</p>
+    <div className="flex space-x-4 mt-4 md:mt-0">
+      {/* LanguageSelector */}
+      {/* SocialIcons */}
+    </div>
+  </div>
+</footer>
+
+📱 Mobile Considerations
+Collapse columns into stack
+
+
+Center-align text and icons
+
+
+Reduce icon spacing and font size for smaller screens
+
+
+
+

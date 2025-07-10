@@ -41,6 +41,7 @@ import {
   HelpCircle,
   Send,
 } from "lucide-react";
+import Footer from "@/components/layout/Footer";
 import type { User as UserType } from "@shared/schema";
 
 const navigationItems = [
@@ -294,6 +295,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             {children}
           </div>
         </main>
+
+        {/* Footer */}
+        <Footer />
       </div>
     </SidebarProvider>
   );

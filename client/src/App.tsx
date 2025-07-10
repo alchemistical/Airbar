@@ -26,12 +26,13 @@ import Notifications from "@/pages/Notifications";
 import Profile from "@/pages/Profile";
 import Referrals from "@/pages/Referrals";
 import Support from "@/pages/Support";
+import Homepage from "@/pages/Homepage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Dashboard} />
+      <Route path="/" component={Homepage} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/dashboard/traveler/trips" component={TravelerTrips} />
       <Route path="/dashboard/traveler/trips/addtrip" component={AddTrip} />
