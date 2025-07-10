@@ -12,6 +12,7 @@ import ParcelRequestDetail from "@/pages/ParcelRequestDetail";
 import Matches from "@/pages/Matches";
 import SendPackage from "@/pages/SendPackage";
 import Tracking from "@/pages/Tracking";
+import Wallet from "@/pages/Wallet";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -27,6 +28,7 @@ function Router() {
       <Route path="/dashboard/matches" component={Matches} />
       <Route path="/send-package" component={SendPackage} />
       <Route path="/dashboard/tracking" component={Tracking} />
+      <Route path="/dashboard/wallet" component={Wallet} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>

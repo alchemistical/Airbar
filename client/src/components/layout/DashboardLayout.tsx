@@ -41,7 +41,7 @@ const navigationItems = [
   { icon: Send, label: "Send Package", href: "/send-package" },
   { icon: Heart, label: "Matches", href: "/dashboard/matches" },
   { icon: MapPin, label: "Tracking", href: "/dashboard/tracking" },
-  { icon: DollarSign, label: "Earnings", href: "/dashboard/earnings" },
+  { icon: DollarSign, label: "Wallet", href: "/dashboard/wallet" },
   { icon: Clock, label: "History", href: "/dashboard/history" },
   { icon: Star, label: "Reviews", href: "/dashboard/reviews" },
   { icon: Bell, label: "Notifications", href: "/dashboard/notifications" },
@@ -141,6 +141,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                location === "/send-package" ? "Send Package" :
                location === "/dashboard/matches" ? "Matches" :
                location === "/dashboard/tracking" ? "Package Tracking" :
+               location === "/dashboard/wallet" ? "Wallet" :
                location.startsWith("/parcel-request/") ? "Parcel Details" :
                "Dashboard"}
             </h1>

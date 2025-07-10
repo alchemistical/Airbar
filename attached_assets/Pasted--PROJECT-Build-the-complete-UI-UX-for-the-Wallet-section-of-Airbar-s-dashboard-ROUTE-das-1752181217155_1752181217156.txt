@@ -1,0 +1,84 @@
+🧠 PROJECT: Build the complete UI/UX for the “Wallet” section of Airbar’s dashboard
+
+📍 ROUTE: `/dashboard/wallet` (replaces previous `/dashboard/earnings`)
+
+🎯 GOAL:
+Display earnings, transaction history, and withdrawal options for travelers who complete deliveries, while allowing senders to view reward payouts and referral bonuses.
+
+🧭 USER FLOW OVERVIEW:
+
+TRAVELER VIEW:
+1. View current available balance ($)
+2. See breakdown of pending vs. completed earnings
+3. Transaction history: per trip, per parcel
+4. Request payout (if KYC complete)
+5. Link external wallet or payment method (PayPal, bank account, etc.)
+
+SENDER VIEW:
+1. View rewards paid
+2. Referral bonuses
+3. Payment method used for previous transactions
+
+📦 COMPONENTS REQUIRED:
+
+1. **Balance Summary Card (Top Section)**
+   - Available Balance
+   - Pending Rewards (parcel in-progress)
+   - Withdrawable Balance
+   - CTA: “Withdraw Funds”
+
+2. **Transaction History Table**
+   - Parcel/Trip ID
+   - Description: [Parcel → City]
+   - Amount Earned or Paid
+   - Status (Pending, Completed, Failed)
+   - Date
+   - Filter by: Date, Status, Type (earning/payout/bonus)
+
+3. **Withdraw Funds Modal/Form**
+   - Confirm amount to withdraw
+   - Choose payout method
+   - KYC Verification badge (required to withdraw)
+   - Confirmation & Processing time info
+
+4. **Payout Setup Panel**
+   - Add/Edit payout methods (bank, PayPal, stablecoin wallet)
+   - Set default method
+   - Show verification status for each
+
+5. **Referral Bonus Panel (shared with Referrals section)**
+   - Number of referrals completed
+   - Earnings from referral
+   - Referral program rules link
+
+🧩 ROLE-BASED BEHAVIOUR:
+- Travelers: See earnings & withdrawals
+- Senders: See payment history & bonuses
+- Admin-flag for incomplete KYC → lock payout button
+
+🎨 DESIGN STANDARDS:
+- Consistent with Airbar’s UI:
+   • Light, flat panels
+   • Monetary values clearly emphasized
+   • Withdraw button styled distinctively
+- Sidebar must be visible
+- Mobile responsive (column stacks)
+- UX hierarchy must show most useful balance information first
+
+🧱 ESCROW INTEGRATION:
+• Add a separate Escrow Balance card to top wallet summary
+• Create a collapsible “Escrow Details” section under balance cards
+• For each item:
+   - Trip / Parcel ID
+   - Locked amount
+   - Status badge: Picked up / In transit / Awaiting confirmation
+   - Delivery ETA
+   - Escrow release condition: e.g., “Released after confirmation by sender”
+• Show Escrow-to-Wallet flow visually (diagram or progress bar optional)
+
+🧪 TEST CASES:
+- User with 0 balance
+- Multiple payout methods (one default)
+- Withdrawing partially vs. fully
+- Referral bonus earned but not yet available
+- KYC incomplete state blocking withdrawal
