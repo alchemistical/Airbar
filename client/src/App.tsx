@@ -17,6 +17,7 @@ import WalletEscrow from "@/pages/WalletEscrow";
 import WalletWithdrawals from "@/pages/WalletWithdrawals";
 import WalletReferrals from "@/pages/WalletReferrals";
 import WalletSender from "@/pages/WalletSender";
+import WalletTransactions from "@/pages/WalletTransactions";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -37,6 +38,7 @@ function Router() {
       <Route path="/dashboard/wallet/withdrawals" component={WalletWithdrawals} />
       <Route path="/dashboard/wallet/referrals" component={WalletReferrals} />
       <Route path="/dashboard/wallet/sender" component={WalletSender} />
+      <Route path="/dashboard/wallet/transactions" component={WalletTransactions} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
