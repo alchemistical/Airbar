@@ -31,7 +31,7 @@ import type { User as UserType } from "@shared/schema";
 
 const navigationItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
-  { icon: Plane, label: "Trips", href: "/dashboard/trips" },
+  { icon: Plane, label: "Trips", href: "/dashboard/traveler/trips" },
   { icon: Package, label: "Parcel Requests", href: "/dashboard/parcel-requests" },
   { icon: Clock, label: "History", href: "/dashboard/history" },
   { icon: Star, label: "Reviews", href: "/dashboard/reviews" },
@@ -119,7 +119,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               </SheetContent>
             </Sheet>
 
-            <h1 className="text-h1 text-airbar-black">Dashboard</h1>
+            <h1 className="text-h1 text-airbar-black">
+              {location === "/dashboard/traveler/trips" ? "My Trips" : 
+               location === "/dashboard/traveler/trips/addtrip" ? "Add New Trip" :
+               "Dashboard"}
+            </h1>
 
             {/* User Profile */}
             <div className="flex items-center space-x-3">

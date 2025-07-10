@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChevronRight } from "lucide-react";
@@ -48,9 +49,11 @@ export default function UpcomingTrips({ userId }: UpcomingTripsProps) {
     <div className="rounded-lg bg-white p-6 shadow-md">
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-h3 text-airbar-black">Upcoming Trips</h2>
-        <Button className="bg-airbar-blue text-white hover:bg-blue-600">
-          Add Trip
-        </Button>
+        <Link href="/dashboard/traveler/trips/addtrip">
+          <Button className="bg-airbar-blue text-white hover:bg-blue-600">
+            Add Trip
+          </Button>
+        </Link>
       </div>
 
       <div className="overflow-x-auto">

@@ -54,6 +54,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Trip API endpoints
+  app.post("/api/trips", async (req, res) => {
+    try {
+      const trip = await storage.createTrip(req.body);
+      res.status(201).json(trip);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create trip" });
+    }
+  });
+
   // User API endpoints
   app.get("/api/user/:id", async (req, res) => {
     try {
