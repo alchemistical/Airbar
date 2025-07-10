@@ -11,6 +11,7 @@ import SenderParcels from "@/pages/SenderParcels";
 import ParcelRequestDetail from "@/pages/ParcelRequestDetail";
 import Matches from "@/pages/Matches";
 import SendPackage from "@/pages/SendPackage";
+import Tracking from "@/pages/Tracking";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -25,6 +26,7 @@ function Router() {
       <Route path="/parcel-request/:id" component={ParcelRequestDetail} />
       <Route path="/dashboard/matches" component={Matches} />
       <Route path="/send-package" component={SendPackage} />
+      <Route path="/dashboard/tracking" component={Tracking} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>

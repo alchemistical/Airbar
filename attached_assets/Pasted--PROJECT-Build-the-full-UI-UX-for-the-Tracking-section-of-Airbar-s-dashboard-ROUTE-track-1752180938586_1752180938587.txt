@@ -1,0 +1,73 @@
+🧠 PROJECT: Build the full UI/UX for the “Tracking” section of Airbar’s dashboard
+
+📍 ROUTE: `/tracking`
+
+🎯 GOAL:
+Enable both travelers and parcel senders to track the live status and timeline of confirmed parcel deliveries — from match to final delivery — in a clear, intuitive, and responsive interface.
+
+🧭 USER FLOW OVERVIEW:
+
+View (filtered by role):
+- Travelers: Track all accepted parcels on their upcoming/current trips.
+- Senders: Track the parcels they’ve submitted that are matched and in delivery.
+
+States to track:
+1. Confirmed
+2. Picked Up
+3. In Transit
+4. Delivered
+5. Cancelled / Reported Issue
+
+📦 COMPONENTS REQUIRED:
+
+1. **Tracking Overview Panel (List View)**
+   - Match ID
+   - Parcel Title
+   - Sender/Traveler name with profile tag
+   - Origin → Destination
+   - Delivery Deadline
+   - Current Status Badge
+   - Last Updated Timestamp
+   - Action Button: “View Timeline” / “Details”
+
+2. **Parcel Tracking Timeline (Details View)**
+   - Full-page or modal
+   - Horizontal progress bar with states: Confirmed → Picked Up → In Transit → Delivered
+   - Visual status indicator with timestamp for each step
+   - Expandable for:
+     • Pickup & Delivery Address
+     • Weight, Dimensions
+     • Traveler Details
+     • Reward
+     • Chat (Open Channel)
+
+3. **Map Integration (optional enhancement)**
+   - Embedded route visualization (based on cities)
+   - Highlight current parcel location if data available
+
+4. **Action Buttons (Conditional per Role & Status)**
+   - Traveler: Mark as Picked Up / In Transit / Delivered
+   - Sender: Report Issue / Open Chat / View Status
+
+5. **Filters & Sorting**
+   - Status: All, In Progress, Delivered, Reported
+   - Sort by: Newest, Delivery Deadline, Status
+   - Search Bar: Match ID, User Name, City
+
+🧩 ROLE-BASED LOGIC:
+- Must route differently for /dashboard/traveler and /dashboard/sender
+- Only users involved in the match can track a parcel
+- Add a visual flag for delays or issues
+
+🎨 DESIGN STANDARDS:
+- Match Airbar's current UI style (colors, typography, buttons)
+- Sidebar must be present
+- Use the same card style as “Matches” section
+- Timeline component should be intuitive and clean
+- Must be responsive for mobile and desktop views
+
+🧪 TEST CASES:
+- Update transitions (Pick up → Transit → Delivered)
+- Timeline reflects accurate timestamps
+- Issue reporting triggers confirmation
+- Cross-role access (sender and traveler) works as expected

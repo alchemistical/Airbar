@@ -140,6 +140,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                location === "/dashboard/sender/parcels" ? "My Parcels" :
                location === "/send-package" ? "Send Package" :
                location === "/dashboard/matches" ? "Matches" :
+               location === "/dashboard/tracking" ? "Package Tracking" :
                location.startsWith("/parcel-request/") ? "Parcel Details" :
                "Dashboard"}
             </h1>
