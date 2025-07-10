@@ -9,6 +9,7 @@ import AddTrip from "@/pages/AddTrip";
 import ParcelRequests from "@/pages/ParcelRequests";
 import SenderParcels from "@/pages/SenderParcels";
 import ParcelRequestDetail from "@/pages/ParcelRequestDetail";
+import Matches from "@/pages/Matches";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -21,6 +22,7 @@ function Router() {
       <Route path="/dashboard/parcel-requests" component={ParcelRequests} />
       <Route path="/dashboard/sender/parcels" component={SenderParcels} />
       <Route path="/parcel-request/:id" component={ParcelRequestDetail} />
+      <Route path="/matches" component={Matches} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>

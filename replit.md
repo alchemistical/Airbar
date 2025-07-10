@@ -13,6 +13,8 @@ This is a full-stack web application for a package delivery marketplace called "
 - ✅ Multi-step Trip Creation Form (5 comprehensive steps)
 - ✅ Advanced form validation and progress tracking
 - ✅ Professional UI/UX following detailed Airbar specifications
+- ✅ Complete Parcel Requests module with three main pages
+- ✅ Comprehensive Matches page with role-based views and status tracking
 
 ## User Preferences
 
@@ -23,13 +25,15 @@ Preferred communication style: Simple, everyday language.
 Based on user requirements, the following pages and features are planned:
 
 ### Dashboard Extensions
-- `/dashboard/traveler/trips` - Trip management with table/list view
-- `/dashboard/traveler/trips/addtrip` - Multi-step trip creation form
-- `/dashboard/traveler/parcel-requests` - Incoming delivery requests
+- ✅ `/dashboard/traveler/trips` - Trip management with table/list view
+- ✅ `/dashboard/traveler/trips/addtrip` - Multi-step trip creation form
+- ✅ `/dashboard/parcel-requests` - Incoming delivery requests
+- ✅ `/dashboard/sender/parcels` - Sender parcel tracking
+- ✅ `/matches` - Confirmed deliveries management
 - `/dashboard/traveler/earnings` - Earnings dashboard and payouts
 - `/dashboard/traveler/history` - Past trips & deliveries
 - `/dashboard/traveler/reviews` - Ratings and feedback
-- `/dashboard/sender/*` - Sender-specific dashboard pages
+- `/dashboard/sender/*` - Additional sender-specific pages
 - `/dashboard/referrals` - Referral system
 - `/dashboard/settings/notifications` - Notification preferences
 - `/dashboard/profile` - KYC verification and profile management
