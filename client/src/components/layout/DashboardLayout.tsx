@@ -71,6 +71,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               <SidebarMenuButton
                 isActive={location === item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
+                className={location === item.href 
+                  ? "!bg-airbar-blue !text-white hover:!bg-blue-600" 
+                  : "!text-airbar-black hover:!bg-gray-100 hover:!text-airbar-black"
+                }
               >
                 <item.icon className="h-5 w-5" />
                 <span>{item.label}</span>
@@ -81,7 +85,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       </SidebarMenu>
 
       <SidebarFooter>
-        <SidebarMenuButton>
+        <SidebarMenuButton className="!text-airbar-black hover:!bg-gray-100 hover:!text-airbar-black">
           <LogOut className="h-5 w-5" />
           <span>Logout</span>
         </SidebarMenuButton>
@@ -92,8 +96,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <SidebarProvider>
       {/* Desktop Sidebar */}
-      <Sidebar className="hidden lg:flex bg-white border-r border-gray-200">
-        <SidebarContent className="flex flex-col h-full p-4">
+      <Sidebar className="hidden lg:flex !bg-white !w-64 border-r border-gray-200 shadow-sm">
+        <SidebarContent className="flex flex-col h-full !p-6 !bg-white">
           <SidebarNavigation />
         </SidebarContent>
       </Sidebar>
@@ -111,8 +115,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-64 p-0">
-                <Sidebar className="bg-white h-full">
-                  <SidebarContent className="flex flex-col h-full p-4">
+                <Sidebar className="!bg-white h-full">
+                  <SidebarContent className="flex flex-col h-full !p-6 !bg-white">
                     <SidebarNavigation />
                   </SidebarContent>
                 </Sidebar>
