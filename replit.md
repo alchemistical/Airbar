@@ -25,7 +25,6 @@ This is a full-stack web application for a package delivery marketplace called "
 - ✅ Redesigned navigation with secondary features moved to user dropdown menu
 - ✅ Streamlined sidebar focused on core operations (Dashboard, Trips, Parcel Requests, Send Package, Matches, Tracking, Support)
 - ✅ User dropdown includes Wallet, Notifications, Profile, Referrals, History with descriptions and unread indicators
-- ✅ Comprehensive dark-themed universal footer with responsive design and language selection
 
 ## User Preferences
 
