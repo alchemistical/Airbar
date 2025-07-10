@@ -22,6 +22,9 @@ This is a full-stack web application for a package delivery marketplace called "
 - ✅ New WalletTransactions page with comprehensive filtering and transaction history
 - ✅ Comprehensive History section with main list view, detailed views, and role-specific filtering
 - ✅ Professional read-only design for delivery transparency and recordkeeping
+- ✅ Redesigned navigation with secondary features moved to user dropdown menu
+- ✅ Streamlined sidebar focused on core operations (Dashboard, Trips, Parcel Requests, Send Package, Matches, Tracking, Support)
+- ✅ User dropdown includes Wallet, Notifications, Profile, Referrals, History with descriptions and unread indicators
 
 ## User Preferences
 
@@ -45,6 +48,9 @@ Based on user requirements, the following pages and features are planned:
 - ✅ `/dashboard/history/view/:id` - Detailed view of individual delivery records
 - ✅ `/dashboard/history/traveler` - Traveler-specific delivery history
 - ✅ `/dashboard/history/sender` - Sender-specific package history
+- ✅ `/dashboard/notifications` - Notification center with filtering and unread indicators
+- ✅ `/dashboard/profile` - Complete profile management with KYC, security, and privacy settings
+- ✅ `/dashboard/referrals` - Referral program with code sharing and earnings tracking
 - `/dashboard/traveler/reviews` - Ratings and feedback
 - `/dashboard/sender/*` - Additional sender-specific pages
 - `/dashboard/referrals` - Referral system
