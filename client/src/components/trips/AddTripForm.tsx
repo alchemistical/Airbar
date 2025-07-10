@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { Slider } from "@/components/ui/slider";
 import {
   Form,
   FormControl,
@@ -374,126 +375,176 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
   );
 
   const renderStep4 = () => (
-    <div className="space-y-6">
-      <FormField
-        control={form.control}
-        name="dropOffLocation"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Preferred Parcel Drop-off Location *</FormLabel>
-            <FormControl>
-              <Input placeholder="e.g., Taksim Square, Downtown LA, Airport" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+    <div className="space-y-8">
+      <div>
+        <h3 className="text-h3 text-airbar-black mb-2">Delivery Preferences</h3>
+        <p className="text-body text-airbar-dark-gray mb-6">
+          Specify how and when you'd like to deliver parcels to make the process smooth for everyone.
+        </p>
+      </div>
 
-      <FormField
-        control={form.control}
-        name="handOffMethod"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Hand-off Method *</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value}>
+      <div className="space-y-6">
+        <FormField
+          control={form.control}
+          name="dropOffLocation"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-base font-medium">Preferred Drop-off Location *</FormLabel>
               <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select hand-off method" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent>
-                <SelectItem value="in-person-airport">In person at airport</SelectItem>
-                <SelectItem value="destination-drop">At destination drop point</SelectItem>
-                <SelectItem value="door-to-door">Door-to-door</SelectItem>
-              </SelectContent>
-            </Select>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={form.control}
-        name="deliveryTimes"
-        render={() => (
-          <FormItem>
-            <FormLabel>Available Drop-off Times *</FormLabel>
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-              {["Morning", "Afternoon", "Evening"].map((time) => (
-                <FormField
-                  key={time}
-                  control={form.control}
-                  name="deliveryTimes"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value?.includes(time.toLowerCase())}
-                          onCheckedChange={(checked) => {
-                            const currentValue = field.value || [];
-                            const updatedValue = checked
-                              ? [...currentValue, time.toLowerCase()]
-                              : currentValue.filter((value) => value !== time.toLowerCase());
-                            field.onChange(updatedValue);
-                          }}
-                        />
-                      </FormControl>
-                      <FormLabel className="text-sm font-normal">
-                        {time}
-                      </FormLabel>
-                    </FormItem>
-                  )}
-                />
-              ))}
-            </div>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
-      <FormField
-        control={form.control}
-        name="flexibility"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Deadline Flexibility</FormLabel>
-            <div className="px-3">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-airbar-dark-gray">Fixed</span>
-                <span className="text-sm text-airbar-dark-gray">Flexible</span>
-              </div>
-              <FormControl>
-                <Slider
-                  value={[field.value || 50]}
-                  onValueChange={(value) => field.onChange(value[0])}
-                  max={100}
-                  min={0}
-                  step={10}
-                  className="w-full"
+                <Input 
+                  placeholder="e.g., Taksim Square, Downtown LA, JFK Airport Terminal 1" 
+                  className="h-12"
+                  {...field} 
                 />
               </FormControl>
-              <div className="text-center mt-2">
-                <span className="text-sm text-airbar-black">{field.value || 50}% flexible</span>
-              </div>
-            </div>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <FormField
-        control={form.control}
-        name="deliveryDate"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Expected Delivery Date *</FormLabel>
-            <FormControl>
-              <Input type="date" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+        <FormField
+          control={form.control}
+          name="handOffMethod"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-base font-medium">Hand-off Method *</FormLabel>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <FormControl>
+                  <SelectTrigger className="h-12">
+                    <SelectValue placeholder="How would you like to hand off parcels?" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="in-person-airport">
+                    <div className="flex flex-col items-start">
+                      <span className="font-medium">In person at airport</span>
+                      <span className="text-sm text-airbar-dark-gray">Meet at departure/arrival terminal</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="destination-drop">
+                    <div className="flex flex-col items-start">
+                      <span className="font-medium">At destination drop point</span>
+                      <span className="text-sm text-airbar-dark-gray">Meet at a specific location in the city</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="door-to-door">
+                    <div className="flex flex-col items-start">
+                      <span className="font-medium">Door-to-door delivery</span>
+                      <span className="text-sm text-airbar-dark-gray">Deliver directly to recipient's address</span>
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="deliveryTimes"
+          render={() => (
+            <FormItem>
+              <FormLabel className="text-base font-medium">Available Drop-off Times *</FormLabel>
+              <p className="text-sm text-airbar-dark-gray mb-4">Select all times when you're available for delivery</p>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                {[
+                  { value: "morning", label: "Morning", time: "6AM - 12PM" },
+                  { value: "afternoon", label: "Afternoon", time: "12PM - 6PM" },
+                  { value: "evening", label: "Evening", time: "6PM - 10PM" }
+                ].map((timeSlot) => (
+                  <FormField
+                    key={timeSlot.value}
+                    control={form.control}
+                    name="deliveryTimes"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <div className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
+                            field.value?.includes(timeSlot.value) 
+                              ? 'border-airbar-blue bg-blue-50' 
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}>
+                            <Checkbox
+                              checked={field.value?.includes(timeSlot.value)}
+                              onCheckedChange={(checked) => {
+                                const currentValue = field.value || [];
+                                const updatedValue = checked
+                                  ? [...currentValue, timeSlot.value]
+                                  : currentValue.filter((value) => value !== timeSlot.value);
+                                field.onChange(updatedValue);
+                              }}
+                              className="hidden"
+                            />
+                            <div className="text-center">
+                              <div className="font-medium text-airbar-black">{timeSlot.label}</div>
+                              <div className="text-sm text-airbar-dark-gray mt-1">{timeSlot.time}</div>
+                            </div>
+                          </div>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                ))}
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="flexibility"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-base font-medium">Delivery Deadline Flexibility</FormLabel>
+              <p className="text-sm text-airbar-dark-gray mb-4">
+                How flexible are you with delivery timing if unexpected delays occur?
+              </p>
+              <div className="bg-gray-50 rounded-lg p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-sm font-medium text-airbar-black">Fixed Schedule</span>
+                  <span className="text-sm font-medium text-airbar-black">Very Flexible</span>
+                </div>
+                <FormControl>
+                  <Slider
+                    value={[field.value || 50]}
+                    onValueChange={(value) => field.onChange(value[0])}
+                    max={100}
+                    min={0}
+                    step={10}
+                    className="w-full"
+                  />
+                </FormControl>
+                <div className="text-center mt-4">
+                  <span className="text-lg font-semibold text-airbar-blue">{field.value || 50}% flexible</span>
+                  <p className="text-xs text-airbar-dark-gray mt-1">
+                    {(field.value || 50) < 30 ? "I prefer to stick to the planned schedule" :
+                     (field.value || 50) < 70 ? "I'm somewhat flexible with timing" :
+                     "I'm very flexible and understanding of delays"}
+                  </p>
+                </div>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="deliveryDate"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-base font-medium">Expected Delivery Date *</FormLabel>
+              <p className="text-sm text-airbar-dark-gray mb-2">When do you expect to deliver the parcels?</p>
+              <FormControl>
+                <Input type="date" className="h-12" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
     </div>
   );
 
