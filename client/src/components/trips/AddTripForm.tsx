@@ -33,16 +33,18 @@ import {
 
 // Form schemas for each step
 const step1Schema = z.object({
-  fromCity: z.string().min(1, "Departure city is required"),
-  toCity: z.string().min(1, "Destination city is required"),
+  fromAirport: z.string().min(1, "Departure airport is required"),
+  toAirport: z.string().min(1, "Arrival airport is required"),
   departureDate: z.string().min(1, "Departure date is required"),
-  arrivalDate: z.string().optional(),
+  returnDate: z.string().optional(),
   airline: z.string().optional(),
 });
 
 const step2Schema = z.object({
   luggageSpace: z.string().min(1, "Please select luggage space"),
   luggageType: z.string().min(1, "Please select luggage type"),
+  numBags: z.number().min(1, "Number of bags must be at least 1"),
+  additionalNotes: z.string().optional(),
 });
 
 const step3Schema = z.object({
@@ -52,8 +54,10 @@ const step3Schema = z.object({
 
 const step4Schema = z.object({
   dropOffLocation: z.string().min(1, "Drop-off location is required"),
-  deliveryTime: z.string().min(1, "Please select preferred delivery time"),
-  doorToDoor: z.boolean(),
+  handOffMethod: z.string().min(1, "Please select hand-off method"),
+  deliveryTimes: z.array(z.string()).min(1, "Please select at least one delivery time"),
+  flexibility: z.number().min(0).max(100),
+  deliveryDate: z.string().min(1, "Expected delivery date is required"),
 });
 
 const fullSchema = step1Schema.merge(step2Schema).merge(step3Schema).merge(step4Schema);
@@ -90,18 +94,22 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
       currentStep === 2 ? step2Schema :
       currentStep === 3 ? step3Schema : step4Schema),
     defaultValues: {
-      fromCity: "",
-      toCity: "",
+      fromAirport: "",
+      toAirport: "",
       departureDate: "",
-      arrivalDate: "",
+      returnDate: "",
       airline: "",
       luggageSpace: "",
       luggageType: "",
+      numBags: 1,
+      additionalNotes: "",
       parcelTypes: [],
       restrictions: "",
       dropOffLocation: "",
-      deliveryTime: "",
-      doorToDoor: false,
+      handOffMethod: "",
+      deliveryTimes: [],
+      flexibility: 50,
+      deliveryDate: "",
     },
   });
 
@@ -128,10 +136,10 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
     let completed = 0;
     const total = 4; // 4 main steps before review
     
-    if (watchedValues.fromCity && watchedValues.toCity && watchedValues.departureDate) completed++;
-    if (watchedValues.luggageSpace && watchedValues.luggageType) completed++;
+    if (watchedValues.fromAirport && watchedValues.toAirport && watchedValues.departureDate) completed++;
+    if (watchedValues.luggageSpace && watchedValues.luggageType && watchedValues.numBags) completed++;
     if (watchedValues.parcelTypes?.length > 0) completed++;
-    if (watchedValues.dropOffLocation && watchedValues.deliveryTime) completed++;
+    if (watchedValues.dropOffLocation && watchedValues.handOffMethod && watchedValues.deliveryTimes?.length > 0) completed++;
     
     return Math.round((completed / total) * 100);
   };
@@ -141,12 +149,12 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <FormField
           control={form.control}
-          name="fromCity"
+          name="fromAirport"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Departure City *</FormLabel>
+              <FormLabel>Departure Airport *</FormLabel>
               <FormControl>
-                <Input placeholder="e.g., New York" {...field} />
+                <Input placeholder="e.g., JFK - New York" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -154,12 +162,12 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
         />
         <FormField
           control={form.control}
-          name="toCity"
+          name="toAirport"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Destination City *</FormLabel>
+              <FormLabel>Arrival Airport *</FormLabel>
               <FormControl>
-                <Input placeholder="e.g., Los Angeles" {...field} />
+                <Input placeholder="e.g., LAX - Los Angeles" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -183,7 +191,7 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
         />
         <FormField
           control={form.control}
-          name="arrivalDate"
+          name="returnDate"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Return Date (Optional)</FormLabel>
@@ -203,7 +211,7 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
           <FormItem>
             <FormLabel>Airline (Optional)</FormLabel>
             <FormControl>
-              <Input placeholder="e.g., Emirates, Delta" {...field} />
+              <Input placeholder="e.g., Emirates, Delta, Turkish Airlines" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -219,7 +227,7 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
         name="luggageSpace"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>How much space do you have? *</FormLabel>
+            <FormLabel>Luggage Space Available *</FormLabel>
             <Select onValueChange={field.onChange} value={field.value}>
               <FormControl>
                 <SelectTrigger>
@@ -238,24 +246,66 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
         )}
       />
 
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <FormField
+          control={form.control}
+          name="luggageType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Luggage Type *</FormLabel>
+              <Select onValueChange={field.onChange} value={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select luggage type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="carry-on">Carry-on</SelectItem>
+                  <SelectItem value="checked-bag">Checked Bag</SelectItem>
+                  <SelectItem value="box">Box</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="numBags"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Number of Bags *</FormLabel>
+              <FormControl>
+                <Input 
+                  type="number" 
+                  min="1" 
+                  max="10"
+                  placeholder="1"
+                  value={field.value || 1}
+                  onChange={(e) => field.onChange(parseInt(e.target.value) || 1)}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+
       <FormField
         control={form.control}
-        name="luggageType"
+        name="additionalNotes"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Luggage Type *</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select luggage type" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent>
-                <SelectItem value="carry-on">Carry-on</SelectItem>
-                <SelectItem value="checked-bag">Checked Bag</SelectItem>
-                <SelectItem value="box">Shipping Box</SelectItem>
-              </SelectContent>
-            </Select>
+            <FormLabel>Additional Notes (Optional)</FormLabel>
+            <FormControl>
+              <Textarea 
+                placeholder="e.g., I can carry small items in my backpack, Available space in my suitcase"
+                className="min-h-[80px]"
+                {...field} 
+              />
+            </FormControl>
             <FormMessage />
           </FormItem>
         )}
@@ -330,9 +380,9 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
         name="dropOffLocation"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Where can you drop off parcels? *</FormLabel>
+            <FormLabel>Preferred Parcel Drop-off Location *</FormLabel>
             <FormControl>
-              <Input placeholder="e.g., Downtown LA, Airport, My hotel" {...field} />
+              <Input placeholder="e.g., Taksim Square, Downtown LA, Airport" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -341,21 +391,20 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
 
       <FormField
         control={form.control}
-        name="deliveryTime"
+        name="handOffMethod"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Preferred hand-off time *</FormLabel>
+            <FormLabel>Hand-off Method *</FormLabel>
             <Select onValueChange={field.onChange} value={field.value}>
               <FormControl>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select preferred time" />
+                  <SelectValue placeholder="Select hand-off method" />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                <SelectItem value="morning">Morning (6AM - 12PM)</SelectItem>
-                <SelectItem value="afternoon">Afternoon (12PM - 6PM)</SelectItem>
-                <SelectItem value="evening">Evening (6PM - 10PM)</SelectItem>
-                <SelectItem value="flexible">Flexible</SelectItem>
+                <SelectItem value="in-person-airport">In person at airport</SelectItem>
+                <SelectItem value="destination-drop">At destination drop point</SelectItem>
+                <SelectItem value="door-to-door">Door-to-door</SelectItem>
               </SelectContent>
             </Select>
             <FormMessage />
@@ -365,21 +414,83 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
 
       <FormField
         control={form.control}
-        name="doorToDoor"
+        name="deliveryTimes"
+        render={() => (
+          <FormItem>
+            <FormLabel>Available Drop-off Times *</FormLabel>
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+              {["Morning", "Afternoon", "Evening"].map((time) => (
+                <FormField
+                  key={time}
+                  control={form.control}
+                  name="deliveryTimes"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value?.includes(time.toLowerCase())}
+                          onCheckedChange={(checked) => {
+                            const currentValue = field.value || [];
+                            const updatedValue = checked
+                              ? [...currentValue, time.toLowerCase()]
+                              : currentValue.filter((value) => value !== time.toLowerCase());
+                            field.onChange(updatedValue);
+                          }}
+                        />
+                      </FormControl>
+                      <FormLabel className="text-sm font-normal">
+                        {time}
+                      </FormLabel>
+                    </FormItem>
+                  )}
+                />
+              ))}
+            </div>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="flexibility"
         render={({ field }) => (
-          <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-            <div className="space-y-0.5">
-              <FormLabel className="text-base">Door-to-door delivery</FormLabel>
-              <div className="text-small text-airbar-dark-gray">
-                Willing to deliver directly to recipient's address
+          <FormItem>
+            <FormLabel>Deadline Flexibility</FormLabel>
+            <div className="px-3">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm text-airbar-dark-gray">Fixed</span>
+                <span className="text-sm text-airbar-dark-gray">Flexible</span>
+              </div>
+              <FormControl>
+                <Slider
+                  value={[field.value || 50]}
+                  onValueChange={(value) => field.onChange(value[0])}
+                  max={100}
+                  min={0}
+                  step={10}
+                  className="w-full"
+                />
+              </FormControl>
+              <div className="text-center mt-2">
+                <span className="text-sm text-airbar-black">{field.value || 50}% flexible</span>
               </div>
             </div>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="deliveryDate"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Expected Delivery Date *</FormLabel>
             <FormControl>
-              <Switch
-                checked={field.value}
-                onCheckedChange={field.onChange}
-              />
+              <Input type="date" {...field} />
             </FormControl>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -407,9 +518,9 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
             </div>
           </CardHeader>
           <CardContent className="space-y-2">
-            <p><strong>Route:</strong> {watchedValues.fromCity} → {watchedValues.toCity}</p>
+            <p><strong>Route:</strong> {watchedValues.fromAirport} → {watchedValues.toAirport}</p>
             <p><strong>Departure:</strong> {watchedValues.departureDate}</p>
-            {watchedValues.arrivalDate && <p><strong>Return:</strong> {watchedValues.arrivalDate}</p>}
+            {watchedValues.returnDate && <p><strong>Return:</strong> {watchedValues.returnDate}</p>}
             {watchedValues.airline && <p><strong>Airline:</strong> {watchedValues.airline}</p>}
           </CardContent>
         </Card>
@@ -426,6 +537,8 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
           <CardContent className="space-y-2">
             <p><strong>Space Available:</strong> {watchedValues.luggageSpace}</p>
             <p><strong>Type:</strong> {watchedValues.luggageType}</p>
+            <p><strong>Number of Bags:</strong> {watchedValues.numBags}</p>
+            {watchedValues.additionalNotes && <p><strong>Notes:</strong> {watchedValues.additionalNotes}</p>}
           </CardContent>
         </Card>
 
@@ -466,8 +579,19 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
           </CardHeader>
           <CardContent className="space-y-2">
             <p><strong>Drop-off Location:</strong> {watchedValues.dropOffLocation}</p>
-            <p><strong>Preferred Time:</strong> {watchedValues.deliveryTime}</p>
-            <p><strong>Door-to-door:</strong> {watchedValues.doorToDoor ? "Yes" : "No"}</p>
+            <p><strong>Hand-off Method:</strong> {watchedValues.handOffMethod}</p>
+            <div>
+              <strong>Available Times:</strong>
+              <div className="flex flex-wrap gap-1 mt-1">
+                {watchedValues.deliveryTimes?.map(time => (
+                  <Badge key={time} variant="outline" className="capitalize">
+                    {time}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+            <p><strong>Flexibility:</strong> {watchedValues.flexibility}% flexible</p>
+            <p><strong>Expected Delivery:</strong> {watchedValues.deliveryDate}</p>
           </CardContent>
         </Card>
       </div>

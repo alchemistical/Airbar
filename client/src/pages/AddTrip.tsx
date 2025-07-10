@@ -14,17 +14,18 @@ export default function AddTrip() {
 
   const createTripMutation = useMutation({
     mutationFn: async (tripData: any) => {
-      // Transform form data to match API schema
+      // Transform enhanced form data to match current API schema
       const apiData = {
         userId: 1, // Demo user ID
-        fromCity: tripData.fromCity,
-        toCity: tripData.toCity,
+        fromCity: tripData.fromAirport || tripData.fromCity || "",
+        toCity: tripData.toAirport || tripData.toCity || "",
         departureDate: new Date(tripData.departureDate).toISOString(),
-        arrivalDate: tripData.arrivalDate ? new Date(tripData.arrivalDate).toISOString() : null,
+        arrivalDate: tripData.returnDate ? new Date(tripData.returnDate).toISOString() : 
+                     tripData.arrivalDate ? new Date(tripData.arrivalDate).toISOString() : null,
         status: "active",
-        maxWeight: tripData.luggageSpace.includes("kg") ? 
-          tripData.luggageSpace.replace(/[^\d.-]/g, "") : null,
-        pricePerKg: null, // Can be added in future iterations
+        maxWeight: tripData.luggageSpace?.includes("kg") ? 
+          parseFloat(tripData.luggageSpace.replace(/[^\d.-]/g, "")) || 10.0 : 10.0,
+        pricePerKg: 5.0, // Default pricing
       };
 
       return apiRequest("/api/trips", {

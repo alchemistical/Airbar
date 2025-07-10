@@ -1,0 +1,207 @@
+
+🚀 Replit Prompt: Build the “Add Trip” Multi-Step Workflow for Airbar (Traveler Dashboard)
+You are designing the Add Trip workflow for the traveler dashboard in Airbar — a peer-to-peer crowdshipping platform. Travelers use this feature to submit their travel plans and offer luggage space for carrying parcels. This is a multi-step, navigational form optimized for desktop web (1440px wide).
+
+🎯 Page to Build
+Route: /dashboard/traveler/trips/addtrip
+Form Type: Multi-step wizard with top progress tracker and “Next / Back” navigation.
+Target Users: Verified travelers with spare luggage capacity.
+
+🧠 UX & UI Guidelines
+Use a 5-step progress tracker at the top with completed state indicators.
+
+
+Use modular cards for each step section.
+
+
+Validate each step independently before proceeding.
+
+
+Include tooltips, field hints, and placeholder values for clarity.
+
+
+Maintain full visibility of the left navigation bar (sidebar).
+
+
+Prevent any content cropping. Full-screen desktop format.
+
+
+Auto-save draft after each step (if applicable in backend).
+
+
+Final step shows a review page with editable cards before submission.
+
+
+
+📋 “Add a Trip” – Step-by-Step Form Workflow
+
+✅ Step 1: Travel Information
+Fields:
+Departure Airport (dropdown or autosuggest)
+
+
+Arrival Airport
+
+
+Departure Date (calendar)
+
+
+Return Date (optional)
+
+
+Airline Name (optional text input)
+
+
+UX Note: Include airport suggestions via typeahead. Allow roundtrip toggle.
+
+✅ Step 2: Luggage Availability
+Fields:
+Luggage Space (dropdown: <5kg, 5–10kg, 10–20kg+)
+
+
+Luggage Type (dropdown: Carry-on / Checked Bag / Box / Other)
+
+
+Number of Bags (numeric selector)
+
+
+Additional Notes (textarea)
+
+
+UX Note: Add an indicator showing how much space is typically available per bag.
+
+✅ Step 3: Accepted Parcel Types
+Fields:
+Acceptable Parcel Types (checkbox list):
+
+
+Documents
+
+
+Small Packages
+
+
+Electronics
+
+
+Perishables
+
+
+Fragile Items
+
+
+Special Handling Restrictions (textarea)
+
+
+UX Note: Use icons beside each parcel type. Provide warning alerts for perishable/fragile options.
+
+✅ Step 4: Delivery Preferences
+Fields:
+Preferred Parcel Drop-off Location (address or landmark text input)
+
+
+Hand-off Method (Radio):
+
+
+In person at airport
+
+
+At destination drop point
+
+
+Door-to-door
+
+
+Available Drop-off Times (multi-select): Morning, Afternoon, Evening
+
+
+Deadline Flexibility (slider: Fixed – Flexible)
+
+
+Expected Delivery Date (calendar)
+
+
+UX Note: Show example hand-off instructions. Use toggle + calendar for delivery date flexibility.
+
+✅ Step 5: Review & Submit
+Display summary of all previous steps using editable cards
+
+
+“Edit” button for each card
+
+
+“Confirm & Submit” button (final CTA)
+
+
+Show success confirmation and redirect to Trips dashboard
+
+
+
+🧾 Example JSON Output (Frontend Schema)
+{
+  "from": "Dubai",
+  "to": "Istanbul",
+  "departureDate": "2025-08-15",
+  "returnDate": "2025-08-20",
+  "airline": "Turkish Airlines",
+  "luggageSpace": "5–10kg",
+  "luggageType": "Carry-on",
+  "numBags": 1,
+  "parcelTypes": ["Documents", "Electronics"],
+  "restrictions": "No perishables or liquids",
+  "dropOff": "Taksim Square",
+  "handOffMethod": "Door-to-door",
+  "deliveryWindow": ["Morning", "Evening"],
+  "flexibility": "Moderate",
+  "deliveryDate": "2025-08-22"
+}
+
+🧭 Persistent Navigation
+Include left-hand sidebar on all steps with:
+Dashboard
+
+
+Trips (active state)
+
+
+Parcel Requests
+
+
+History
+
+
+Reviews
+
+
+Profile
+
+
+Notifications
+
+
+Referrals
+
+
+Logout
+
+
+
+✅ Output Requirements
+5 full-screen wireframes: one per step
+
+
+Fully responsive (desktop-first)
+
+
+Do not hallucinate extra steps or data fields
+
+
+All input elements must be web-standard
+
+
+Make sure all navigation and UI states (error, complete, disabled) are represented
+
+
+
+
+
