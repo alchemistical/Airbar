@@ -1,0 +1,94 @@
+
+✅ Prompt 1: Move “Send Package” to Sidebar
+🔧 TASK: Modify the sidebar layout to include “Send Package” as a core navigation item.
+
+🎯 OBJECTIVE:
+Improve navigation clarity by elevating "Send Package" to the primary sidebar menu. This reflects its importance in the sender’s journey.
+
+📐 DESIGN GUIDELINES:
+- Match the visual style and spacing of existing items (Dashboard, Trips, etc.)
+- Use the icon: 🧳 or a package/box symbol in line with design consistency
+- Sidebar order recommendation:
+  1. Dashboard
+  2. Trips
+  3. Parcel Requests
+  4. Send Package (⬅️ new item)
+  5. Matches
+  6. Tracking
+  7. Earnings
+  8. History
+  9. Reviews
+  10. Notifications
+  11. Profile
+  12. Referrals
+  13. Support
+  14. Logout
+
+🧩 TECH:
+- Ensure the sidebar routing leads to `/send-package`
+- Active link highlight styling must apply when user is on that route
+- Sidebar should remain responsive and consistent across all layouts
+
+📂 FILES TO MODIFY:
+- Sidebar component layout
+- Sidebar menu data structure (if using an array-based sidebar config)
+
+🚀 Prompt 2: Full UI/UX Build Prompt for “Send Package” Flow
+🧠 PROJECT: Build the full UI/UX journey for the "Send Package" flow for senders on Airbar
+
+📍 ROUTE: `/send-package`
+
+🎯 GOAL:
+Allow a user to submit a package request to be delivered by a traveler. The flow must collect all essential info, match user journeys, and be styled in line with Airbar’s design system.
+
+🧭 USER FLOW (Multi-Step Form):
+Step 1: Parcel Information  
+• Package Title  
+• Category (Dropdown – Electronics, Documents, Fragile, etc.)  
+• Description  
+• Dimensions (L x W x H cm)  
+• Weight (kg)
+
+Step 2: Pickup & Delivery Details  
+• Pickup Location (Google Map Autocomplete)  
+• Destination Address  
+• Pickup Date Range  
+• Delivery Deadline  
+• Country-to-country or local (Radio buttons)
+
+Step 3: Delivery Type & Conditions  
+• Delivery Type (Standard / Fragile / Express)  
+• Parcel Value (For insurance logic)  
+• Is ID required upon delivery? (Checkbox)  
+• Notes for Traveler (Textarea)
+
+Step 4: Reward & Review  
+• Suggested Reward (USD)  
+• Optional: “Negotiate reward” toggle  
+• Estimated Delivery Window  
+• Summary of entered info  
+• CTA: Submit Request
+
+✅ After submission: Redirect to `/dashboard/sender/parcels`
+
+📦 COMPONENTS NEEDED:
+- Multi-step Form UI with back/next controls
+- Step indicator / progress bar
+- Form validation for required fields
+- Map picker component
+- File upload for parcel photo (optional enhancement)
+- Reward calculator preview
+- Mobile-responsive layout
+
+🎨 DESIGN STANDARDS:
+- Use Airbar's sidebar and header template
+- Keep layout consistent with "Add Trip" journey
+- Keep button styles, input components, font sizes, and spacing consistent
+- Left nav must remain visible during the flow
+
+🧪 TEST CASES:
+- Form submission with required fields only
+- Error validation for missing pickup/delivery
+- Responsiveness check (mobile & desktop)
+
+

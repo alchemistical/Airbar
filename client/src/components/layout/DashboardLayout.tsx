@@ -30,6 +30,7 @@ import {
   MapPin,
   DollarSign,
   HelpCircle,
+  Send,
 } from "lucide-react";
 import type { User as UserType } from "@shared/schema";
 
@@ -37,6 +38,7 @@ const navigationItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
   { icon: Plane, label: "Trips", href: "/dashboard/traveler/trips" },
   { icon: Package, label: "Parcel Requests", href: "/dashboard/parcel-requests" },
+  { icon: Send, label: "Send Package", href: "/send-package" },
   { icon: Heart, label: "Matches", href: "/dashboard/matches" },
   { icon: MapPin, label: "Tracking", href: "/dashboard/tracking" },
   { icon: DollarSign, label: "Earnings", href: "/dashboard/earnings" },
@@ -136,6 +138,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                location === "/dashboard/traveler/trips/addtrip" ? "Add New Trip" :
                location === "/dashboard/parcel-requests" ? "Parcel Requests" :
                location === "/dashboard/sender/parcels" ? "My Parcels" :
+               location === "/send-package" ? "Send Package" :
+               location === "/dashboard/matches" ? "Matches" :
                location.startsWith("/parcel-request/") ? "Parcel Details" :
                "Dashboard"}
             </h1>

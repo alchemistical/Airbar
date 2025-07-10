@@ -15,6 +15,8 @@ This is a full-stack web application for a package delivery marketplace called "
 - ✅ Professional UI/UX following detailed Airbar specifications
 - ✅ Complete Parcel Requests module with three main pages
 - ✅ Comprehensive Matches page with role-based views and status tracking
+- ✅ Send Package added to sidebar navigation with proper routing
+- ✅ Multi-step Send Package form with comprehensive validation and workflow
 
 ## User Preferences
 
@@ -29,7 +31,8 @@ Based on user requirements, the following pages and features are planned:
 - ✅ `/dashboard/traveler/trips/addtrip` - Multi-step trip creation form
 - ✅ `/dashboard/parcel-requests` - Incoming delivery requests
 - ✅ `/dashboard/sender/parcels` - Sender parcel tracking
-- ✅ `/matches` - Confirmed deliveries management
+- ✅ `/dashboard/matches` - Confirmed deliveries management
+- ✅ `/send-package` - Multi-step parcel submission form
 - `/dashboard/traveler/earnings` - Earnings dashboard and payouts
 - `/dashboard/traveler/history` - Past trips & deliveries
 - `/dashboard/traveler/reviews` - Ratings and feedback
