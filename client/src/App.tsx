@@ -22,7 +22,7 @@ function Router() {
       <Route path="/dashboard/parcel-requests" component={ParcelRequests} />
       <Route path="/dashboard/sender/parcels" component={SenderParcels} />
       <Route path="/parcel-request/:id" component={ParcelRequestDetail} />
-      <Route path="/matches" component={Matches} />
+      <Route path="/dashboard/matches" component={Matches} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
