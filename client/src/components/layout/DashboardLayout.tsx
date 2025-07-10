@@ -134,6 +134,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <h1 className="text-h1 text-airbar-black">
               {location === "/dashboard/traveler/trips" ? "My Trips" : 
                location === "/dashboard/traveler/trips/addtrip" ? "Add New Trip" :
+               location === "/dashboard/parcel-requests" ? "Parcel Requests" :
+               location === "/dashboard/sender/parcels" ? "My Parcels" :
+               location.startsWith("/parcel-request/") ? "Parcel Details" :
                "Dashboard"}
             </h1>
 

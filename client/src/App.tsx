@@ -6,6 +6,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Dashboard from "@/pages/Dashboard";
 import TravelerTrips from "@/pages/TravelerTrips";
 import AddTrip from "@/pages/AddTrip";
+import ParcelRequests from "@/pages/ParcelRequests";
+import SenderParcels from "@/pages/SenderParcels";
+import ParcelRequestDetail from "@/pages/ParcelRequestDetail";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -15,6 +18,9 @@ function Router() {
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/dashboard/traveler/trips" component={TravelerTrips} />
       <Route path="/dashboard/traveler/trips/addtrip" component={AddTrip} />
+      <Route path="/dashboard/parcel-requests" component={ParcelRequests} />
+      <Route path="/dashboard/sender/parcels" component={SenderParcels} />
+      <Route path="/parcel-request/:id" component={ParcelRequestDetail} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
