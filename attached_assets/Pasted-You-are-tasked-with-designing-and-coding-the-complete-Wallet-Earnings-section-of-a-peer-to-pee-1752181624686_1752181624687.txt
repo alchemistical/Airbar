@@ -1,0 +1,94 @@
+You are tasked with designing and coding the complete **Wallet (Earnings)** section of a peer-to-peer logistics platform called Airbar, built for desktop-first responsive web use.
+
+🎯 Goal:
+Create a modern, modular, and scalable UI/UX for the **Wallet section**, where users manage their delivery earnings, referral bonuses, escrowed funds, withdrawal requests, and transaction history.
+
+Design should follow the **Airbar design system** (clean layout, white background, soft shadows, icon-driven navigation, modular cards, TailwindCSS-style utility classes). Left sidebar must remain consistent with the main app navigation structure.
+
+---
+
+✅ Pages & Routes:
+1. `/wallet` → Main Wallet Dashboard (traveler-focused)
+2. `/wallet/sender` → Sender Payments Dashboard
+3. `/wallet/escrow` → View all funds held in escrow
+4. `/wallet/withdrawals` → Withdrawal history + methods
+5. `/wallet/referrals` → Referral bonuses & invite progress
+6. `/wallet/settings` → Add/edit payout methods (bank, crypto, Wise, etc.)
+
+---
+
+💼 Components to Include:
+
+### Top Wallet Summary Cards (modular)
+- `Available Balance` → Green ($ value + "Withdraw Funds" CTA)
+- `Pending Earnings` → Yellow (awaiting delivery confirmation)
+- `Total Earned` → Blue (cumulative + referral bonus breakdown)
+- `In Escrow` → Gray (locked until delivery confirmed)
+
+---
+
+### Transaction History Table
+- Columns: Type | Description | Date | Status | Amount
+- Tags: `pending`, `completed`, `refunded`, `failed`
+- Filters: All | Deliveries | Withdrawals | Referrals
+- Search bar and Export (CSV, PDF)
+
+---
+
+### Referral Bonus Breakdown
+- Component: Successful referrals, total bonus earned, invite history table
+- CTA: `Invite Friends` button + unique invite link copy option
+
+---
+
+### Escrow Funds Page `/wallet/escrow`
+- Display each matched delivery still in transit or awaiting confirmation
+- Include match ID, sender, route, parcel weight, delivery ETA
+- Tooltip on when escrow releases
+- Escrow release triggers: auto on delivery, manual via support if disputed
+
+---
+
+### Sender Payments Page `/wallet/sender`
+- Show outgoing payments
+- Show if delivery confirmed, in escrow, or refunded
+- Allow invoice download per parcel
+
+---
+
+### Wallet Settings `/wallet/settings`
+- Add new payout method: bank transfer (IBAN), USDT wallet, or Wise account
+- Edit/delete payout methods
+- Indicate KYC status for withdrawal eligibility
+
+---
+
+📱 UX Flows to Implement:
+
+1. **Delivery Confirmed → Escrow Released → Available Balance updated**
+2. **Pending → Escrow Lock → Available on delivery**
+3. **Withdrawal flow: Select method → Enter amount → Confirm → Success/fail screen**
+4. **Referral payout after first successful delivery of invitee**
+5. **Refunded transaction: Strike-through on amount + reason tooltip**
+
+---
+
+🎨 Design Notes:
+- Use consistent spacing, rounded corners, icons, and hover states
+- Avoid page scroll where unnecessary; use tabs or accordions
+- Maintain persistent left sidebar navigation
+- Ensure financial data is legible, color-coded, and intuitively categorized
+- All pages must be responsive and usable on large desktops (min width: 1440px)
+- Use mock user data for transactions, referrals, escrow state, and bonuses
+
+---
+
+🧩 Technologies to Use:
+- React + TailwindCSS (preferred)
+- Modular component structure
+- Dummy API functions to simulate state changes
+
+---
+
+🎯 Final Deliverable:
+A fully functional Wallet UI section with all pages and components above, adhering to the design standards, data flows, and structure outlined. Build navigation logic using browser router or conditional tabs.

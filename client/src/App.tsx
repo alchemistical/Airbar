@@ -13,6 +13,10 @@ import Matches from "@/pages/Matches";
 import SendPackage from "@/pages/SendPackage";
 import Tracking from "@/pages/Tracking";
 import Wallet from "@/pages/Wallet";
+import WalletEscrow from "@/pages/WalletEscrow";
+import WalletWithdrawals from "@/pages/WalletWithdrawals";
+import WalletReferrals from "@/pages/WalletReferrals";
+import WalletSender from "@/pages/WalletSender";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -29,6 +33,10 @@ function Router() {
       <Route path="/send-package" component={SendPackage} />
       <Route path="/dashboard/tracking" component={Tracking} />
       <Route path="/dashboard/wallet" component={Wallet} />
+      <Route path="/dashboard/wallet/escrow" component={WalletEscrow} />
+      <Route path="/dashboard/wallet/withdrawals" component={WalletWithdrawals} />
+      <Route path="/dashboard/wallet/referrals" component={WalletReferrals} />
+      <Route path="/dashboard/wallet/sender" component={WalletSender} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
