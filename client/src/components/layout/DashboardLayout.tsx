@@ -26,6 +26,10 @@ import {
   Menu,
   ChevronDown,
   CheckCircle,
+  Heart,
+  MapPin,
+  DollarSign,
+  HelpCircle,
 } from "lucide-react";
 import type { User as UserType } from "@shared/schema";
 
@@ -33,11 +37,15 @@ const navigationItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
   { icon: Plane, label: "Trips", href: "/dashboard/traveler/trips" },
   { icon: Package, label: "Parcel Requests", href: "/dashboard/parcel-requests" },
+  { icon: Heart, label: "Matches", href: "/dashboard/matches" },
+  { icon: MapPin, label: "Tracking", href: "/dashboard/tracking" },
+  { icon: DollarSign, label: "Earnings", href: "/dashboard/earnings" },
   { icon: Clock, label: "History", href: "/dashboard/history" },
   { icon: Star, label: "Reviews", href: "/dashboard/reviews" },
   { icon: Bell, label: "Notifications", href: "/dashboard/notifications" },
   { icon: User, label: "Profile", href: "/dashboard/profile" },
   { icon: Gift, label: "Referrals", href: "/dashboard/referrals" },
+  { icon: HelpCircle, label: "Support", href: "/dashboard/support" },
 ];
 
 interface DashboardLayoutProps {
