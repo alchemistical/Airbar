@@ -23,6 +23,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Link } from "wouter";
+import DashboardLayout from "@/components/layout/DashboardLayout";
 import type { ParcelRequest } from "@shared/schema";
 
 type StatusFilter = "all" | "waiting" | "matched" | "in-transit" | "delivered" | "cancelled";
@@ -136,7 +137,8 @@ export default function SenderParcels() {
   });
 
   return (
-    <div className="space-y-6">
+    <DashboardLayout>
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -341,6 +343,7 @@ export default function SenderParcels() {
           ))}
         </div>
       )}
-    </div>
+      </div>
+    </DashboardLayout>
   );
 }

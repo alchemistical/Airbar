@@ -26,6 +26,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Link } from "wouter";
+import DashboardLayout from "@/components/layout/DashboardLayout";
 
 type ParcelRequestDetailType = {
   id: number;
@@ -126,7 +127,8 @@ export default function ParcelRequestDetail() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <DashboardLayout>
+      <div className="max-w-4xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
@@ -411,6 +413,7 @@ export default function ParcelRequestDetail() {
           )}
         </div>
       </div>
-    </div>
+      </div>
+    </DashboardLayout>
   );
 }

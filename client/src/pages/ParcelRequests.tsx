@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "wouter";
+import DashboardLayout from "@/components/layout/DashboardLayout";
 import type { ParcelRequestWithSender } from "@shared/schema";
 
 type StatusFilter = "all" | "pending" | "accepted" | "declined" | "completed";
@@ -75,7 +76,8 @@ export default function ParcelRequests() {
   }
 
   return (
-    <div className="space-y-6">
+    <DashboardLayout>
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -245,6 +247,7 @@ export default function ParcelRequests() {
           ))}
         </div>
       )}
-    </div>
+      </div>
+    </DashboardLayout>
   );
 }
