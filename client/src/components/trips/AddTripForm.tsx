@@ -460,22 +460,21 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <div className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
-                            field.value?.includes(timeSlot.value) 
-                              ? 'border-airbar-blue bg-blue-50' 
-                              : 'border-gray-200 hover:border-gray-300'
-                          }`}>
-                            <Checkbox
-                              checked={field.value?.includes(timeSlot.value)}
-                              onCheckedChange={(checked) => {
-                                const currentValue = field.value || [];
-                                const updatedValue = checked
-                                  ? [...currentValue, timeSlot.value]
-                                  : currentValue.filter((value) => value !== timeSlot.value);
-                                field.onChange(updatedValue);
-                              }}
-                              className="hidden"
-                            />
+                          <div 
+                            className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
+                              field.value?.includes(timeSlot.value) 
+                                ? 'border-airbar-blue bg-blue-50' 
+                                : 'border-gray-200 hover:border-gray-300'
+                            }`}
+                            onClick={() => {
+                              const currentValue = field.value || [];
+                              const isSelected = currentValue.includes(timeSlot.value);
+                              const updatedValue = isSelected
+                                ? currentValue.filter((value) => value !== timeSlot.value)
+                                : [...currentValue, timeSlot.value];
+                              field.onChange(updatedValue);
+                            }}
+                          >
                             <div className="text-center">
                               <div className="font-medium text-airbar-black">{timeSlot.label}</div>
                               <div className="text-sm text-airbar-dark-gray mt-1">{timeSlot.time}</div>
