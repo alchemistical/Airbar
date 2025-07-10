@@ -51,6 +51,7 @@ Based on user requirements, the following pages and features are planned:
 - ✅ `/dashboard/notifications` - Notification center with filtering and unread indicators
 - ✅ `/dashboard/profile` - Complete profile management with KYC, security, and privacy settings
 - ✅ `/dashboard/referrals` - Referral program with code sharing and earnings tracking
+- ✅ `/dashboard/support` - Comprehensive help center with FAQ, search, and ticket management
 - `/dashboard/traveler/reviews` - Ratings and feedback
 - `/dashboard/sender/*` - Additional sender-specific pages
 - `/dashboard/referrals` - Referral system

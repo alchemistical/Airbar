@@ -25,6 +25,7 @@ import HistorySender from "@/pages/HistorySender";
 import Notifications from "@/pages/Notifications";
 import Profile from "@/pages/Profile";
 import Referrals from "@/pages/Referrals";
+import Support from "@/pages/Support";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -53,6 +54,7 @@ function Router() {
       <Route path="/dashboard/notifications" component={Notifications} />
       <Route path="/dashboard/profile" component={Profile} />
       <Route path="/dashboard/referrals" component={Referrals} />
+      <Route path="/dashboard/support" component={Support} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
