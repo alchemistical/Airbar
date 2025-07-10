@@ -18,6 +18,10 @@ import WalletWithdrawals from "@/pages/WalletWithdrawals";
 import WalletReferrals from "@/pages/WalletReferrals";
 import WalletSender from "@/pages/WalletSender";
 import WalletTransactions from "@/pages/WalletTransactions";
+import History from "@/pages/History";
+import HistoryDetail from "@/pages/HistoryDetail";
+import HistoryTraveler from "@/pages/HistoryTraveler";
+import HistorySender from "@/pages/HistorySender";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -39,6 +43,10 @@ function Router() {
       <Route path="/dashboard/wallet/referrals" component={WalletReferrals} />
       <Route path="/dashboard/wallet/sender" component={WalletSender} />
       <Route path="/dashboard/wallet/transactions" component={WalletTransactions} />
+      <Route path="/dashboard/history" component={History} />
+      <Route path="/dashboard/history/view/:id" component={HistoryDetail} />
+      <Route path="/dashboard/history/traveler" component={HistoryTraveler} />
+      <Route path="/dashboard/history/sender" component={HistorySender} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
