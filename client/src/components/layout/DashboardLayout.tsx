@@ -92,8 +92,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <SidebarProvider>
       {/* Desktop Sidebar */}
-      <Sidebar className="hidden lg:flex">
-        <SidebarContent>
+      <Sidebar className="hidden lg:flex bg-white border-r border-gray-200">
+        <SidebarContent className="flex flex-col h-full p-4">
           <SidebarNavigation />
         </SidebarContent>
       </Sidebar>
@@ -111,8 +111,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-64 p-0">
-                <Sidebar>
-                  <SidebarContent>
+                <Sidebar className="bg-white h-full">
+                  <SidebarContent className="flex flex-col h-full p-4">
                     <SidebarNavigation />
                   </SidebarContent>
                 </Sidebar>
