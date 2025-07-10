@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { 
   Search,
   MessageCircle,
@@ -23,7 +24,18 @@ import {
   Filter,
   Plus,
   ArrowUpDown,
-  ExternalLink
+  ExternalLink,
+  ThumbsUp,
+  ThumbsDown,
+  Users,
+  Package,
+  DollarSign,
+  Settings,
+  Shield,
+  Star,
+  MessageSquare,
+  Send,
+  Loader2
 } from "lucide-react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 
@@ -46,17 +58,26 @@ interface FAQItem {
   answer: string;
   category: SupportCategory;
   tags: string[];
+  appliesTo: "traveler" | "sender" | "both";
+  helpfulVotes: number;
+  totalVotes: number;
+  lastUpdated: string;
 }
 
 export default function Support() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("faq");
+  const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [ticketForm, setTicketForm] = useState({
     category: "",
     subject: "",
     message: "",
-    priority: "medium"
+    priority: "medium",
+    attachment: null as File | null
   });
 
   // Mock data for support tickets
@@ -97,69 +118,123 @@ export default function Support() {
       question: "How does the matching system work?",
       answer: "Our smart matching system automatically connects parcel requests with travelers going to the same destination. When you post a trip, we'll show you relevant package requests along your route. You can accept or decline each match based on your preferences.",
       category: "general",
-      tags: ["matching", "trips", "packages"]
+      tags: ["matching", "trips", "packages"],
+      appliesTo: "both",
+      helpfulVotes: 45,
+      totalVotes: 52,
+      lastUpdated: "2024-12-20"
     },
     {
       id: "faq-2", 
       question: "When do I get paid for deliveries?",
       answer: "Payment is released automatically once the recipient confirms successful delivery. Funds typically appear in your wallet within 24 hours. You can withdraw earnings to your bank account or keep them for future shipments.",
       category: "payments",
-      tags: ["payment", "earnings", "delivery"]
+      tags: ["payment", "earnings", "delivery"],
+      appliesTo: "traveler",
+      helpfulVotes: 38,
+      totalVotes: 41,
+      lastUpdated: "2024-12-18"
     },
     {
       id: "faq-3",
       question: "What if my parcel is lost or damaged?",
       answer: "All packages are covered by our protection policy. If a parcel is lost or damaged during transit, both sender and traveler should report it immediately. We'll investigate and provide compensation based on the declared value.",
       category: "general",
-      tags: ["lost", "damaged", "protection", "insurance"]
+      tags: ["lost", "damaged", "protection", "insurance"],
+      appliesTo: "both",
+      helpfulVotes: 29,
+      totalVotes: 35,
+      lastUpdated: "2024-12-15"
     },
     {
       id: "faq-4",
       question: "How do I report a problem with another user?",
       answer: "You can report any issues through your order details page or by contacting support directly. We take all reports seriously and will investigate promptly to ensure platform safety.",
       category: "account",
-      tags: ["report", "safety", "users"]
+      tags: ["report", "safety", "users"],
+      appliesTo: "both",
+      helpfulVotes: 22,
+      totalVotes: 28,
+      lastUpdated: "2024-12-10"
     },
     {
       id: "faq-5",
       question: "What is Escrow and how does it work?",
       answer: "Escrow is our secure payment system that holds funds until delivery is confirmed. When a sender posts a package, payment is held in escrow. Once delivery is confirmed by the recipient, funds are released to the traveler.",
       category: "escrow",
-      tags: ["escrow", "payment", "security"]
+      tags: ["escrow", "payment", "security"],
+      appliesTo: "both",
+      helpfulVotes: 56,
+      totalVotes: 63,
+      lastUpdated: "2024-12-22"
     },
     {
       id: "faq-6",
       question: "How can I cancel a trip or package request?",
       answer: "You can cancel trips or package requests before they're matched. Go to your dashboard, find the item you want to cancel, and click the cancel button. Note that cancellation policies may apply for matched items.",
       category: "general",
-      tags: ["cancel", "trips", "requests"]
+      tags: ["cancel", "trips", "requests"],
+      appliesTo: "both",
+      helpfulVotes: 33,
+      totalVotes: 39,
+      lastUpdated: "2024-12-12"
     },
     {
       id: "faq-7",
       question: "How does the rating system work?",
       answer: "After each completed delivery, both travelers and senders can rate each other on a 5-star scale. Ratings help build trust in the community and influence matching preferences.",
       category: "ratings",
-      tags: ["ratings", "reviews", "trust"]
+      tags: ["ratings", "reviews", "trust"],
+      appliesTo: "both",
+      helpfulVotes: 41,
+      totalVotes: 47,
+      lastUpdated: "2024-12-08"
     },
     {
       id: "faq-8",
       question: "What items are prohibited for shipping?",
       answer: "Prohibited items include hazardous materials, illegal substances, weapons, and perishable goods. Check our terms of service for the complete list of restricted items.",
       category: "general",
-      tags: ["prohibited", "restrictions", "items"]
+      tags: ["prohibited", "restrictions", "items"],
+      appliesTo: "both",
+      helpfulVotes: 67,
+      totalVotes: 72,
+      lastUpdated: "2024-12-25"
+    },
+    {
+      id: "faq-9",
+      question: "How do I become a verified traveler?",
+      answer: "Complete your KYC verification by uploading a government ID and proof of address. Verified travelers receive higher priority in matching and can carry higher-value packages.",
+      category: "traveler",
+      tags: ["kyc", "verification", "traveler"],
+      appliesTo: "traveler",
+      helpfulVotes: 28,
+      totalVotes: 32,
+      lastUpdated: "2024-12-05"
+    },
+    {
+      id: "faq-10",
+      question: "What are the package size and weight limits?",
+      answer: "Standard packages can weigh up to 20kg (44lbs) and measure max 60cm x 40cm x 30cm. Larger packages require special approval and may incur additional fees.",
+      category: "sender",
+      tags: ["limits", "weight", "size", "packages"],
+      appliesTo: "sender",
+      helpfulVotes: 52,
+      totalVotes: 58,
+      lastUpdated: "2024-12-18"
     }
   ];
 
   const categories = [
-    { value: "all", label: "All Topics" },
-    { value: "traveler", label: "Traveler Issues" },
-    { value: "sender", label: "Sender Issues" },
-    { value: "payments", label: "Payments" },
-    { value: "technical", label: "Technical" },
-    { value: "account", label: "Account" },
-    { value: "escrow", label: "Escrow" },
-    { value: "ratings", label: "Ratings" },
-    { value: "general", label: "General" }
+    { value: "all", label: "All Topics", icon: HelpCircle },
+    { value: "traveler", label: "Traveler Issues", icon: Users },
+    { value: "sender", label: "Sender Issues", icon: Package },
+    { value: "payments", label: "Payments", icon: DollarSign },
+    { value: "technical", label: "Technical", icon: Settings },
+    { value: "account", label: "Account", icon: Shield },
+    { value: "escrow", label: "Escrow", icon: Shield },
+    { value: "ratings", label: "Ratings", icon: Star },
+    { value: "general", label: "General", icon: MessageSquare }
   ];
 
   const filteredFAQs = faqItems.filter(faq => {
@@ -212,11 +287,58 @@ export default function Support() {
     }
   };
 
-  const handleSubmitTicket = () => {
+  // Search suggestions logic
+  useEffect(() => {
+    if (searchQuery.length > 2) {
+      const suggestions = faqItems
+        .filter(faq => 
+          faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          faq.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+        )
+        .slice(0, 5)
+        .map(faq => faq.question);
+      setSearchSuggestions(suggestions);
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
+  }, [searchQuery]);
+
+  const handleSubmitTicket = async () => {
+    setIsSubmitting(true);
     // In real app, would submit to API
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate API call
     console.log("Submitting ticket:", ticketForm);
     setIsContactModalOpen(false);
-    setTicketForm({ category: "", subject: "", message: "", priority: "medium" });
+    setTicketForm({ category: "", subject: "", message: "", priority: "medium", attachment: null });
+    setIsSubmitting(false);
+  };
+
+  const handleFeedback = (faqId: string, isHelpful: boolean) => {
+    // In real app, would send feedback to API
+    console.log(`FAQ ${faqId} marked as ${isHelpful ? 'helpful' : 'not helpful'}`);
+  };
+
+  const getCategoryIcon = (category: string) => {
+    const categoryData = categories.find(c => c.value === category);
+    return categoryData ? categoryData.icon : HelpCircle;
+  };
+
+  const getRoleLabel = (appliesTo: string) => {
+    switch (appliesTo) {
+      case "traveler":
+        return { label: "Traveler", color: "bg-blue-100 text-blue-800" };
+      case "sender":
+        return { label: "Sender", color: "bg-green-100 text-green-800" };
+      case "both":
+        return { label: "All Users", color: "bg-purple-100 text-purple-800" };
+      default:
+        return { label: "General", color: "bg-gray-100 text-gray-800" };
+    }
+  };
+
+  const getHelpfulnessPercentage = (helpful: number, total: number) => {
+    return total > 0 ? Math.round((helpful / total) * 100) : 0;
   };
 
   return (
@@ -235,8 +357,27 @@ export default function Support() {
                 placeholder="Search for help articles, guides, or common issues..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => setShowSuggestions(searchQuery.length > 2)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                 className="pl-12 pr-4 py-3 text-lg rounded-xl"
               />
+              {showSuggestions && searchSuggestions.length > 0 && (
+                <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg mt-1 z-10">
+                  {searchSuggestions.map((suggestion, index) => (
+                    <div
+                      key={index}
+                      className="px-4 py-2 hover:bg-gray-50 cursor-pointer text-sm"
+                      onClick={() => {
+                        setSearchQuery(suggestion);
+                        setShowSuggestions(false);
+                      }}
+                    >
+                      <Search className="inline h-4 w-4 text-gray-400 mr-2" />
+                      {suggestion}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
@@ -308,16 +449,37 @@ export default function Support() {
                     />
                   </div>
                   
-                  <div className="flex items-center space-x-2 p-4 border-2 border-dashed border-gray-300 rounded-lg">
+                  <div className="flex items-center space-x-2 p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-300 transition-colors">
                     <Upload className="h-5 w-5 text-gray-400" />
-                    <span className="text-sm text-gray-600">Drag files here or click to upload (optional)</span>
+                    <div className="flex-1">
+                      <span className="text-sm text-gray-600">
+                        {ticketForm.attachment ? ticketForm.attachment.name : "Drag files here or click to upload (optional)"}
+                      </span>
+                      <p className="text-xs text-gray-500 mt-1">Max file size: 10MB</p>
+                    </div>
+                    <input
+                      type="file"
+                      className="hidden"
+                      onChange={(e) => setTicketForm({...ticketForm, attachment: e.target.files?.[0] || null})}
+                    />
                   </div>
                   
                   <div className="flex space-x-3">
-                    <Button onClick={handleSubmitTicket} className="flex-1">
-                      Submit Request
+                    <Button 
+                      onClick={handleSubmitTicket} 
+                      className="flex-1"
+                      disabled={isSubmitting || !ticketForm.category || !ticketForm.subject || !ticketForm.message}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Submitting...
+                        </>
+                      ) : (
+                        "Submit Request"
+                      )}
                     </Button>
-                    <Button variant="outline" onClick={() => setIsContactModalOpen(false)}>
+                    <Button variant="outline" onClick={() => setIsContactModalOpen(false)} disabled={isSubmitting}>
                       Cancel
                     </Button>
                   </div>
@@ -347,21 +509,27 @@ export default function Support() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  {categories.map((category) => (
-                    <Button
-                      key={category.value}
-                      variant={selectedCategory === category.value ? "default" : "ghost"}
-                      className="w-full justify-start rounded-lg"
-                      onClick={() => setSelectedCategory(category.value)}
-                    >
-                      {category.label}
-                      {category.value !== "all" && (
+                  {categories.map((category) => {
+                    const Icon = category.icon;
+                    const count = category.value === "all" 
+                      ? faqItems.length 
+                      : faqItems.filter(faq => faq.category === category.value).length;
+                    
+                    return (
+                      <Button
+                        key={category.value}
+                        variant={selectedCategory === category.value ? "default" : "ghost"}
+                        className="w-full justify-start rounded-lg"
+                        onClick={() => setSelectedCategory(category.value)}
+                      >
+                        <Icon className="h-4 w-4 mr-2" />
+                        {category.label}
                         <Badge variant="secondary" className="ml-auto">
-                          {faqItems.filter(faq => faq.category === category.value).length}
+                          {count}
                         </Badge>
-                      )}
-                    </Button>
-                  ))}
+                      </Button>
+                    );
+                  })}
                 </div>
               </CardContent>
             </Card>
@@ -370,29 +538,41 @@ export default function Support() {
             <Card className="rounded-xl mt-6">
               <CardHeader>
                 <CardTitle className="text-lg">Need More Help?</CardTitle>
+                <p className="text-sm text-gray-600">Replies within 24-48 hours</p>
               </CardHeader>
               <CardContent className="space-y-3">
-                <div className="flex items-center space-x-3 p-3 border rounded-lg">
+                <div className="flex items-center space-x-3 p-3 border rounded-lg bg-gray-50">
                   <MessageCircle className="h-5 w-5 text-blue-600" />
-                  <div>
+                  <div className="flex-1">
                     <p className="font-medium">Live Chat</p>
                     <p className="text-sm text-gray-600">Coming soon</p>
                   </div>
+                  <Badge variant="secondary">Soon</Badge>
                 </div>
                 
-                <div className="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50" 
+                <div className="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors" 
                      onClick={() => window.location.href = "mailto:support@airbar.app"}>
                   <Mail className="h-5 w-5 text-green-600" />
-                  <div>
+                  <div className="flex-1">
                     <p className="font-medium">Email Support</p>
                     <p className="text-sm text-gray-600">support@airbar.app</p>
                   </div>
-                  <ExternalLink className="h-4 w-4 text-gray-400 ml-auto" />
+                  <ExternalLink className="h-4 w-4 text-gray-400" />
+                </div>
+                
+                <div className="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+                     onClick={() => window.open("https://t.me/airbarsupport", "_blank")}>
+                  <Send className="h-5 w-5 text-blue-500" />
+                  <div className="flex-1">
+                    <p className="font-medium">Join Telegram</p>
+                    <p className="text-sm text-gray-600">Community support</p>
+                  </div>
+                  <ExternalLink className="h-4 w-4 text-gray-400" />
                 </div>
                 
                 <div className="flex items-center space-x-3 p-3 border rounded-lg">
                   <Phone className="h-5 w-5 text-purple-600" />
-                  <div>
+                  <div className="flex-1">
                     <p className="font-medium">Phone Support</p>
                     <p className="text-sm text-gray-600">1-800-AIRBAR</p>
                   </div>
@@ -403,13 +583,13 @@ export default function Support() {
 
           {/* Right Content */}
           <div className="lg:col-span-3">
-            <Tabs defaultValue="faq" className="w-full">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-2 rounded-xl">
-                <TabsTrigger value="faq" className="rounded-lg">
+                <TabsTrigger value="faq" className="rounded-lg transition-all">
                   <HelpCircle className="h-4 w-4 mr-2" />
                   FAQ & Knowledge Base
                 </TabsTrigger>
-                <TabsTrigger value="tickets" className="rounded-lg">
+                <TabsTrigger value="tickets" className="rounded-lg transition-all">
                   <FileText className="h-4 w-4 mr-2" />
                   My Support Requests
                 </TabsTrigger>
@@ -436,26 +616,81 @@ export default function Support() {
                   <Card className="rounded-xl">
                     <CardContent className="p-0">
                       <Accordion type="single" collapsible className="w-full">
-                        {filteredFAQs.map((faq) => (
-                          <AccordionItem key={faq.id} value={faq.id} className="px-6">
-                            <AccordionTrigger className="text-left hover:no-underline">
-                              <div className="flex items-start space-x-3">
-                                <HelpCircle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
-                                <span className="font-medium">{faq.question}</span>
-                              </div>
-                            </AccordionTrigger>
-                            <AccordionContent className="pl-8 pr-4 pb-4">
-                              <p className="text-gray-700 mb-4">{faq.answer}</p>
-                              <div className="flex flex-wrap gap-2">
-                                {faq.tags.map((tag) => (
-                                  <Badge key={tag} variant="secondary" className="text-xs rounded-full">
-                                    {tag}
-                                  </Badge>
-                                ))}
-                              </div>
-                            </AccordionContent>
-                          </AccordionItem>
-                        ))}
+                        {filteredFAQs.map((faq) => {
+                          const CategoryIcon = getCategoryIcon(faq.category);
+                          const roleLabel = getRoleLabel(faq.appliesTo);
+                          const helpfulnessPercentage = getHelpfulnessPercentage(faq.helpfulVotes, faq.totalVotes);
+                          
+                          return (
+                            <AccordionItem key={faq.id} value={faq.id} className="px-6">
+                              <AccordionTrigger className="text-left hover:no-underline">
+                                <div className="flex items-start space-x-3 w-full">
+                                  <CategoryIcon className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                                  <div className="flex-1">
+                                    <div className="flex items-start justify-between">
+                                      <span className="font-medium">{faq.question}</span>
+                                      <div className="flex items-center space-x-2 ml-4">
+                                        <Badge variant="secondary" className={`text-xs rounded-full ${roleLabel.color}`}>
+                                          {roleLabel.label}
+                                        </Badge>
+                                        <Tooltip>
+                                          <TooltipTrigger>
+                                            <Badge variant="outline" className="text-xs rounded-full">
+                                              {helpfulnessPercentage}% helpful
+                                            </Badge>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                            <p>{faq.helpfulVotes} of {faq.totalVotes} found this helpful</p>
+                                          </TooltipContent>
+                                        </Tooltip>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </AccordionTrigger>
+                              <AccordionContent className="pl-8 pr-4 pb-4">
+                                <p className="text-gray-700 mb-4">{faq.answer}</p>
+                                
+                                <div className="flex flex-wrap gap-2 mb-4">
+                                  {faq.tags.map((tag) => (
+                                    <Badge key={tag} variant="secondary" className="text-xs rounded-full">
+                                      {tag}
+                                    </Badge>
+                                  ))}
+                                </div>
+                                
+                                <div className="flex items-center justify-between pt-4 border-t">
+                                  <div className="flex items-center space-x-4">
+                                    <span className="text-sm text-gray-500">
+                                      Was this helpful?
+                                    </span>
+                                    <div className="flex items-center space-x-2">
+                                      <Button 
+                                        variant="ghost" 
+                                        size="sm"
+                                        onClick={() => handleFeedback(faq.id, true)}
+                                        className="rounded-full hover:bg-green-50"
+                                      >
+                                        <ThumbsUp className="h-4 w-4 text-green-600" />
+                                      </Button>
+                                      <Button 
+                                        variant="ghost" 
+                                        size="sm"
+                                        onClick={() => handleFeedback(faq.id, false)}
+                                        className="rounded-full hover:bg-red-50"
+                                      >
+                                        <ThumbsDown className="h-4 w-4 text-red-600" />
+                                      </Button>
+                                    </div>
+                                  </div>
+                                  <span className="text-xs text-gray-400">
+                                    Updated {faq.lastUpdated}
+                                  </span>
+                                </div>
+                              </AccordionContent>
+                            </AccordionItem>
+                          );
+                        })}
                       </Accordion>
                     </CardContent>
                   </Card>
