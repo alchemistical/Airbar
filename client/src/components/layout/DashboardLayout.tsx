@@ -27,6 +27,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { NotificationBell } from "@/components/ui/NotificationBell";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import {
   LayoutDashboard,
   Plane,
@@ -414,10 +416,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
             {/* Header Right Section */}
             <div className="flex items-center space-x-4">
+              {/* Theme Toggle */}
+              <ThemeToggle />
+              
               {/* Notifications Bell Icon */}
-              <NotificationBellIcon 
-                badgeCount={unreadNotifications} 
-                notifications={mockNotifications}
+              <NotificationBell 
+                count={unreadNotifications}
               />
               
               {/* User Profile Dropdown */}

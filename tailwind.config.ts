@@ -61,6 +61,11 @@ export default {
           border: "var(--sidebar-border)",
           ring: "var(--sidebar-ring)",
         },
+        // Brand colors for new design system
+        brand: {
+          DEFAULT: "#2F80ED",
+          dark: "#1E66D3",
+        },
         airbar: {
           primary: "var(--airbar-primary)",
           "primary-dark": "var(--airbar-primary-dark)",

@@ -1,13 +1,18 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { AppShell } from "@/components/ui/AppShell";
+import { KpiTile } from "@/components/ui/KpiTile";
+import { QuickActions } from "@/components/ui/QuickActions";
+import { ListItem } from "@/components/ui/ListItem";
+import { NextStepCard } from "@/components/ui/NextStepCard";
+import { InsightsRow } from "@/components/ui/InsightsRow";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { 
   Plane, 
   Package, 
@@ -57,118 +62,73 @@ export default function Dashboard() {
     { id: 3, from: "Boston", to: "Seattle", date: "Jan 12", status: "confirmed", matches: 1 },
   ];
 
+  // Mock 7-day trend data for sparklines (in real app would come from API)
+  const generateSparklineData = (baseValue: number) => {
+    const data = [];
+    for (let i = 0; i < 7; i++) {
+      data.push(baseValue + Math.random() * 10 - 5);
+    }
+    return data;
+  };
+
   const renderTopStats = () => {
     if (isLoading) {
       return Array.from({ length: 4 }).map((_, i) => (
-        <Skeleton key={i} className="h-28 w-full rounded-xl" />
+        <Skeleton key={i} className="h-[120px] w-[140px] rounded-lg" />
       ));
     }
 
-    // Mock 7-day trend data for sparklines (in real app would come from API)
-    const generateSparklineData = (baseValue: number) => {
-      const data = [];
-      for (let i = 0; i < 7; i++) {
-        data.push(baseValue + Math.random() * 10 - 5);
-      }
-      return data;
-    };
-
     const baseStats = [
       {
-        title: role === "sender" ? "Active Deliveries" : "Active Trips",
+        label: role === "sender" ? "Active Deliveries" : "Active Trips",
         value: metrics?.activeTrips?.toString() || "0",
-        icon: role === "sender" ? Package : Plane,
-        color: "text-airbar-primary",
-        bgColor: "bg-airbar-gray-100",
-        sparklineData: generateSparklineData(parseInt(metrics?.activeTrips?.toString() || "0")),
-        trend: "+12%"
+        delta: 12,
+        trend: generateSparklineData(parseInt(metrics?.activeTrips?.toString() || "0"))
       },
       {
-        title: role === "sender" ? "Matches Pending" : "Parcel Requests",
+        label: role === "sender" ? "Matches Pending" : "Parcel Requests",
         value: metrics?.parcelRequests?.toString() || "0",
-        icon: role === "sender" ? Users : Package,
-        color: "text-airbar-warning", 
-        bgColor: "bg-airbar-gray-100",
-        sparklineData: generateSparklineData(parseInt(metrics?.parcelRequests?.toString() || "0")),
-        trend: "+8%"
+        delta: 8,
+        trend: generateSparklineData(parseInt(metrics?.parcelRequests?.toString() || "0"))
       }
     ];
 
     const roleSpecificStats = role === "traveler" ? [
       {
-        title: "In Escrow",
+        label: "In Escrow",
         value: metrics?.inEscrowAmount || "$0",
-        icon: DollarSign,
-        color: "text-airbar-success",
-        bgColor: "bg-airbar-gray-100",
-        sparklineData: generateSparklineData(parseFloat(metrics?.inEscrowAmount?.replace('$', '') || "0")),
-        trend: "+15%"
+        delta: 15,
+        trend: generateSparklineData(parseFloat(metrics?.inEscrowAmount?.replace('$', '') || "0"))
       },
       {
-        title: "Average Rating",
+        label: "Average Rating",
         value: metrics?.averageRating || "0.0",
-        icon: Star,
-        color: "text-airbar-warning",
-        bgColor: "bg-airbar-gray-100",
-        link: "/dashboard/reviews",
-        sparklineData: generateSparklineData(parseFloat(metrics?.averageRating || "0")),
-        trend: "+2%"
+        delta: 2,
+        trend: generateSparklineData(parseFloat(metrics?.averageRating || "0"))
       }
     ] : [
       {
-        title: "Tracking Active",
+        label: "Tracking Active",
         value: metrics?.activeTrips?.toString() || "0",
-        icon: MapPin,
-        color: "text-airbar-info",
-        bgColor: "bg-airbar-gray-100",
-        sparklineData: generateSparklineData(parseInt(metrics?.activeTrips?.toString() || "0")),
-        trend: "+5%"
+        delta: 5,
+        trend: generateSparklineData(parseInt(metrics?.activeTrips?.toString() || "0"))
       },
       {
-        title: "Average Rating",
-        value: metrics?.averageRating || "0.0", 
-        icon: Star,
-        color: "text-airbar-warning",
-        bgColor: "bg-airbar-gray-100",
-        link: "/dashboard/reviews",
-        sparklineData: generateSparklineData(parseFloat(metrics?.averageRating || "0")),
-        trend: "+2%"
+        label: "Average Rating",
+        value: metrics?.averageRating || "0.0",
+        delta: 2,
+        trend: generateSparklineData(parseFloat(metrics?.averageRating || "0"))
       }
     ];
 
     return [...baseStats, ...roleSpecificStats].map((stat, index) => (
-      <Card key={index} className="hover:shadow-md hover:bg-gray-50 transition-all duration-200 rounded-xl h-[120px]">
-        <CardContent className="p-4 h-full">
-          <div className="flex flex-col h-full">
-            <div className="flex items-center justify-between mb-2">
-              <div className={`p-2 rounded-lg ${stat.bgColor}`}>
-                <stat.icon className={`h-4 w-4 ${stat.color}`} />
-              </div>
-              <div className="flex items-center text-xs text-airbar-gray-500">
-                <TrendingUp className="h-3 w-3 mr-1" />
-                {stat.trend}
-              </div>
-            </div>
-            <div className="flex-1 flex flex-col justify-center">
-              <p className="text-xs text-airbar-gray-500 mb-1">{stat.title}</p>
-              <p className="text-2xl font-bold text-airbar-black mb-1">{stat.value}</p>
-            </div>
-            <div className="mt-auto">
-              <div className="h-6 w-full">
-                <Sparklines data={stat.sparklineData} height={20} width={100}>
-                  <SparklinesLine color={
-                    stat.color.includes('primary') ? '#2F80ED' :
-                    stat.color.includes('success') ? '#27AE60' :
-                    stat.color.includes('warning') ? '#F2994A' :
-                    stat.color.includes('info') ? '#56CCF2' :
-                    '#2F80ED'
-                  } />
-                </Sparklines>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <KpiTile 
+        key={index}
+        label={stat.label}
+        value={stat.value}
+        delta={stat.delta}
+        trend={stat.trend}
+      />
     ));
   };
 
@@ -239,17 +199,29 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-8">
-        {/* Top Stats */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {renderTopStats()}
-        </div>
+      <AppShell>
+        <div className="space-y-8">
+          {/* KPI Tiles Row */}
+          <div className="flex flex-wrap gap-4 justify-center sm:justify-start">
+            {renderTopStats()}
+          </div>
 
-        {/* Quick Actions */}
-        <QuickActions />
+          {/* Quick Actions */}
+          <QuickActions />
 
-        {/* Main Grid - Left/Right Column Split */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-[2fr_1fr]">
+          {/* Next Step Card */}
+          {metrics?.parcelRequests && metrics.parcelRequests > 0 && (
+            <NextStepCard 
+              trip={{ route: "New York → Miami" }} 
+              pendingCount={metrics.parcelRequests} 
+            />
+          )}
+
+          {/* Insights Row */}
+          <InsightsRow />
+
+          {/* Main Grid - Left/Right Column Split */}
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-[2fr_1fr]">
           {/* Left Column - Work */}
           <div className="space-y-6">
             {/* Wallet Snapshot */}
@@ -391,24 +363,21 @@ export default function Dashboard() {
                     <p>All caught up! 🎉</p>
                   </div>
                 ) : (
-                  <div className="space-y-3">
+                  <ul className="space-y-2">
                     {todoItems.map((item, index) => (
                       <Link key={index} href={item.href}>
-                        <div className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
-                          <div className="flex items-center space-x-3">
-                            <div className={`w-2 h-2 rounded-full ${
-                              item.priority === "high" ? "bg-airbar-danger" :
-                              item.priority === "medium" ? "bg-airbar-warning" : "bg-airbar-success"
-                            }`} />
-                            <span className="text-sm font-medium">{item.text}</span>
-                          </div>
+                        <div className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors">
+                          <ListItem 
+                            icon={item.priority === "high" ? AlertTriangle : CheckCircle2} 
+                            text={item.text} 
+                          />
                           <Badge variant="outline" className="rounded-full">
                             {item.count}
                           </Badge>
                         </div>
                       </Link>
                     ))}
-                  </div>
+                  </ul>
                 )}
               </CardContent>
             </Card>
@@ -440,8 +409,9 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           </div>
+          </div>
         </div>
-      </div>
+      </AppShell>
     </DashboardLayout>
   );
 }
