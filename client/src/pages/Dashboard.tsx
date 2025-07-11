@@ -1,18 +1,13 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import DashboardLayout from "@/components/layout/DashboardLayout";
-import { AppShell } from "@/components/ui/AppShell";
-import { KpiTile } from "@/components/ui/KpiTile";
-import { QuickActions } from "@/components/ui/QuickActions";
-import { ListItem } from "@/components/ui/ListItem";
-import { NextStepCard } from "@/components/ui/NextStepCard";
-import { InsightsRow } from "@/components/ui/InsightsRow";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { 
   Plane, 
   Package, 
@@ -33,7 +28,6 @@ import {
   Eye,
   BarChart3
 } from "lucide-react";
-import { Sparklines, SparklinesLine } from "react-sparklines";
 import { Link } from "wouter";
 import type { DashboardMetrics } from "@shared/schema";
 
@@ -49,11 +43,11 @@ export default function Dashboard() {
 
   // Mock data for widgets - in real app would come from API
   const recentActivity = [
-    { id: 1, type: "delivery", message: "Package delivered to Miami", time: "2 hours ago", icon: CheckCircle2, color: "text-airbar-success" },
-    { id: 2, type: "payment", message: "Funds released - $85.00", time: "3 hours ago", icon: DollarSign, color: "text-airbar-primary" },
-    { id: 3, type: "review", message: "New 5-star review received", time: "1 day ago", icon: Star, color: "text-airbar-warning" },
-    { id: 4, type: "trip", message: "Trip to Chicago confirmed", time: "2 days ago", icon: Plane, color: "text-airbar-info" },
-    { id: 5, type: "request", message: "New parcel request received", time: "3 days ago", icon: Package, color: "text-airbar-warning" },
+    { id: 1, type: "delivery", message: "Package delivered to Miami", time: "2 hours ago", icon: CheckCircle2, color: "text-green-600" },
+    { id: 2, type: "payment", message: "Funds released - $85.00", time: "3 hours ago", icon: DollarSign, color: "text-blue-600" },
+    { id: 3, type: "review", message: "New 5-star review received", time: "1 day ago", icon: Star, color: "text-yellow-600" },
+    { id: 4, type: "trip", message: "Trip to Chicago confirmed", time: "2 days ago", icon: Plane, color: "text-purple-600" },
+    { id: 5, type: "request", message: "New parcel request received", time: "3 days ago", icon: Package, color: "text-orange-600" },
   ];
 
   const upcomingTrips = [
@@ -62,107 +56,95 @@ export default function Dashboard() {
     { id: 3, from: "Boston", to: "Seattle", date: "Jan 12", status: "confirmed", matches: 1 },
   ];
 
-  // Mock 7-day trend data for sparklines (in real app would come from API)
-  const generateSparklineData = (baseValue: number) => {
-    const data = [];
-    for (let i = 0; i < 7; i++) {
-      data.push(baseValue + Math.random() * 10 - 5);
-    }
-    return data;
-  };
-
   const renderTopStats = () => {
     if (isLoading) {
       return Array.from({ length: 4 }).map((_, i) => (
-        <Skeleton key={i} className="h-[120px] w-[140px] rounded-lg" />
+        <Skeleton key={i} className="h-28 w-full rounded-xl" />
       ));
     }
 
     const baseStats = [
       {
-        label: role === "sender" ? "Active Deliveries" : "Active Trips",
+        title: role === "sender" ? "Active Deliveries" : "Active Trips",
         value: metrics?.activeTrips?.toString() || "0",
-        delta: 12,
-        trend: generateSparklineData(parseInt(metrics?.activeTrips?.toString() || "0"))
+        icon: role === "sender" ? Package : Plane,
+        color: "text-blue-600",
+        bgColor: "bg-blue-50"
       },
       {
-        label: role === "sender" ? "Matches Pending" : "Parcel Requests",
+        title: role === "sender" ? "Matches Pending" : "Parcel Requests",
         value: metrics?.parcelRequests?.toString() || "0",
-        delta: 8,
-        trend: generateSparklineData(parseInt(metrics?.parcelRequests?.toString() || "0"))
+        icon: role === "sender" ? Users : Package,
+        color: "text-orange-600", 
+        bgColor: "bg-orange-50"
       }
     ];
 
     const roleSpecificStats = role === "traveler" ? [
       {
-        label: "In Escrow",
+        title: "In Escrow",
         value: metrics?.inEscrowAmount || "$0",
-        delta: 15,
-        trend: generateSparklineData(parseFloat(metrics?.inEscrowAmount?.replace('$', '') || "0"))
+        icon: DollarSign,
+        color: "text-green-600",
+        bgColor: "bg-green-50"
       },
       {
-        label: "Average Rating",
+        title: "Average Rating",
         value: metrics?.averageRating || "0.0",
-        delta: 2,
-        trend: generateSparklineData(parseFloat(metrics?.averageRating || "0"))
+        icon: Star,
+        color: "text-yellow-600",
+        bgColor: "bg-yellow-50",
+        link: "/dashboard/reviews"
       }
     ] : [
       {
-        label: "Tracking Active",
+        title: "Tracking Active",
         value: metrics?.activeTrips?.toString() || "0",
-        delta: 5,
-        trend: generateSparklineData(parseInt(metrics?.activeTrips?.toString() || "0"))
+        icon: MapPin,
+        color: "text-purple-600",
+        bgColor: "bg-purple-50"
       },
       {
-        label: "Average Rating",
-        value: metrics?.averageRating || "0.0",
-        delta: 2,
-        trend: generateSparklineData(parseFloat(metrics?.averageRating || "0"))
+        title: "Average Rating",
+        value: metrics?.averageRating || "0.0", 
+        icon: Star,
+        color: "text-yellow-600",
+        bgColor: "bg-yellow-50",
+        link: "/dashboard/reviews"
       }
     ];
 
     return [...baseStats, ...roleSpecificStats].map((stat, index) => (
-      <KpiTile 
-        key={index}
-        label={stat.label}
-        value={stat.value}
-        delta={stat.delta}
-        trend={stat.trend}
-      />
+      <Card key={index} className="hover:shadow-md transition-shadow rounded-xl">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600 mb-1">{stat.title}</p>
+              <p className="text-3xl font-bold text-airbar-black">{stat.value}</p>
+            </div>
+            <div className={`p-3 rounded-xl ${stat.bgColor}`}>
+              <stat.icon className={`h-6 w-6 ${stat.color}`} />
+            </div>
+          </div>
+          {stat.link && (
+            <Link href={stat.link}>
+              <Button variant="ghost" size="sm" className="mt-2 p-0 h-auto text-sm text-blue-600 hover:text-blue-800">
+                View details <ArrowRight className="h-3 w-3 ml-1" />
+              </Button>
+            </Link>
+          )}
+        </CardContent>
+      </Card>
     ));
   };
 
-  // QuickActions component with reordered actions by usage priority
-  const QuickActions = () => {
-    const actions = [
-      { icon: Package, label: "Send Package", href: "/send-package", isPrimary: true },
-      { icon: Plus, label: "Add Trip", href: "/dashboard/traveler/trips/addtrip", isPrimary: false },
-      { icon: MapPin, label: "Track", href: "/dashboard/tracking", isPrimary: false },
-      { icon: Wallet, label: "Withdraw", href: "/dashboard/wallet", isPrimary: false },
-    ];
-
-    return (
-      <div className="mb-8">
-        <div className="flex flex-wrap gap-3 sm:gap-4 overflow-x-auto sm:overflow-x-visible">
-          {actions.map((action, index) => (
-            <Link key={index} href={action.href}>
-              <Button
-                className={`${
-                  action.isPrimary 
-                    ? "bg-airbar-primary hover:bg-airbar-primary-dark text-white" 
-                    : "border-2 border-airbar-primary text-airbar-primary hover:bg-airbar-primary hover:text-white"
-                } rounded-xl px-4 py-2 font-medium transition-all duration-200 whitespace-nowrap`}
-                variant={action.isPrimary ? "default" : "outline"}
-              >
-                <action.icon className="h-4 w-4 mr-2" />
-                {action.label}
-              </Button>
-            </Link>
-          ))}
-        </div>
-      </div>
-    );
-  };
+  const quickActions = [
+    { icon: Plus, label: "Add Trip", href: "/dashboard/traveler/trips/addtrip", color: "bg-blue-600 hover:bg-blue-700" },
+    { icon: Package, label: "Send Package", href: "/send-package", color: "bg-orange-600 hover:bg-orange-700" },
+    { icon: MapPin, label: "Track Parcel", href: "/dashboard/tracking", color: "bg-purple-600 hover:bg-purple-700" },
+    { icon: Wallet, label: "Withdraw Funds", href: "/dashboard/wallet", color: "bg-green-600 hover:bg-green-700" },
+    { icon: Users, label: "Invite Friends", href: "/dashboard/referrals", color: "bg-pink-600 hover:bg-pink-700" },
+  ];
 
   const todoItems = [
     { 
@@ -199,31 +181,50 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-      <AppShell>
-        <div className="space-y-8">
-          {/* KPI Tiles Row */}
-          <div className="flex flex-wrap gap-4 justify-center sm:justify-start">
-            {renderTopStats()}
-          </div>
+      <div className="space-y-8">
+        {/* Top Stats */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {renderTopStats()}
+        </div>
 
-          {/* Quick Actions */}
-          <QuickActions />
+        {/* Quick Actions */}
+        <Card className="rounded-xl">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center text-lg">
+              <TrendingUp className="h-5 w-5 mr-2 text-blue-600" />
+              Quick Actions
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ScrollArea className="w-full">
+              <div className="flex space-x-4 pb-4">
+                {quickActions.map((action, index) => (
+                  <Link key={index} href={action.href}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button 
+                          className={`${action.color} text-white min-w-[140px] rounded-xl transition-all hover:scale-105`}
+                          size="lg"
+                        >
+                          <action.icon className="h-5 w-5 mr-2" />
+                          {action.label}
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{action.label}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </Link>
+                ))}
+              </div>
+            </ScrollArea>
+          </CardContent>
+        </Card>
 
-          {/* Next Step Card */}
-          {metrics?.parcelRequests && metrics.parcelRequests > 0 && (
-            <NextStepCard 
-              trip={{ route: "New York → Miami" }} 
-              pendingCount={metrics.parcelRequests} 
-            />
-          )}
-
-          {/* Insights Row */}
-          <InsightsRow />
-
-          {/* Main Grid - Left/Right Column Split */}
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-[2fr_1fr]">
-          {/* Left Column - Work */}
-          <div className="space-y-6">
+        {/* Main Grid */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          {/* Left Column - Main Content */}
+          <div className="space-y-8 lg:col-span-2">
             {/* Wallet Snapshot */}
             <Card className="rounded-xl">
               <CardHeader className="flex flex-row items-center justify-between">
@@ -254,17 +255,17 @@ export default function Dashboard() {
               <CardContent>
                 {walletView === "summary" ? (
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    <div className="text-center p-4 bg-airbar-gray-100 rounded-xl">
-                      <p className="text-sm text-airbar-gray-500 mb-1">Available Balance</p>
-                      <p className="text-2xl font-bold text-airbar-success">{metrics?.availableBalance || "$0"}</p>
+                    <div className="text-center p-4 bg-green-50 rounded-xl">
+                      <p className="text-sm text-green-700 mb-1">Available Balance</p>
+                      <p className="text-2xl font-bold text-green-800">{metrics?.availableBalance || "$0"}</p>
                     </div>
-                    <div className="text-center p-4 bg-airbar-gray-100 rounded-xl">
-                      <p className="text-sm text-airbar-gray-500 mb-1">Pending Earnings</p>
-                      <p className="text-2xl font-bold text-airbar-warning">{metrics?.pendingEarnings || "$0"}</p>
+                    <div className="text-center p-4 bg-yellow-50 rounded-xl">
+                      <p className="text-sm text-yellow-700 mb-1">Pending Earnings</p>
+                      <p className="text-2xl font-bold text-yellow-800">{metrics?.pendingEarnings || "$0"}</p>
                     </div>
-                    <div className="text-center p-4 bg-airbar-gray-100 rounded-xl">
-                      <p className="text-sm text-airbar-gray-500 mb-1">Total Earned</p>
-                      <p className="text-2xl font-bold text-airbar-primary">{metrics?.totalEarned || "$0"}</p>
+                    <div className="text-center p-4 bg-blue-50 rounded-xl">
+                      <p className="text-sm text-blue-700 mb-1">Total Earned</p>
+                      <p className="text-2xl font-bold text-blue-800">{metrics?.totalEarned || "$0"}</p>
                     </div>
                   </div>
                 ) : (
@@ -296,7 +297,7 @@ export default function Dashboard() {
             <Card className="rounded-xl">
               <CardHeader>
                 <CardTitle className="flex items-center text-lg">
-                  <Calendar className="h-5 w-5 mr-2 text-airbar-info" />
+                  <Calendar className="h-5 w-5 mr-2 text-purple-600" />
                   Trip Timeline
                 </CardTitle>
               </CardHeader>
@@ -352,7 +353,7 @@ export default function Dashboard() {
             <Card className="rounded-xl">
               <CardHeader>
                 <CardTitle className="flex items-center text-lg">
-                  <CheckCircle2 className="h-5 w-5 mr-2 text-airbar-primary" />
+                  <CheckCircle2 className="h-5 w-5 mr-2 text-blue-600" />
                   Action Items ({todoItems.length})
                 </CardTitle>
               </CardHeader>
@@ -363,21 +364,24 @@ export default function Dashboard() {
                     <p>All caught up! 🎉</p>
                   </div>
                 ) : (
-                  <ul className="space-y-2">
+                  <div className="space-y-3">
                     {todoItems.map((item, index) => (
                       <Link key={index} href={item.href}>
-                        <div className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors">
-                          <ListItem 
-                            icon={item.priority === "high" ? AlertTriangle : CheckCircle2} 
-                            text={item.text} 
-                          />
+                        <div className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+                          <div className="flex items-center space-x-3">
+                            <div className={`w-2 h-2 rounded-full ${
+                              item.priority === "high" ? "bg-red-500" :
+                              item.priority === "medium" ? "bg-yellow-500" : "bg-green-500"
+                            }`} />
+                            <span className="text-sm font-medium">{item.text}</span>
+                          </div>
                           <Badge variant="outline" className="rounded-full">
                             {item.count}
                           </Badge>
                         </div>
                       </Link>
                     ))}
-                  </ul>
+                  </div>
                 )}
               </CardContent>
             </Card>
@@ -386,7 +390,7 @@ export default function Dashboard() {
             <Card className="rounded-xl">
               <CardHeader>
                 <CardTitle className="flex items-center text-lg">
-                  <Clock className="h-5 w-5 mr-2 text-airbar-gray-500" />
+                  <Clock className="h-5 w-5 mr-2 text-gray-600" />
                   Recent Activity
                 </CardTitle>
               </CardHeader>
@@ -395,7 +399,7 @@ export default function Dashboard() {
                   <div className="space-y-4">
                     {recentActivity.map((activity) => (
                       <div key={activity.id} className="flex items-start space-x-3">
-                        <div className="p-2 rounded-full bg-airbar-gray-100">
+                        <div className="p-2 rounded-full bg-gray-100">
                           <activity.icon className={`h-4 w-4 ${activity.color}`} />
                         </div>
                         <div className="flex-1 min-w-0">
@@ -409,9 +413,8 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           </div>
-          </div>
         </div>
-      </AppShell>
+      </div>
     </DashboardLayout>
   );
 }

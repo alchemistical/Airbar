@@ -24,26 +24,14 @@
   --ring: hsl(20, 14.3%, 4.1%);
   --radius: 0.5rem;
 
-  /* Airbar custom colors - Updated to match style guide */
-  --airbar-primary: #2F80ED;
-  --airbar-primary-dark: #1366D6;
-  --airbar-success: #27AE60;
-  --airbar-warning: #F2994A;
-  --airbar-danger: #EB5757;
-  --airbar-info: #56CCF2;
-  --airbar-gray-100: #F9F9F9;
-  --airbar-gray-200: #E0E0E0;
-  --airbar-gray-500: #4F4F4F;
-  --airbar-black: #333333;
-  --airbar-white: #FFFFFF;
-  
-  /* Legacy color mappings for compatibility */
-  --airbar-blue: #2F80ED;
-  --airbar-green: #27AE60;
-  --airbar-orange: #F2994A;
-  --airbar-red: #EB5757;
-  --airbar-light-gray: #F9F9F9;
-  --airbar-dark-gray: #4F4F4F;
+  /* Airbar custom colors */
+  --airbar-blue: hsl(207, 90%, 54%);
+  --airbar-green: hsl(142, 71%, 45%);
+  --airbar-orange: hsl(25, 85%, 63%);
+  --airbar-red: hsl(0, 84%, 63%);
+  --airbar-light-gray: hsl(0, 0%, 95%);
+  --airbar-dark-gray: hsl(0, 0%, 31%);
+  --airbar-black: hsl(0, 0%, 20%);
 
   /* Sidebar colors */
   --sidebar-background: hsl(0, 0%, 20%);
@@ -86,7 +74,7 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', 'Helvetica Neue', 'Arial', sans-serif;
   }
 }
 
@@ -161,134 +149,5 @@
   
   .text-airbar-black {
     color: var(--airbar-black);
-  }
-
-  /* New Airbar style guide utilities */
-  .bg-airbar-primary {
-    background-color: var(--airbar-primary);
-  }
-  
-  .bg-airbar-primary-dark {
-    background-color: var(--airbar-primary-dark);
-  }
-  
-  .bg-airbar-success {
-    background-color: var(--airbar-success);
-  }
-  
-  .bg-airbar-warning {
-    background-color: var(--airbar-warning);
-  }
-  
-  .bg-airbar-danger {
-    background-color: var(--airbar-danger);
-  }
-  
-  .bg-airbar-info {
-    background-color: var(--airbar-info);
-  }
-  
-  .bg-airbar-gray-100 {
-    background-color: var(--airbar-gray-100);
-  }
-  
-  .bg-airbar-gray-200 {
-    background-color: var(--airbar-gray-200);
-  }
-  
-  .bg-airbar-gray-500 {
-    background-color: var(--airbar-gray-500);
-  }
-  
-  .bg-airbar-white {
-    background-color: var(--airbar-white);
-  }
-
-  .text-airbar-primary {
-    color: var(--airbar-primary);
-  }
-  
-  .text-airbar-primary-dark {
-    color: var(--airbar-primary-dark);
-  }
-  
-  .text-airbar-success {
-    color: var(--airbar-success);
-  }
-  
-  .text-airbar-warning {
-    color: var(--airbar-warning);
-  }
-  
-  .text-airbar-danger {
-    color: var(--airbar-danger);
-  }
-  
-  .text-airbar-info {
-    color: var(--airbar-info);
-  }
-  
-  .text-airbar-gray-100 {
-    color: var(--airbar-gray-100);
-  }
-  
-  .text-airbar-gray-200 {
-    color: var(--airbar-gray-200);
-  }
-  
-  .text-airbar-gray-500 {
-    color: var(--airbar-gray-500);
-  }
-  
-  .text-airbar-white {
-    color: var(--airbar-white);
-  }
-
-  /* Button styles to match style guide */
-  .btn-airbar-primary {
-    @apply bg-airbar-primary text-white px-6 py-3 rounded-md font-medium hover:bg-airbar-primary-dark transition-colors;
-  }
-  
-  .btn-airbar-secondary {
-    @apply bg-airbar-gray-500 text-white px-6 py-3 rounded-md font-medium hover:bg-airbar-gray-500/90 transition-colors;
-  }
-  
-  .btn-airbar-success {
-    @apply bg-airbar-success text-white px-6 py-3 rounded-md font-medium hover:bg-airbar-success/90 transition-colors;
-  }
-  
-  .btn-airbar-warning {
-    @apply bg-airbar-warning text-white px-6 py-3 rounded-md font-medium hover:bg-airbar-warning/90 transition-colors;
-  }
-  
-  .btn-airbar-danger {
-    @apply bg-airbar-danger text-white px-6 py-3 rounded-md font-medium hover:bg-airbar-danger/90 transition-colors;
-  }
-  
-  .btn-airbar-info {
-    @apply bg-airbar-info text-white px-6 py-3 rounded-md font-medium hover:bg-airbar-info/90 transition-colors;
-  }
-
-  /* Card styles to match style guide */
-  .card-airbar {
-    @apply bg-white border border-airbar-gray-200 rounded-lg shadow-sm p-5;
-  }
-
-  /* Input styles to match style guide */
-  .input-airbar {
-    @apply px-3 py-3 border border-airbar-gray-200 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-airbar-primary focus:border-transparent;
-  }
-
-  /* Badge styles to match style guide */
-  .badge-airbar-warning {
-    @apply inline-block bg-airbar-warning text-white px-2 py-1 rounded text-sm font-medium;
-  }
-  
-  .badge-airbar-info {
-    @apply inline-block bg-airbar-info text-white px-2 py-1 rounded text-sm font-medium;
-  }
-  
-  .badge-airbar-success {
-    @apply inline-block bg-airbar-success text-white px-2 py-1 rounded text-sm font-medium;
   }
 }

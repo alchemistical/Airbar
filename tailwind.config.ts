@@ -61,31 +61,6 @@ export default {
           border: "var(--sidebar-border)",
           ring: "var(--sidebar-ring)",
         },
-        // Brand colors for new design system
-        brand: {
-          DEFAULT: "#2F80ED",
-          dark: "#1E66D3",
-        },
-        airbar: {
-          primary: "var(--airbar-primary)",
-          "primary-dark": "var(--airbar-primary-dark)",
-          success: "var(--airbar-success)",
-          warning: "var(--airbar-warning)",
-          danger: "var(--airbar-danger)",
-          info: "var(--airbar-info)",
-          "gray-100": "var(--airbar-gray-100)",
-          "gray-200": "var(--airbar-gray-200)",
-          "gray-500": "var(--airbar-gray-500)",
-          black: "var(--airbar-black)",
-          white: "var(--airbar-white)",
-          // Legacy aliases
-          blue: "var(--airbar-blue)",
-          green: "var(--airbar-green)",
-          orange: "var(--airbar-orange)",
-          red: "var(--airbar-red)",
-          "light-gray": "var(--airbar-light-gray)",
-          "dark-gray": "var(--airbar-dark-gray)",
-        },
       },
       keyframes: {
         "accordion-down": {

@@ -23,13 +23,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { NotificationBell } from "@/components/ui/NotificationBell";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import {
   LayoutDashboard,
   Plane,
   Package,
@@ -47,7 +40,6 @@ import {
   DollarSign,
   HelpCircle,
   Send,
-  Settings,
 } from "lucide-react";
 import type { User as UserType } from "@shared/schema";
 
@@ -64,195 +56,10 @@ const navigationItems = [
 const userDropdownItems = [
   { icon: User, label: "Profile", description: "KYC, personal details, settings", href: "/dashboard/profile" },
   { icon: DollarSign, label: "Wallet", description: "Manage funds, view earnings", href: "/dashboard/wallet" },
+  { icon: Bell, label: "Notifications", description: "Updates and alerts", href: "/dashboard/notifications", hasUnread: true },
   { icon: Clock, label: "History", description: "Activity log, past deliveries", href: "/dashboard/history" },
   { icon: Gift, label: "Referrals", description: "Invite friends, bonus status", href: "/dashboard/referrals" },
 ];
-
-// Mock notification data for the bell icon
-const mockNotifications = [
-  {
-    id: "1",
-    type: "parcel",
-    priority: "high",
-    title: "Package Delivery Confirmed",
-    message: "Your package to Miami has been successfully delivered to Sarah Johnson.",
-    timestamp: "2024-12-28 4:30 PM",
-    isRead: false,
-    actionUrl: "/dashboard/history/view/H001"
-  },
-  {
-    id: "2",
-    type: "payment",
-    priority: "medium",
-    title: "Payment Received",
-    message: "You've received $85.00 for your delivery to Miami. Funds are now available.",
-    timestamp: "2024-12-28 4:15 PM",
-    isRead: false,
-    actionUrl: "/dashboard/wallet"
-  },
-  {
-    id: "3",
-    type: "match",
-    priority: "medium",
-    title: "New Package Request",
-    message: "A new package request matches your upcoming trip to Chicago.",
-    timestamp: "2024-12-27 2:30 PM",
-    isRead: true,
-    actionUrl: "/dashboard/parcel-requests"
-  }
-];
-
-type NotificationType = "parcel" | "trip" | "payment" | "system" | "match";
-
-const getNotificationIcon = (type: NotificationType) => {
-  switch (type) {
-    case "parcel":
-      return Package;
-    case "trip":
-      return Plane;
-    case "payment":
-      return DollarSign;
-    case "match":
-      return User;
-    case "system":
-      return Settings;
-    default:
-      return Bell;
-  }
-};
-
-const getNotificationTypeColor = (type: NotificationType) => {
-  switch (type) {
-    case "parcel":
-      return "text-blue-600";
-    case "trip":
-      return "text-purple-600";
-    case "payment":
-      return "text-green-600";
-    case "match":
-      return "text-orange-600";
-    case "system":
-      return "text-gray-600";
-    default:
-      return "text-gray-600";
-  }
-};
-
-// NotificationBellIcon component
-interface NotificationBellIconProps {
-  badgeCount: number;
-  notifications: typeof mockNotifications;
-}
-
-function NotificationBellIcon({ badgeCount, notifications }: NotificationBellIconProps) {
-  const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] = useState(false);
-  const [location] = useLocation();
-
-  return (
-    <DropdownMenu open={isNotificationDropdownOpen} onOpenChange={setIsNotificationDropdownOpen}>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <DropdownMenuTrigger asChild>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="relative p-2 hover:bg-gray-100 rounded-lg"
-            >
-              <Bell className="w-6 h-6 text-gray-600" />
-              {badgeCount > 0 && (
-                <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-600 rounded-full">
-                  {badgeCount > 9 ? "9+" : badgeCount}
-                </span>
-              )}
-            </Button>
-          </DropdownMenuTrigger>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>View Notifications</p>
-        </TooltipContent>
-      </Tooltip>
-      
-      <DropdownMenuContent 
-        align="end" 
-        className="w-96 p-0"
-        sideOffset={8}
-      >
-        <div className="p-4 border-b border-gray-200">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-airbar-black">Notifications</h3>
-            <Link href="/dashboard/notifications">
-              <Button variant="ghost" size="sm" className="text-airbar-primary hover:text-airbar-primary-dark">
-                View All
-              </Button>
-            </Link>
-          </div>
-          {badgeCount > 0 && (
-            <p className="text-sm text-gray-500 mt-1">
-              {badgeCount} unread notification{badgeCount !== 1 ? "s" : ""}
-            </p>
-          )}
-        </div>
-        
-        <div className="max-h-96 overflow-y-auto">
-          {notifications.length === 0 ? (
-            <div className="p-6 text-center text-gray-500">
-              <Bell className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-              <p>No notifications yet</p>
-            </div>
-          ) : (
-            <div className="p-2">
-              {notifications.slice(0, 5).map((notification) => {
-                const IconComponent = getNotificationIcon(notification.type as NotificationType);
-                return (
-                  <Link key={notification.id} href={notification.actionUrl || "/dashboard/notifications"}>
-                    <div 
-                      className={`flex items-start space-x-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 ${
-                        !notification.isRead ? "bg-airbar-gray-100 border-l-4 border-l-airbar-primary" : ""
-                      }`}
-                      onClick={() => setIsNotificationDropdownOpen(false)}
-                    >
-                      <div className={`flex-shrink-0 ${getNotificationTypeColor(notification.type as NotificationType)}`}>
-                        <IconComponent className="w-5 h-5 mt-0.5" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between">
-                          <h4 className={`text-sm font-medium text-airbar-black ${
-                            !notification.isRead ? "font-semibold" : ""
-                          }`}>
-                            {notification.title}
-                          </h4>
-                          {!notification.isRead && (
-                            <div className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full ml-2 mt-2"></div>
-                          )}
-                        </div>
-                        <p className="text-sm text-gray-600 mt-1 line-clamp-2">
-                          {notification.message}
-                        </p>
-                        <p className="text-xs text-gray-400 mt-2">
-                          {notification.timestamp}
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
-        </div>
-        
-        {notifications.length > 5 && (
-          <div className="p-3 border-t border-gray-200 text-center">
-            <Link href="/dashboard/notifications">
-              <Button variant="ghost" size="sm" className="text-airbar-blue hover:text-blue-700">
-                View {notifications.length - 5} more notification{notifications.length - 5 !== 1 ? "s" : ""}
-              </Button>
-            </Link>
-          </div>
-        )}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -272,7 +79,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const isUserDropdownRoute = userDropdownItems.some(item => location.startsWith(item.href));
 
   // Get unread notifications count (mock data)
-  const unreadNotifications = mockNotifications.filter(n => !n.isRead).length;
+  const unreadNotifications = 3;
 
   const SidebarNavigation = () => (
     <>
@@ -293,8 +100,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 isActive={location === item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={location === item.href 
-                  ? "!bg-airbar-primary !text-white hover:!bg-airbar-primary-dark" 
-                  : "!text-airbar-black hover:!bg-airbar-gray-100 hover:!text-airbar-black"
+                  ? "!bg-airbar-blue !text-white hover:!bg-blue-600" 
+                  : "!text-airbar-black hover:!bg-gray-100 hover:!text-airbar-black"
                 }
               >
                 <item.icon className="h-5 w-5" />
@@ -306,7 +113,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       </SidebarMenu>
 
       <SidebarFooter>
-        <SidebarMenuButton className="!text-airbar-black hover:!bg-airbar-gray-100 hover:!text-airbar-black">
+        <SidebarMenuButton className="!text-airbar-black hover:!bg-gray-100 hover:!text-airbar-black">
           <LogOut className="h-5 w-5" />
           <span>Logout</span>
         </SidebarMenuButton>
@@ -326,7 +133,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Main Content */}
       <div className="flex flex-1 flex-col">
         {/* Top Header */}
-        <header className="border-b border-airbar-gray-200 bg-airbar-white px-6 py-4 shadow-sm">
+        <header className="border-b border-gray-200 bg-white px-6 py-4 shadow-sm">
           <div className="flex items-center justify-between">
             {/* Mobile menu button */}
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
@@ -344,7 +151,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                       <div className="flex items-center space-x-3 mb-4">
                         <Avatar className="h-8 w-8">
                           <AvatarImage src={user?.avatar} alt={user?.username} />
-                          <AvatarFallback className="bg-airbar-primary text-white text-sm font-medium">
+                          <AvatarFallback className="bg-airbar-blue text-white text-sm font-medium">
                             {user?.username?.charAt(0).toUpperCase() || "U"}
                           </AvatarFallback>
                         </Avatar>
@@ -352,40 +159,27 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                           <span className="text-sm font-medium text-airbar-black">
                             {user?.username || "User"}
                           </span>
-                          <Badge variant="secondary" className="bg-airbar-success text-white text-xs w-fit">
+                          <Badge variant="secondary" className="bg-green-100 text-green-800 text-xs w-fit">
                             KYC Verified
                           </Badge>
                         </div>
                       </div>
                       
                       <div className="space-y-2">
-                        {/* Notifications in mobile - add it first */}
-                        <Link href="/dashboard/notifications">
-                          <div 
-                            className={`flex items-center space-x-3 p-2 rounded-lg cursor-pointer ${
-                              location.startsWith("/dashboard/notifications") ? "bg-airbar-primary text-white" : "hover:bg-airbar-gray-100"
-                            }`}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                          >
-                            <div className="relative">
-                              <Bell className="h-4 w-4" />
-                              {unreadNotifications > 0 && (
-                                <div className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full"></div>
-                              )}
-                            </div>
-                            <span className="text-sm font-medium">Notifications</span>
-                          </div>
-                        </Link>
-                        
                         {userDropdownItems.map((item) => (
                           <Link key={item.href} href={item.href}>
                             <div 
                               className={`flex items-center space-x-3 p-2 rounded-lg cursor-pointer ${
-                                location.startsWith(item.href) ? "bg-airbar-primary text-white" : "hover:bg-airbar-gray-100"
+                                location.startsWith(item.href) ? "bg-airbar-blue text-white" : "hover:bg-gray-50"
                               }`}
                               onClick={() => setIsMobileMenuOpen(false)}
                             >
-                              <item.icon className="h-4 w-4" />
+                              <div className="relative">
+                                <item.icon className="h-4 w-4" />
+                                {item.hasUnread && unreadNotifications > 0 && (
+                                  <div className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full"></div>
+                                )}
+                              </div>
                               <span className="text-sm font-medium">{item.label}</span>
                             </div>
                           </Link>
@@ -414,17 +208,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                "Dashboard"}
             </h1>
 
-            {/* Header Right Section */}
-            <div className="flex items-center space-x-4">
-              {/* Theme Toggle */}
-              <ThemeToggle />
-              
-              {/* Notifications Bell Icon */}
-              <NotificationBell 
-                count={unreadNotifications}
-              />
-              
-              {/* User Profile Dropdown */}
+            {/* User Profile Dropdown */}
+            <div className="flex items-center space-x-3">
               <DropdownMenu open={isUserDropdownOpen} onOpenChange={setIsUserDropdownOpen}>
                 <DropdownMenuTrigger asChild>
                   <Button 
@@ -435,7 +220,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   >
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={user?.avatar} alt={user?.username} />
-                      <AvatarFallback className="bg-airbar-primary text-white text-sm font-medium">
+                      <AvatarFallback className="bg-airbar-blue text-white text-sm font-medium">
                         {user?.username?.charAt(0).toUpperCase() || "U"}
                       </AvatarFallback>
                     </Avatar>
@@ -443,9 +228,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                       <span className="text-sm font-medium text-airbar-black">
                         {user?.username || "User"}
                       </span>
-                      <Badge variant="secondary" className="bg-airbar-success text-white text-xs">
-                        KYC Verified
-                      </Badge>
+                      <div className="flex items-center space-x-2">
+                        <Badge variant="secondary" className="bg-green-100 text-green-800 text-xs">
+                          KYC Verified
+                        </Badge>
+                        {unreadNotifications > 0 && (
+                          <div className="h-2 w-2 bg-red-500 rounded-full"></div>
+                        )}
+                      </div>
                     </div>
                     <ChevronDown className="h-4 w-4 text-gray-400" />
                   </Button>
@@ -460,11 +250,20 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     <Link key={item.href} href={item.href}>
                       <DropdownMenuItem 
                         className={`flex items-start space-x-3 p-3 rounded-lg cursor-pointer ${
-                          location.startsWith(item.href) ? "bg-airbar-primary text-white" : "hover:bg-airbar-gray-100"
+                          location.startsWith(item.href) ? "bg-airbar-blue text-white" : "hover:bg-gray-50"
                         }`}
                         onClick={() => setIsUserDropdownOpen(false)}
                       >
-                        <item.icon className="h-5 w-5 mt-0.5" />
+                        <div className="relative">
+                          <item.icon className="h-5 w-5 mt-0.5" />
+                          {item.hasUnread && unreadNotifications > 0 && (
+                            <div className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full flex items-center justify-center">
+                              <span className="text-xs text-white font-medium">
+                                {unreadNotifications > 9 ? "9+" : unreadNotifications}
+                              </span>
+                            </div>
+                          )}
+                        </div>
                         <div className="flex-1">
                           <div className="font-medium">{item.label}</div>
                           <div className={`text-xs ${
@@ -490,7 +289,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 bg-airbar-gray-100 px-6 py-8">
+        <main className="flex-1 bg-airbar-light-gray px-6 py-8">
           <div className="mx-auto w-full max-w-7xl">
             {children}
           </div>
