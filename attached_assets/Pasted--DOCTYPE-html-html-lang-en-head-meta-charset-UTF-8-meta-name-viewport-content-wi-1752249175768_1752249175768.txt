@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Airbar Live Styleguide</n></title>
+  <style>
+    :root {
+      --color-primary: #2F80ED;
+      --color-primary-dark: #1366D6;
+      --color-success: #27AE60;
+      --color-warning: #F2994A;
+      --color-danger: #EB5757;
+      --color-info: #56CCF2;
+      --color-gray-100: #F9F9F9;
+      --color-gray-200: #E0E0E0;
+      --color-gray-500: #4F4F4F;
+      --color-black: #333333;
+      --color-white: #FFFFFF;
+      --font-base: 16px;
+      --font-family: 'Inter', sans-serif;
+    }
+    body {
+      margin: 0;
+      font-family: var(--font-family);
+      background: var(--color-white);
+      color: var(--color-black);
+      padding: 20px;
+    }
+    h1, h2, h3 { margin-top: 40px; }
+    .palette { display: flex; flex-wrap: wrap; gap: 20px; }
+    .swatch { width: 120px; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .swatch-color { height: 80px; }
+    .swatch-label { padding: 8px; font-size: 14px; text-align: center; background: var(--color-gray-100); }
+    .typography-sample { margin-bottom: 20px; }
+    .button { padding: 12px 24px; margin-right: 10px; border: none; border-radius: 4px; cursor: pointer; color: var(--color-white); font-size: 14px; }
+    .btn-primary { background: var(--color-primary); }
+    .btn-secondary { background: var(--color-gray-500); }
+    .btn-success { background: var(--color-success); }
+    .btn-danger { background: var(--color-danger); }
+    .btn-warning { background: var(--color-warning); }
+    .btn-info { background: var(--color-info); }
+    .card { background: var(--color-white); border: 1px solid var(--color-gray-200); padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    .input { padding: 12px; border: 1px solid var(--color-gray-200); border-radius: 4px; width: 300px; margin-right: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Airbar Live Styleguide</h1>
+  
+  <h2>1. Color Palette</h2>
+  <div class="palette">
+    <div class="swatch"><div class="swatch-color" style="background: var(--color-primary);"></div><div class="swatch-label">Primary<br>#2F80ED</div></div>
+    <div class="swatch"><div class="swatch-color" style="background: var(--color-primary-dark);"></div><div class="swatch-label">Primary Dark<br>#1366D6</div></div>
+    <div class="swatch"><div class="swatch-color" style="background: var(--color-success);"></div><div class="swatch-label">Success<br>#27AE60</div></div>
+    <div class="swatch"><div class="swatch-color" style="background: var(--color-warning);"></div><div class="swatch-label">Warning<br>#F2994A</div></div>
+    <div class="swatch"><div class="swatch-color" style="background: var(--color-danger);"></div><div class="swatch-label">Danger<br>#EB5757</div></div>
+    <div class="swatch"><div class="swatch-color" style="background: var(--color-info);"></div><div class="swatch-label">Info<br>#56CCF2</div></div>
+    <div class="swatch"><div class="swatch-color" style="background: var(--color-gray-100);"></div><div class="swatch-label">Gray 100<br>#F9F9F9</div></div>
+    <div class="swatch"><div class="swatch-color" style="background: var(--color-gray-200);"></div><div class="swatch-label">Gray 200<br>#E0E0E0</div></div>
+  </div>
+  
+  <h2>2. Typography</h2>
+  <div class="typography-sample"><h1>H1 Heading / 32px Bold</h1></div>
+  <div class="typography-sample"><h2>H2 Heading / 24px Bold</h2></div>
+  <div class="typography-sample"><h3>H3 Heading / 20px Medium</h3></div>
+  <div class="typography-sample"><p style="font-size:16px;">Body Text / 16px Regular – Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
+  <div class="typography-sample"><p style="font-size:14px;">Caption / 14px Regular – Lorem ipsum dolor sit amet.</p></div>
+  
+  <h2>3. Buttons</h2>
+  <button class="button btn-primary">Primary</button>
+  <button class="button btn-secondary">Secondary</button>
+  <button class="button btn-success">Success</button>
+  <button class="button btn-warning">Warning</button>
+  <button class="button btn-danger">Danger</button>
+  <button class="button btn-info">Info</button>
+
+  <h2>4. Form Controls</h2>
+  <input class="input" placeholder="Text Input">
+  <select class="input"><option>Option 1</option><option>Option 2</option></select>
+  <textarea class="input" style="height:80px;">Textarea</textarea>
+
+  <h2>5. Cards</h2>
+  <div class="card">
+    <h3>Card Title</h3>
+    <p>Card content goes here. Use cards for modular containers.</p>
+  </div>
+
+  <h2>6. Badges & Pills</h2>
+  <span class="card" style="display:inline-block; margin-right:10px; background:var(--color-warning); color:white;padding:5px 10px;">Pending</span>
+  <span class="card" style="display:inline-block; margin-right:10px; background:var(--color-info); color:white;padding:5px 10px;">In Transit</span>
+  <span class="card" style="display:inline-block; margin-right:10px; background:var(--color-success); color:white;padding:5px 10px;">Delivered</span>
+
+</body>
+</html>

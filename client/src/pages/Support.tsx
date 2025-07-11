@@ -385,7 +385,7 @@ export default function Support() {
           <div className="flex justify-center space-x-4">
             <Dialog open={isContactModalOpen} onOpenChange={setIsContactModalOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-airbar-blue hover:bg-blue-700 text-white rounded-xl">
+                <Button className="bg-airbar-primary hover:bg-airbar-primary-dark text-white rounded-xl">
                   <MessageCircle className="h-5 w-5 mr-2" />
                   Contact Support
                 </Button>

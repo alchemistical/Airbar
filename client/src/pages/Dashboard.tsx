@@ -43,11 +43,11 @@ export default function Dashboard() {
 
   // Mock data for widgets - in real app would come from API
   const recentActivity = [
-    { id: 1, type: "delivery", message: "Package delivered to Miami", time: "2 hours ago", icon: CheckCircle2, color: "text-green-600" },
-    { id: 2, type: "payment", message: "Funds released - $85.00", time: "3 hours ago", icon: DollarSign, color: "text-blue-600" },
-    { id: 3, type: "review", message: "New 5-star review received", time: "1 day ago", icon: Star, color: "text-yellow-600" },
-    { id: 4, type: "trip", message: "Trip to Chicago confirmed", time: "2 days ago", icon: Plane, color: "text-purple-600" },
-    { id: 5, type: "request", message: "New parcel request received", time: "3 days ago", icon: Package, color: "text-orange-600" },
+    { id: 1, type: "delivery", message: "Package delivered to Miami", time: "2 hours ago", icon: CheckCircle2, color: "text-airbar-success" },
+    { id: 2, type: "payment", message: "Funds released - $85.00", time: "3 hours ago", icon: DollarSign, color: "text-airbar-primary" },
+    { id: 3, type: "review", message: "New 5-star review received", time: "1 day ago", icon: Star, color: "text-airbar-warning" },
+    { id: 4, type: "trip", message: "Trip to Chicago confirmed", time: "2 days ago", icon: Plane, color: "text-airbar-info" },
+    { id: 5, type: "request", message: "New parcel request received", time: "3 days ago", icon: Package, color: "text-airbar-warning" },
   ];
 
   const upcomingTrips = [
@@ -68,15 +68,15 @@ export default function Dashboard() {
         title: role === "sender" ? "Active Deliveries" : "Active Trips",
         value: metrics?.activeTrips?.toString() || "0",
         icon: role === "sender" ? Package : Plane,
-        color: "text-blue-600",
-        bgColor: "bg-blue-50"
+        color: "text-airbar-primary",
+        bgColor: "bg-airbar-gray-100"
       },
       {
         title: role === "sender" ? "Matches Pending" : "Parcel Requests",
         value: metrics?.parcelRequests?.toString() || "0",
         icon: role === "sender" ? Users : Package,
-        color: "text-orange-600", 
-        bgColor: "bg-orange-50"
+        color: "text-airbar-warning", 
+        bgColor: "bg-airbar-gray-100"
       }
     ];
 
@@ -85,15 +85,15 @@ export default function Dashboard() {
         title: "In Escrow",
         value: metrics?.inEscrowAmount || "$0",
         icon: DollarSign,
-        color: "text-green-600",
-        bgColor: "bg-green-50"
+        color: "text-airbar-success",
+        bgColor: "bg-airbar-gray-100"
       },
       {
         title: "Average Rating",
         value: metrics?.averageRating || "0.0",
         icon: Star,
-        color: "text-yellow-600",
-        bgColor: "bg-yellow-50",
+        color: "text-airbar-warning",
+        bgColor: "bg-airbar-gray-100",
         link: "/dashboard/reviews"
       }
     ] : [
@@ -101,15 +101,15 @@ export default function Dashboard() {
         title: "Tracking Active",
         value: metrics?.activeTrips?.toString() || "0",
         icon: MapPin,
-        color: "text-purple-600",
-        bgColor: "bg-purple-50"
+        color: "text-airbar-info",
+        bgColor: "bg-airbar-gray-100"
       },
       {
         title: "Average Rating",
         value: metrics?.averageRating || "0.0", 
         icon: Star,
-        color: "text-yellow-600",
-        bgColor: "bg-yellow-50",
+        color: "text-airbar-warning",
+        bgColor: "bg-airbar-gray-100",
         link: "/dashboard/reviews"
       }
     ];
@@ -119,7 +119,7 @@ export default function Dashboard() {
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600 mb-1">{stat.title}</p>
+              <p className="text-sm text-airbar-gray-500 mb-1">{stat.title}</p>
               <p className="text-3xl font-bold text-airbar-black">{stat.value}</p>
             </div>
             <div className={`p-3 rounded-xl ${stat.bgColor}`}>

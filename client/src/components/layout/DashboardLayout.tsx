@@ -179,7 +179,7 @@ function NotificationBellIcon({ badgeCount, notifications }: NotificationBellIco
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-airbar-black">Notifications</h3>
             <Link href="/dashboard/notifications">
-              <Button variant="ghost" size="sm" className="text-airbar-blue hover:text-blue-700">
+              <Button variant="ghost" size="sm" className="text-airbar-primary hover:text-airbar-primary-dark">
                 View All
               </Button>
             </Link>
@@ -205,7 +205,7 @@ function NotificationBellIcon({ badgeCount, notifications }: NotificationBellIco
                   <Link key={notification.id} href={notification.actionUrl || "/dashboard/notifications"}>
                     <div 
                       className={`flex items-start space-x-3 p-3 rounded-lg cursor-pointer hover:bg-gray-50 ${
-                        !notification.isRead ? "bg-blue-50 border-l-4 border-l-blue-500" : ""
+                        !notification.isRead ? "bg-airbar-gray-100 border-l-4 border-l-airbar-primary" : ""
                       }`}
                       onClick={() => setIsNotificationDropdownOpen(false)}
                     >
@@ -291,8 +291,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 isActive={location === item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={location === item.href 
-                  ? "!bg-airbar-blue !text-white hover:!bg-blue-600" 
-                  : "!text-airbar-black hover:!bg-gray-100 hover:!text-airbar-black"
+                  ? "!bg-airbar-primary !text-white hover:!bg-airbar-primary-dark" 
+                  : "!text-airbar-black hover:!bg-airbar-gray-100 hover:!text-airbar-black"
                 }
               >
                 <item.icon className="h-5 w-5" />
@@ -304,7 +304,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       </SidebarMenu>
 
       <SidebarFooter>
-        <SidebarMenuButton className="!text-airbar-black hover:!bg-gray-100 hover:!text-airbar-black">
+        <SidebarMenuButton className="!text-airbar-black hover:!bg-airbar-gray-100 hover:!text-airbar-black">
           <LogOut className="h-5 w-5" />
           <span>Logout</span>
         </SidebarMenuButton>
@@ -324,7 +324,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Main Content */}
       <div className="flex flex-1 flex-col">
         {/* Top Header */}
-        <header className="border-b border-gray-200 bg-white px-6 py-4 shadow-sm">
+        <header className="border-b border-airbar-gray-200 bg-airbar-white px-6 py-4 shadow-sm">
           <div className="flex items-center justify-between">
             {/* Mobile menu button */}
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
@@ -342,7 +342,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                       <div className="flex items-center space-x-3 mb-4">
                         <Avatar className="h-8 w-8">
                           <AvatarImage src={user?.avatar} alt={user?.username} />
-                          <AvatarFallback className="bg-airbar-blue text-white text-sm font-medium">
+                          <AvatarFallback className="bg-airbar-primary text-white text-sm font-medium">
                             {user?.username?.charAt(0).toUpperCase() || "U"}
                           </AvatarFallback>
                         </Avatar>
@@ -350,7 +350,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                           <span className="text-sm font-medium text-airbar-black">
                             {user?.username || "User"}
                           </span>
-                          <Badge variant="secondary" className="bg-green-100 text-green-800 text-xs w-fit">
+                          <Badge variant="secondary" className="bg-airbar-success text-white text-xs w-fit">
                             KYC Verified
                           </Badge>
                         </div>
@@ -361,7 +361,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                         <Link href="/dashboard/notifications">
                           <div 
                             className={`flex items-center space-x-3 p-2 rounded-lg cursor-pointer ${
-                              location.startsWith("/dashboard/notifications") ? "bg-airbar-blue text-white" : "hover:bg-gray-50"
+                              location.startsWith("/dashboard/notifications") ? "bg-airbar-primary text-white" : "hover:bg-airbar-gray-100"
                             }`}
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
@@ -379,7 +379,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                           <Link key={item.href} href={item.href}>
                             <div 
                               className={`flex items-center space-x-3 p-2 rounded-lg cursor-pointer ${
-                                location.startsWith(item.href) ? "bg-airbar-blue text-white" : "hover:bg-gray-50"
+                                location.startsWith(item.href) ? "bg-airbar-primary text-white" : "hover:bg-airbar-gray-100"
                               }`}
                               onClick={() => setIsMobileMenuOpen(false)}
                             >
@@ -431,7 +431,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   >
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={user?.avatar} alt={user?.username} />
-                      <AvatarFallback className="bg-airbar-blue text-white text-sm font-medium">
+                      <AvatarFallback className="bg-airbar-primary text-white text-sm font-medium">
                         {user?.username?.charAt(0).toUpperCase() || "U"}
                       </AvatarFallback>
                     </Avatar>
@@ -439,7 +439,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                       <span className="text-sm font-medium text-airbar-black">
                         {user?.username || "User"}
                       </span>
-                      <Badge variant="secondary" className="bg-green-100 text-green-800 text-xs">
+                      <Badge variant="secondary" className="bg-airbar-success text-white text-xs">
                         KYC Verified
                       </Badge>
                     </div>
@@ -456,7 +456,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     <Link key={item.href} href={item.href}>
                       <DropdownMenuItem 
                         className={`flex items-start space-x-3 p-3 rounded-lg cursor-pointer ${
-                          location.startsWith(item.href) ? "bg-airbar-blue text-white" : "hover:bg-gray-50"
+                          location.startsWith(item.href) ? "bg-airbar-primary text-white" : "hover:bg-airbar-gray-100"
                         }`}
                         onClick={() => setIsUserDropdownOpen(false)}
                       >
@@ -486,7 +486,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 bg-airbar-light-gray px-6 py-8">
+        <main className="flex-1 bg-airbar-gray-100 px-6 py-8">
           <div className="mx-auto w-full max-w-7xl">
             {children}
           </div>
