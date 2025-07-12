@@ -78,6 +78,62 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Dispute endpoints
+  app.post("/api/disputes", async (req, res) => {
+    try {
+      const dispute = await storage.createDispute(req.body);
+      res.json(dispute);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create dispute" });
+    }
+  });
+
+  app.get("/api/disputes/:id", async (req, res) => {
+    try {
+      const dispute = await storage.getDispute(parseInt(req.params.id));
+      if (!dispute) {
+        return res.status(404).json({ error: "Dispute not found" });
+      }
+      res.json(dispute);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to get dispute" });
+    }
+  });
+
+  app.get("/api/disputes/user/:userId", async (req, res) => {
+    try {
+      const disputes = await storage.getUserDisputes(parseInt(req.params.userId));
+      res.json(disputes);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to get user disputes" });
+    }
+  });
+
+  app.post("/api/disputes/:id/timeline", async (req, res) => {
+    try {
+      const dispute = await storage.addDisputeTimeline(parseInt(req.params.id), req.body);
+      res.json(dispute);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to add timeline entry" });
+    }
+  });
+
+  app.post("/api/disputes/:id/offer", async (req, res) => {
+    try {
+      const timelineEntry = {
+        actor: "Support Agent",
+        actorRole: "support",
+        type: "offer",
+        message: req.body.message,
+        payload: req.body.offer
+      };
+      const dispute = await storage.updateDisputeStatus(parseInt(req.params.id), "offer", timelineEntry);
+      res.json(dispute);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create offer" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

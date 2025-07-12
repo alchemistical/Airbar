@@ -62,6 +62,30 @@ export const notifications = pgTable("notifications", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const disputes = pgTable("disputes", {
+  id: serial("id").primaryKey(),
+  matchId: integer("match_id").notNull(),
+  senderId: integer("sender_id").notNull().references(() => users.id),
+  travelerId: integer("traveler_id").notNull().references(() => users.id),
+  status: text("status").notNull().default("open"), // open|waiting|review|offer|resolved|escalated|closed
+  reason: text("reason").notNull(), // lost|damaged|late|payment|other
+  description: text("description").notNull(),
+  preferredOutcome: text("preferred_outcome").notNull(), // refund|partial|replacement|other
+  evidence: json("evidence").$type<Array<{ url: string; type: string; uploadedAt: string }>>().notNull().default([]),
+  timeline: json("timeline").$type<Array<{ 
+    timestamp: string; 
+    actor: string; 
+    actorRole: string;
+    type: string; 
+    message?: string;
+    payload?: any 
+  }>>().notNull().default([]),
+  firstReplyDue: timestamp("first_reply_due").notNull(),
+  resolutionDue: timestamp("resolution_due").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
@@ -88,18 +112,26 @@ export const insertNotificationSchema = createInsertSchema(notifications).omit({
   createdAt: true,
 });
 
+export const insertDisputeSchema = createInsertSchema(disputes).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type Trip = typeof trips.$inferSelect;
 export type ParcelRequest = typeof parcelRequests.$inferSelect;
 export type Earning = typeof earnings.$inferSelect;
 export type Notification = typeof notifications.$inferSelect;
+export type Dispute = typeof disputes.$inferSelect;
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type InsertTrip = z.infer<typeof insertTripSchema>;
 export type InsertParcelRequest = z.infer<typeof insertParcelRequestSchema>;
 export type InsertEarning = z.infer<typeof insertEarningSchema>;
 export type InsertNotification = z.infer<typeof insertNotificationSchema>;
+export type InsertDispute = z.infer<typeof insertDisputeSchema>;
 
 // Dashboard specific types
 export type DashboardMetrics = {

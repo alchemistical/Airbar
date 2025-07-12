@@ -31,6 +31,15 @@ This is a full-stack web application for a package delivery marketplace called "
 - ✅ Technology stack quick reference guide created (TECH_STACK.md)
 - ✅ Added mandatory consent checkboxes to Add Trip flow (Step 4)
   - Travelers must agree to: inspect items, right to reject, take photos, carry only declared items
+- ✅ Comprehensive Dispute Resolution System implemented (January 12, 2025)
+  - Three new dispute pages: DisputeList, DisputeNew (3-step form), DisputeDetail
+  - Full dispute lifecycle support with 8 status states (open, waiting, review, offer, resolved, escalated, closed)
+  - Timeline tracking with actor-based entries and SLA management
+  - Evidence upload support for photos, receipts, and documents
+  - Resolution offer workflow with accept/decline functionality
+  - Automated deadlines: 48-hour first reply, 5-day resolution
+  - Complete API endpoints for dispute CRUD operations
+  - Enhanced Add Trip flow to 6 steps with pricing calculator (Step 5)
 
 ## User Preferences
 

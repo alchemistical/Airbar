@@ -1,7 +1,7 @@
 import { 
-  users, trips, parcelRequests, earnings, notifications,
-  type User, type Trip, type ParcelRequest, type Earning, type Notification,
-  type InsertUser, type InsertTrip, type InsertParcelRequest, type InsertEarning, type InsertNotification,
+  users, trips, parcelRequests, earnings, notifications, disputes,
+  type User, type Trip, type ParcelRequest, type Earning, type Notification, type Dispute,
+  type InsertUser, type InsertTrip, type InsertParcelRequest, type InsertEarning, type InsertNotification, type InsertDispute,
   type DashboardMetrics, type TripWithRequests, type ParcelRequestWithSender
 } from "@shared/schema";
 
@@ -25,6 +25,13 @@ export interface IStorage {
   // Parcel request methods
   createParcelRequest(request: InsertParcelRequest): Promise<ParcelRequest>;
   getParcelRequestsForTrip(tripId: number): Promise<ParcelRequest[]>;
+
+  // Dispute methods
+  createDispute(dispute: InsertDispute): Promise<Dispute>;
+  getDispute(id: number): Promise<Dispute | undefined>;
+  getUserDisputes(userId: number): Promise<Dispute[]>;
+  updateDisputeStatus(id: number, status: string, timelineEntry: any): Promise<Dispute>;
+  addDisputeTimeline(id: number, timelineEntry: any): Promise<Dispute>;
 }
 
 export class MemStorage implements IStorage {
@@ -33,11 +40,13 @@ export class MemStorage implements IStorage {
   private parcelRequests: Map<number, ParcelRequest>;
   private earnings: Map<number, Earning>;
   private notifications: Map<number, Notification>;
+  private disputes: Map<number, Dispute>;
   private currentUserId: number;
   private currentTripId: number;
   private currentParcelRequestId: number;
   private currentEarningId: number;
   private currentNotificationId: number;
+  private currentDisputeId: number;
 
   constructor() {
     this.users = new Map();
@@ -45,11 +54,13 @@ export class MemStorage implements IStorage {
     this.parcelRequests = new Map();
     this.earnings = new Map();
     this.notifications = new Map();
+    this.disputes = new Map();
     this.currentUserId = 1;
     this.currentTripId = 1;
     this.currentParcelRequestId = 1;
     this.currentEarningId = 1;
     this.currentNotificationId = 1;
+    this.currentDisputeId = 1;
     
     // Initialize with sample data
     this.initializeData();
@@ -255,6 +266,79 @@ export class MemStorage implements IStorage {
     this.users.set(3, user3);
     this.users.set(4, user4);
     this.currentUserId = 5;
+
+    // Create sample disputes
+    const dispute1: Dispute = {
+      id: 1,
+      matchId: 1,
+      senderId: 2,
+      travelerId: 1,
+      status: "open",
+      reason: "damaged",
+      description: "The package arrived with significant damage. The electronic device inside was broken and the packaging was torn. I have photos showing the condition.",
+      preferredOutcome: "refund",
+      evidence: [
+        { url: "/sample/damage1.jpg", type: "image/jpeg", uploadedAt: "2025-01-10T10:00:00Z" },
+        { url: "/sample/damage2.jpg", type: "image/jpeg", uploadedAt: "2025-01-10T10:01:00Z" }
+      ],
+      timeline: [
+        {
+          timestamp: "2025-01-10T10:00:00Z",
+          actor: "User 2",
+          actorRole: "sender",
+          type: "created",
+          message: "Dispute created - damaged item reported"
+        }
+      ],
+      firstReplyDue: new Date("2025-01-11T10:00:00Z"),
+      resolutionDue: new Date("2025-01-15T10:00:00Z"),
+      createdAt: new Date("2025-01-10T10:00:00Z"),
+      updatedAt: new Date("2025-01-10T10:00:00Z"),
+    };
+
+    const dispute2: Dispute = {
+      id: 2,
+      matchId: 2,
+      senderId: 3,
+      travelerId: 1,
+      status: "offer",
+      reason: "late",
+      description: "Package was delivered 3 days after the agreed delivery date. This caused significant inconvenience as it was meant for a birthday gift.",
+      preferredOutcome: "partial",
+      evidence: [],
+      timeline: [
+        {
+          timestamp: "2025-01-08T14:00:00Z",
+          actor: "User 3",
+          actorRole: "sender",
+          type: "created",
+          message: "Dispute created - late delivery reported"
+        },
+        {
+          timestamp: "2025-01-09T09:00:00Z",
+          actor: "User 1",
+          actorRole: "traveler",
+          type: "reply",
+          message: "I apologize for the delay. There were unexpected travel disruptions due to weather."
+        },
+        {
+          timestamp: "2025-01-09T15:00:00Z",
+          actor: "Support Agent",
+          actorRole: "support",
+          type: "offer",
+          message: "Based on our review, we're offering a partial refund",
+          payload: { amount: 25, description: "50% refund for late delivery" }
+        }
+      ],
+      firstReplyDue: new Date("2025-01-09T14:00:00Z"),
+      resolutionDue: new Date("2025-01-13T14:00:00Z"),
+      createdAt: new Date("2025-01-08T14:00:00Z"),
+      updatedAt: new Date("2025-01-09T15:00:00Z"),
+    };
+
+    this.disputes.set(dispute1.id, dispute1);
+    this.disputes.set(dispute2.id, dispute2);
+    this.currentDisputeId = 3;
   }
 
   async getUser(id: number): Promise<User | undefined> {
@@ -405,6 +489,91 @@ export class MemStorage implements IStorage {
     return Array.from(this.parcelRequests.values()).filter(
       request => request.tripId === tripId
     );
+  }
+
+  async createDispute(dispute: InsertDispute): Promise<Dispute> {
+    const id = this.currentDisputeId++;
+    const now = new Date();
+    const firstReplyDue = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 hours
+    const resolutionDue = new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 days
+    
+    const newDispute: Dispute = {
+      id,
+      matchId: dispute.matchId,
+      senderId: dispute.senderId,
+      travelerId: dispute.travelerId,
+      status: "open",
+      reason: dispute.reason,
+      description: dispute.description,
+      preferredOutcome: dispute.preferredOutcome,
+      evidence: dispute.evidence || [],
+      timeline: [{
+        timestamp: now.toISOString(),
+        actor: `User ${dispute.senderId}`,
+        actorRole: "sender",
+        type: "created",
+        message: "Dispute created"
+      }],
+      firstReplyDue,
+      resolutionDue,
+      createdAt: now,
+      updatedAt: now,
+    };
+    
+    this.disputes.set(id, newDispute);
+    return newDispute;
+  }
+
+  async getDispute(id: number): Promise<Dispute | undefined> {
+    return this.disputes.get(id);
+  }
+
+  async getUserDisputes(userId: number): Promise<Dispute[]> {
+    const userDisputes = Array.from(this.disputes.values()).filter(
+      dispute => dispute.senderId === userId || dispute.travelerId === userId
+    );
+    
+    // Add mock package descriptions for display
+    return userDisputes.map(dispute => ({
+      ...dispute,
+      otherPartyName: dispute.senderId === userId 
+        ? `User ${dispute.travelerId}` 
+        : `User ${dispute.senderId}`,
+      packageDescription: `Package for Match #${dispute.matchId}`
+    }));
+  }
+
+  async updateDisputeStatus(id: number, status: string, timelineEntry: any): Promise<Dispute> {
+    const dispute = this.disputes.get(id);
+    if (!dispute) {
+      throw new Error(`Dispute with id ${id} not found`);
+    }
+    
+    dispute.status = status;
+    dispute.timeline.push({
+      ...timelineEntry,
+      timestamp: new Date().toISOString()
+    });
+    dispute.updatedAt = new Date();
+    
+    this.disputes.set(id, dispute);
+    return dispute;
+  }
+
+  async addDisputeTimeline(id: number, timelineEntry: any): Promise<Dispute> {
+    const dispute = this.disputes.get(id);
+    if (!dispute) {
+      throw new Error(`Dispute with id ${id} not found`);
+    }
+    
+    dispute.timeline.push({
+      ...timelineEntry,
+      timestamp: new Date().toISOString()
+    });
+    dispute.updatedAt = new Date();
+    
+    this.disputes.set(id, dispute);
+    return dispute;
   }
 }
 

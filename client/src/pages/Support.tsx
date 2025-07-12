@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -383,6 +384,12 @@ export default function Support() {
 
           {/* Quick Actions */}
           <div className="flex justify-center space-x-4">
+            <Link href="/support/disputes">
+              <Button className="bg-amber-600 hover:bg-amber-700 text-white rounded-xl">
+                <Shield className="h-5 w-5 mr-2" />
+                View Disputes
+              </Button>
+            </Link>
             <Dialog open={isContactModalOpen} onOpenChange={setIsContactModalOpen}>
               <DialogTrigger asChild>
                 <Button className="bg-airbar-blue hover:bg-blue-700 text-white rounded-xl">

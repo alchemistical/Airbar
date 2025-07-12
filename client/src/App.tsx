@@ -26,6 +26,9 @@ import Notifications from "@/pages/Notifications";
 import Profile from "@/pages/Profile";
 import Referrals from "@/pages/Referrals";
 import Support from "@/pages/Support";
+import DisputeList from "@/pages/DisputeList";
+import DisputeNew from "@/pages/DisputeNew";
+import DisputeDetail from "@/pages/DisputeDetail";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -55,6 +58,9 @@ function Router() {
       <Route path="/dashboard/profile" component={Profile} />
       <Route path="/dashboard/referrals" component={Referrals} />
       <Route path="/dashboard/support" component={Support} />
+      <Route path="/support/disputes" component={DisputeList} />
+      <Route path="/support/disputes/new" component={DisputeNew} />
+      <Route path="/support/disputes/:id" component={DisputeDetail} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
