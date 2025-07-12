@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, useRouter } from "wouter";
+import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -43,7 +43,7 @@ type Dispute = {
 
 export default function DisputeDetail() {
   const { id } = useParams();
-  const [, navigate] = useRouter();
+  const [, navigate] = useLocation();
   const [replyText, setReplyText] = useState("");
   const [showResolutionModal, setShowResolutionModal] = useState(false);
   const [resolutionAction, setResolutionAction] = useState<"accept" | "decline" | null>(null);

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation, useRouter } from "wouter";
+import { useLocation } from "wouter";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -55,8 +55,7 @@ const outcomeOptions = [
 export default function DisputeNew() {
   const [currentStep, setCurrentStep] = useState(1);
   const [uploadedFiles, setUploadedFiles] = useState<Array<{ url: string; type: string; uploadedAt: string }>>([]);
-  const [location] = useLocation();
-  const [, navigate] = useRouter();
+  const [location, navigate] = useLocation();
   const { toast } = useToast();
   
   // Get match ID from query params
