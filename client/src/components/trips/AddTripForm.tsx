@@ -30,6 +30,9 @@ import {
   ArrowLeft,
   ArrowRight,
   Edit,
+  DollarSign,
+  Info,
+  TrendingUp,
 } from "lucide-react";
 
 // Form schemas for each step
@@ -73,7 +76,14 @@ const step4Schema = z.object({
   }),
 });
 
-const fullSchema = step1Schema.merge(step2Schema).merge(step3Schema).merge(step4Schema);
+const step5Schema = z.object({
+  pricingModel: z.string().min(1, "Please select a pricing model"),
+  pricePerKg: z.number().min(0.01, "Price must be greater than 0"),
+  pricePerItem: z.number().optional(),
+  acceptSuggestedPrice: z.boolean().optional(),
+});
+
+const fullSchema = step1Schema.merge(step2Schema).merge(step3Schema).merge(step4Schema).merge(step5Schema);
 
 type FormData = z.infer<typeof fullSchema>;
 
@@ -82,7 +92,8 @@ const steps = [
   { id: 2, title: "Luggage Space", icon: Luggage },
   { id: 3, title: "Parcel Types", icon: Package },
   { id: 4, title: "Delivery Details", icon: MapPin },
-  { id: 5, title: "Review & Submit", icon: CheckCircle },
+  { id: 5, title: "Pricing", icon: DollarSign },
+  { id: 6, title: "Review & Submit", icon: CheckCircle },
 ];
 
 const parcelTypeOptions = [
@@ -102,10 +113,11 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
   const [currentStep, setCurrentStep] = useState(1);
   
   const form = useForm<FormData>({
-    resolver: zodResolver(currentStep === 5 ? fullSchema : 
+    resolver: zodResolver(currentStep === 6 ? fullSchema : 
       currentStep === 1 ? step1Schema :
       currentStep === 2 ? step2Schema :
-      currentStep === 3 ? step3Schema : step4Schema),
+      currentStep === 3 ? step3Schema : 
+      currentStep === 4 ? step4Schema : step5Schema),
     defaultValues: {
       fromAirport: "",
       toAirport: "",
@@ -127,6 +139,10 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
       consentRejection: false,
       consentPhotos: false,
       consentDeclaredItems: false,
+      pricingModel: "",
+      pricePerKg: 0,
+      pricePerItem: 0,
+      acceptSuggestedPrice: false,
     },
   });
 
@@ -134,7 +150,7 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
 
   const nextStep = async () => {
     const isValid = await form.trigger();
-    if (isValid && currentStep < 5) {
+    if (isValid && currentStep < 6) {
       setCurrentStep(currentStep + 1);
     }
   };
@@ -151,12 +167,13 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
 
   const getCompletionScore = () => {
     let completed = 0;
-    const total = 4; // 4 main steps before review
+    const total = 5; // 5 main steps before review
     
     if (watchedValues.fromAirport && watchedValues.toAirport && watchedValues.departureDate) completed++;
     if (watchedValues.luggageSpace && watchedValues.luggageType && watchedValues.numBags) completed++;
     if (watchedValues.parcelTypes?.length > 0) completed++;
     if (watchedValues.dropOffLocation && watchedValues.handOffMethod && watchedValues.deliveryTimes?.length > 0) completed++;
+    if (watchedValues.pricingModel && (watchedValues.pricePerKg > 0 || watchedValues.pricePerItem > 0)) completed++;
     
     return Math.round((completed / total) * 100);
   };
@@ -680,7 +697,233 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
     </div>
   );
 
-  const renderStep5 = () => (
+  const renderStep5 = () => {
+    // Calculate suggested pricing based on route
+    const calculateSuggestedPrice = () => {
+      const luggageKg = watchedValues.luggageSpace ? 
+        parseFloat(watchedValues.luggageSpace.replace(/[^\d.-]/g, "")) || 10 : 10;
+      
+      // Base price: $3-5 per kg for domestic, $5-8 for international
+      const isInternational = watchedValues.fromAirport?.includes("International") || 
+                            watchedValues.toAirport?.includes("International");
+      const basePrice = isInternational ? 6.5 : 4;
+      
+      return {
+        perKg: basePrice,
+        perItem: basePrice * 2, // Roughly 2kg per item average
+        totalEstimate: basePrice * luggageKg,
+        platformFee: 15, // 15% platform fee
+      };
+    };
+
+    const suggestedPricing = calculateSuggestedPrice();
+
+    return (
+      <div className="space-y-8">
+        <div>
+          <h3 className="text-h3 text-airbar-black mb-2">Set Your Pricing</h3>
+          <p className="text-body text-airbar-dark-gray mb-6">
+            Choose how you want to charge for carrying packages. Our suggested prices are based on your route and current market rates.
+          </p>
+        </div>
+
+        {/* Platform Suggested Pricing */}
+        <Card className="bg-blue-50 border-blue-200">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <TrendingUp className="h-5 w-5 text-blue-600" />
+              Platform Suggested Pricing
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="text-sm text-gray-600">Price per kg</p>
+                <p className="text-2xl font-bold text-airbar-blue">${suggestedPricing.perKg.toFixed(2)}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">Price per item</p>
+                <p className="text-2xl font-bold text-airbar-blue">${suggestedPricing.perItem.toFixed(2)}</p>
+              </div>
+            </div>
+            <div className="border-t pt-4">
+              <p className="text-sm text-gray-600">Estimated earnings for {watchedValues.luggageSpace || "10kg"}</p>
+              <p className="text-xl font-semibold text-green-600">
+                ${(suggestedPricing.totalEstimate * (1 - suggestedPricing.platformFee / 100)).toFixed(2)}
+                <span className="text-sm text-gray-500 ml-2">after platform fee</span>
+              </p>
+            </div>
+            
+            <FormField
+              control={form.control}
+              name="acceptSuggestedPrice"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                  <div className="space-y-0.5">
+                    <FormLabel>Accept suggested pricing</FormLabel>
+                    <p className="text-xs text-gray-500">Use our optimized pricing for maximum matches</p>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={(checked) => {
+                        field.onChange(checked);
+                        if (checked) {
+                          form.setValue("pricePerKg", suggestedPricing.perKg);
+                          form.setValue("pricePerItem", suggestedPricing.perItem);
+                        }
+                      }}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </CardContent>
+        </Card>
+
+        {/* Custom Pricing */}
+        <div className="space-y-6">
+          <FormField
+            control={form.control}
+            name="pricingModel"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-base font-medium">Pricing Model *</FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="h-12">
+                      <SelectValue placeholder="Select how you want to charge" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="per-kg">
+                      <div className="flex flex-col items-start">
+                        <span className="font-medium">Per Kilogram</span>
+                        <span className="text-sm text-gray-500">Charge based on package weight</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="per-item">
+                      <div className="flex flex-col items-start">
+                        <span className="font-medium">Per Item</span>
+                        <span className="text-sm text-gray-500">Fixed price per package</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="both">
+                      <div className="flex flex-col items-start">
+                        <span className="font-medium">Both Options</span>
+                        <span className="text-sm text-gray-500">Let senders choose their preference</span>
+                      </div>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {(watchedValues.pricingModel === "per-kg" || watchedValues.pricingModel === "both") && (
+            <FormField
+              control={form.control}
+              name="pricePerKg"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-medium">Price per Kilogram ($) *</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      step="0.01"
+                      placeholder="0.00"
+                      className="h-12"
+                      {...field}
+                      onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                    />
+                  </FormControl>
+                  <p className="text-xs text-gray-500">
+                    Market average: ${suggestedPricing.perKg.toFixed(2)}/kg for this route
+                  </p>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+
+          {(watchedValues.pricingModel === "per-item" || watchedValues.pricingModel === "both") && (
+            <FormField
+              control={form.control}
+              name="pricePerItem"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-medium">Price per Item ($)</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      step="0.01"
+                      placeholder="0.00"
+                      className="h-12"
+                      {...field}
+                      onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                    />
+                  </FormControl>
+                  <p className="text-xs text-gray-500">
+                    Market average: ${suggestedPricing.perItem.toFixed(2)}/item for this route
+                  </p>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+        </div>
+
+        {/* Important Notes */}
+        <Card className="bg-amber-50 border-amber-200">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base flex items-center gap-2">
+              <Info className="h-5 w-5 text-amber-600" />
+              Important Pricing Information
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>• Platform fee: {suggestedPricing.platformFee}% of total earnings</li>
+              <li>• Final prices are negotiated with each sender</li>
+              <li>• You can adjust prices for individual matches</li>
+              <li>• Higher prices may result in fewer matches</li>
+              <li>• Payment held in escrow until delivery confirmation</li>
+            </ul>
+          </CardContent>
+        </Card>
+
+        {/* Earnings Estimate */}
+        {watchedValues.pricePerKg > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Potential Earnings Estimate</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">For {watchedValues.luggageSpace || "10kg"} at ${watchedValues.pricePerKg}/kg</span>
+                  <span className="font-semibold">${(parseFloat(watchedValues.luggageSpace?.replace(/[^\d.-]/g, "") || "10") * watchedValues.pricePerKg).toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Platform fee (-{suggestedPricing.platformFee}%)</span>
+                  <span className="text-red-600">-${(parseFloat(watchedValues.luggageSpace?.replace(/[^\d.-]/g, "") || "10") * watchedValues.pricePerKg * suggestedPricing.platformFee / 100).toFixed(2)}</span>
+                </div>
+                <div className="border-t pt-2 flex justify-between">
+                  <span className="font-semibold">Net Earnings</span>
+                  <span className="font-bold text-green-600">
+                    ${(parseFloat(watchedValues.luggageSpace?.replace(/[^\d.-]/g, "") || "10") * watchedValues.pricePerKg * (1 - suggestedPricing.platformFee / 100)).toFixed(2)}
+                  </span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    );
+  };
+
+  const renderStep6 = () => (
     <div className="space-y-6">
       <div className="text-center mb-6">
         <CheckCircle className="mx-auto h-12 w-12 text-airbar-green mb-4" />
@@ -778,6 +1021,30 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
           </CardContent>
         </Card>
 
+        {/* Pricing Information */}
+        <Card>
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg">Pricing</CardTitle>
+              <Button variant="ghost" size="sm" onClick={() => setCurrentStep(5)}>
+                <Edit className="h-4 w-4" />
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <p><strong>Pricing Model:</strong> {watchedValues.pricingModel === 'per-kg' ? 'Per Kilogram' : 
+              watchedValues.pricingModel === 'per-item' ? 'Per Item' : 
+              watchedValues.pricingModel === 'both' ? 'Both Options' : 'Not set'}</p>
+            {(watchedValues.pricingModel === 'per-kg' || watchedValues.pricingModel === 'both') && (
+              <p><strong>Price per kg:</strong> ${watchedValues.pricePerKg?.toFixed(2) || '0.00'}</p>
+            )}
+            {(watchedValues.pricingModel === 'per-item' || watchedValues.pricingModel === 'both') && (
+              <p><strong>Price per item:</strong> ${watchedValues.pricePerItem?.toFixed(2) || '0.00'}</p>
+            )}
+            <p className="text-sm text-gray-600">Platform fee: 15% of earnings</p>
+          </CardContent>
+        </Card>
+
         {/* Traveler Responsibilities Confirmation */}
         <Card className="border-green-200 bg-green-50">
           <CardHeader className="pb-3">
@@ -823,10 +1090,10 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
             <div className="flex items-center justify-between mb-2">
               <h2 className="text-h2 text-airbar-black">Add New Trip</h2>
               <Badge variant="secondary">
-                Step {currentStep} of 5
+                Step {currentStep} of 6
               </Badge>
             </div>
-            <Progress value={(currentStep / 5) * 100} className="mb-4" />
+            <Progress value={(currentStep / 6) * 100} className="mb-4" />
             <div className="mb-4">
               <div className="text-small text-airbar-dark-gray mb-2">
                 Trip Completeness Score: {getCompletionScore()}%
@@ -874,6 +1141,7 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
               {currentStep === 3 && renderStep3()}
               {currentStep === 4 && renderStep4()}
               {currentStep === 5 && renderStep5()}
+              {currentStep === 6 && renderStep6()}
 
               {/* Navigation Buttons */}
               <div className="flex items-center justify-between pt-6 border-t">
@@ -899,7 +1167,7 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
                     Cancel
                   </Button>
                   
-                  {currentStep < 5 ? (
+                  {currentStep < 6 ? (
                     <Button
                       type="button"
                       onClick={nextStep}
