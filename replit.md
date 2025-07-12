@@ -29,6 +29,8 @@ This is a full-stack web application for a package delivery marketplace called "
 - ✅ Detailed sitemap structure document created (SITEMAP.md)
 - ✅ CTO & Product Lead documentation created (CTO_PRODUCT_DOCUMENTATION.md)
 - ✅ Technology stack quick reference guide created (TECH_STACK.md)
+- ✅ Added mandatory consent checkboxes to Add Trip flow (Step 4)
+  - Travelers must agree to: inspect items, right to reject, take photos, carry only declared items
 
 ## User Preferences
 

@@ -59,6 +59,18 @@ const step4Schema = z.object({
   deliveryTimes: z.array(z.string()).min(1, "Please select at least one delivery time"),
   flexibility: z.number().min(0).max(100),
   deliveryDate: z.string().min(1, "Expected delivery date is required"),
+  consentInspection: z.boolean().refine(val => val === true, {
+    message: "You must agree to inspect items before accepting"
+  }),
+  consentRejection: z.boolean().refine(val => val === true, {
+    message: "You must acknowledge your right to reject parcels"
+  }),
+  consentPhotos: z.boolean().refine(val => val === true, {
+    message: "You must agree to take handoff and delivery photos"
+  }),
+  consentDeclaredItems: z.boolean().refine(val => val === true, {
+    message: "You must agree to carry only declared items"
+  }),
 });
 
 const fullSchema = step1Schema.merge(step2Schema).merge(step3Schema).merge(step4Schema);
@@ -111,6 +123,10 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
       deliveryTimes: [],
       flexibility: 50,
       deliveryDate: "",
+      consentInspection: false,
+      consentRejection: false,
+      consentPhotos: false,
+      consentDeclaredItems: false,
     },
   });
 
@@ -543,6 +559,123 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
             </FormItem>
           )}
         />
+
+        {/* Traveler Consent Checkboxes */}
+        <div className="mt-8 space-y-4">
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+            <h4 className="text-base font-semibold text-airbar-black mb-3">Traveler Responsibilities</h4>
+            <p className="text-sm text-airbar-dark-gray mb-4">
+              Please confirm that you understand and agree to the following requirements:
+            </p>
+            
+            <div className="space-y-3">
+              <FormField
+                control={form.control}
+                name="consentInspection"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        className="mt-1"
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel className="font-normal text-sm">
+                        I will inspect all items before accepting them *
+                      </FormLabel>
+                      <p className="text-xs text-airbar-dark-gray">
+                        You agree to check parcels for prohibited items and verify they match the description
+                      </p>
+                    </div>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="consentRejection"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        className="mt-1"
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel className="font-normal text-sm">
+                        I understand I can reject any parcel at handoff *
+                      </FormLabel>
+                      <p className="text-xs text-airbar-dark-gray">
+                        You have the right to refuse any package that seems suspicious or doesn't match the description
+                      </p>
+                    </div>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="consentPhotos"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        className="mt-1"
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel className="font-normal text-sm">
+                        I will take a handoff and delivery photo *
+                      </FormLabel>
+                      <p className="text-xs text-airbar-dark-gray">
+                        Photos are required for both pickup and delivery confirmation to ensure transparency
+                      </p>
+                    </div>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="consentDeclaredItems"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        className="mt-1"
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel className="font-normal text-sm">
+                        I agree to carry only declared items *
+                      </FormLabel>
+                      <p className="text-xs text-airbar-dark-gray">
+                        You will not accept any undeclared or hidden items in the packages
+                      </p>
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </div>
+            
+            {(form.formState.errors.consentInspection || 
+              form.formState.errors.consentRejection || 
+              form.formState.errors.consentPhotos || 
+              form.formState.errors.consentDeclaredItems) && (
+              <p className="text-sm text-red-600 mt-3">
+                Please accept all traveler responsibilities to continue
+              </p>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -642,6 +775,39 @@ export default function AddTripForm({ onSubmit, onCancel }: AddTripFormProps) {
             </div>
             <p><strong>Flexibility:</strong> {watchedValues.flexibility}% flexible</p>
             <p><strong>Expected Delivery:</strong> {watchedValues.deliveryDate}</p>
+          </CardContent>
+        </Card>
+
+        {/* Traveler Responsibilities Confirmation */}
+        <Card className="border-green-200 bg-green-50">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-600" />
+              Traveler Responsibilities Confirmed
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-700 mb-3">
+              You have agreed to the following responsibilities:
+            </p>
+            <ul className="space-y-2 text-sm text-gray-600">
+              <li className="flex items-start gap-2">
+                <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                <span>Inspect all items before accepting them</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                <span>Right to reject any parcel at handoff</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                <span>Take handoff and delivery photos</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                <span>Carry only declared items</span>
+              </li>
+            </ul>
           </CardContent>
         </Card>
       </div>
