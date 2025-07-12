@@ -1,0 +1,77 @@
+Warning: validateDOMNesting(...): %s cannot appear as a descendant of <%s>.%s <button> button 
+    at button
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-AXMZZQ2X.js?v=f6b50156:42:13
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-2K77HOHX.js?v=f6b50156:79:13
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-2K77HOHX.js?v=f6b50156:56:13
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-AXMZZQ2X.js?v=f6b50156:42:13
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-TSMXHQXX.js?v=f6b50156:1929:13
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=f6b50156:199:13
+    at Provider (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-OXZDJRWN.js?v=f6b50156:38:15)
+    at Provider (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-OXZDJRWN.js?v=f6b50156:38:15)
+    at Popper (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-TSMXHQXX.js?v=f6b50156:1921:11)
+    at Tooltip (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=f6b50156:108:5)
+    at div
+    at div
+    at div
+    at div
+    at button
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-AXMZZQ2X.js?v=f6b50156:42:13
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-accordion.js?v=f6b50156:92:13
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-2K77HOHX.js?v=f6b50156:79:13
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-2K77HOHX.js?v=f6b50156:56:13
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-TPYHSINA.js?v=f6b50156:51:15
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-accordion.js?v=f6b50156:423:13
+    at h3
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-AXMZZQ2X.js?v=f6b50156:42:13
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-accordion.js?v=f6b50156:404:13
+    at _c3 (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/src/components/ui/accordion.tsx:45:12)
+    at div
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-AXMZZQ2X.js?v=f6b50156:42:13
+    at Provider (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-OXZDJRWN.js?v=f6b50156:38:15)
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-accordion.js?v=f6b50156:55:7
+    at Provider (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-OXZDJRWN.js?v=f6b50156:38:15)
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-accordion.js?v=f6b50156:363:13
+    at _c (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/src/components/ui/accordion.tsx:23:11)
+    at div
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-AXMZZQ2X.js?v=f6b50156:42:13
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-2K77HOHX.js?v=f6b50156:79:13
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-2K77HOHX.js?v=f6b50156:56:13
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-TPYHSINA.js?v=f6b50156:39:15
+    at Provider (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-OXZDJRWN.js?v=f6b50156:38:15)
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-accordion.js?v=f6b50156:267:13
+    at Provider (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-OXZDJRWN.js?v=f6b50156:38:15)
+    at Provider (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-OXZDJRWN.js?v=f6b50156:38:15)
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-accordion.js?v=f6b50156:208:14
+    at Provider (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-OXZDJRWN.js?v=f6b50156:38:15)
+    at CollectionProvider (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-TPYHSINA.js?v=f6b50156:29:13)
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-accordion.js?v=f6b50156:193:13
+    at div
+    at _c9 (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/src/components/ui/card.tsx:114:12)
+    at div
+    at _c (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/src/components/ui/card.tsx:20:11)
+    at div
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-AXMZZQ2X.js?v=f6b50156:42:13
+    at Presence (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-E4UC4BFD.js?v=f6b50156:24:11)
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tabs.js?v=f6b50156:176:13
+    at _c5 (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/src/components/ui/tabs.tsx:72:12)
+    at div
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-AXMZZQ2X.js?v=f6b50156:42:13
+    at Provider (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-OXZDJRWN.js?v=f6b50156:38:15)
+    at https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tabs.js?v=f6b50156:54:7
+    at div
+    at div
+    at div
+    at div
+    at main
+    at div
+    at div
+    at _c (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/src/components/ui/sidebar.tsx:20:11)
+    at DashboardLayout (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/src/components/layout/DashboardLayout.tsx:75:43)
+    at Support (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/src/pages/Support.tsx:60:41)
+    at Route (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=f6b50156:323:16)
+    at Switch (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=f6b50156:379:17)
+    at Router
+    at QueryClientProvider (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=f6b50156:2805:3)
+    at App
+    at Provider (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-OXZDJRWN.js?v=f6b50156:38:15)
+    at TooltipProvider (https://4b277919-5724-4c7a-b21b-f06343ac5626-00-1v13ejtkrbi2o.janeway.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=f6b50156:64:5)

@@ -54,6 +54,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Notification unread count endpoint
+  app.get("/api/notifications/unread-count", async (req, res) => {
+    try {
+      // For demo, return a mock count
+      const unreadCount = 3;
+      res.json(unreadCount);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch unread count" });
+    }
+  });
+
   // Trip API endpoints
   app.post("/api/trips", async (req, res) => {
     try {

@@ -49,6 +49,15 @@ This is a full-stack web application for a package delivery marketplace called "
   - Match request lifecycle: pending → accepted → paid → confirmed
   - Payment timeout handling (1 hour after acceptance)
   - Complete API endpoints for match requests and payment processing
+- ✅ Notification Bell in Header implemented (January 12, 2025)
+  - Moved notifications from profile dropdown to persistent bell icon in header
+  - Bell icon positioned left of avatar with unread badge
+  - Real-time polling for unread count (30 second intervals)
+  - Red badge (#EB5757) shows count, "99+" for large numbers
+  - Tooltip on hover shows "Notifications"
+  - Click navigates to /dashboard/notifications
+  - Profile dropdown now only shows: Profile, Wallet, History, Referrals, Logout
+  - API endpoint /api/notifications/unread-count for fetching count
 
 ## User Preferences
 

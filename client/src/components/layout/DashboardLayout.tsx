@@ -42,6 +42,7 @@ import {
   Send,
 } from "lucide-react";
 import type { User as UserType } from "@shared/schema";
+import { NotificationBell } from "@/components/NotificationBell";
 
 const navigationItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
@@ -56,7 +57,6 @@ const navigationItems = [
 const userDropdownItems = [
   { icon: User, label: "Profile", description: "KYC, personal details, settings", href: "/dashboard/profile" },
   { icon: DollarSign, label: "Wallet", description: "Manage funds, view earnings", href: "/dashboard/wallet" },
-  { icon: Bell, label: "Notifications", description: "Updates and alerts", href: "/dashboard/notifications", hasUnread: true },
   { icon: Clock, label: "History", description: "Activity log, past deliveries", href: "/dashboard/history" },
   { icon: Gift, label: "Referrals", description: "Invite friends, bonus status", href: "/dashboard/referrals" },
 ];
@@ -77,9 +77,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   // Check if current route is in user dropdown
   const isUserDropdownRoute = userDropdownItems.some(item => location.startsWith(item.href));
-
-  // Get unread notifications count (mock data)
-  const unreadNotifications = 3;
 
   const SidebarNavigation = () => (
     <>
@@ -174,12 +171,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                               }`}
                               onClick={() => setIsMobileMenuOpen(false)}
                             >
-                              <div className="relative">
-                                <item.icon className="h-4 w-4" />
-                                {item.hasUnread && unreadNotifications > 0 && (
-                                  <div className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full"></div>
-                                )}
-                              </div>
+                              <item.icon className="h-4 w-4" />
                               <span className="text-sm font-medium">{item.label}</span>
                             </div>
                           </Link>
@@ -208,8 +200,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                "Dashboard"}
             </h1>
 
-            {/* User Profile Dropdown */}
-            <div className="flex items-center space-x-3">
+            {/* Notification Bell and User Profile Dropdown */}
+            <div className="flex items-center space-x-2">
+              <NotificationBell />
               <DropdownMenu open={isUserDropdownOpen} onOpenChange={setIsUserDropdownOpen}>
                 <DropdownMenuTrigger asChild>
                   <Button 
@@ -228,14 +221,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                       <span className="text-sm font-medium text-airbar-black">
                         {user?.username || "User"}
                       </span>
-                      <div className="flex items-center space-x-2">
-                        <Badge variant="secondary" className="bg-green-100 text-green-800 text-xs">
-                          KYC Verified
-                        </Badge>
-                        {unreadNotifications > 0 && (
-                          <div className="h-2 w-2 bg-red-500 rounded-full"></div>
-                        )}
-                      </div>
+                      <Badge variant="secondary" className="bg-green-100 text-green-800 text-xs">
+                        KYC Verified
+                      </Badge>
                     </div>
                     <ChevronDown className="h-4 w-4 text-gray-400" />
                   </Button>
@@ -254,16 +242,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                         }`}
                         onClick={() => setIsUserDropdownOpen(false)}
                       >
-                        <div className="relative">
-                          <item.icon className="h-5 w-5 mt-0.5" />
-                          {item.hasUnread && unreadNotifications > 0 && (
-                            <div className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full flex items-center justify-center">
-                              <span className="text-xs text-white font-medium">
-                                {unreadNotifications > 9 ? "9+" : unreadNotifications}
-                              </span>
-                            </div>
-                          )}
-                        </div>
+                        <item.icon className="h-5 w-5 mt-0.5" />
                         <div className="flex-1">
                           <div className="font-medium">{item.label}</div>
                           <div className={`text-xs ${

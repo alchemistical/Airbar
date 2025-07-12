@@ -640,16 +640,9 @@ export default function Support() {
                                         <Badge variant="secondary" className={`text-xs rounded-full ${roleLabel.color}`}>
                                           {roleLabel.label}
                                         </Badge>
-                                        <Tooltip>
-                                          <TooltipTrigger>
-                                            <Badge variant="outline" className="text-xs rounded-full">
-                                              {helpfulnessPercentage}% helpful
-                                            </Badge>
-                                          </TooltipTrigger>
-                                          <TooltipContent>
-                                            <p>{faq.helpfulVotes} of {faq.totalVotes} found this helpful</p>
-                                          </TooltipContent>
-                                        </Tooltip>
+                                        <Badge variant="outline" className="text-xs rounded-full">
+                                          {helpfulnessPercentage}% helpful
+                                        </Badge>
                                       </div>
                                     </div>
                                   </div>
