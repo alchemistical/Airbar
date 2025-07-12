@@ -1,7 +1,7 @@
 import { 
-  users, trips, parcelRequests, earnings, notifications, disputes,
-  type User, type Trip, type ParcelRequest, type Earning, type Notification, type Dispute,
-  type InsertUser, type InsertTrip, type InsertParcelRequest, type InsertEarning, type InsertNotification, type InsertDispute,
+  users, trips, parcelRequests, earnings, notifications, disputes, matchRequests,
+  type User, type Trip, type ParcelRequest, type Earning, type Notification, type Dispute, type MatchRequest,
+  type InsertUser, type InsertTrip, type InsertParcelRequest, type InsertEarning, type InsertNotification, type InsertDispute, type InsertMatchRequest,
   type DashboardMetrics, type TripWithRequests, type ParcelRequestWithSender
 } from "@shared/schema";
 
@@ -32,6 +32,13 @@ export interface IStorage {
   getUserDisputes(userId: number): Promise<Dispute[]>;
   updateDisputeStatus(id: number, status: string, timelineEntry: any): Promise<Dispute>;
   addDisputeTimeline(id: number, timelineEntry: any): Promise<Dispute>;
+
+  // Match request methods
+  createMatchRequest(request: InsertMatchRequest): Promise<MatchRequest>;
+  getMatchRequest(id: number): Promise<MatchRequest | undefined>;
+  getUserMatchRequests(userId: number): Promise<MatchRequest[]>;
+  updateMatchRequestStatus(id: number, status: string): Promise<MatchRequest>;
+  updateMatchRequestPayment(id: number, paymentStatus: string, escrowStatus: string, stripePaymentIntentId?: string): Promise<MatchRequest>;
 }
 
 export class MemStorage implements IStorage {
@@ -41,12 +48,14 @@ export class MemStorage implements IStorage {
   private earnings: Map<number, Earning>;
   private notifications: Map<number, Notification>;
   private disputes: Map<number, Dispute>;
+  private matchRequests: Map<number, MatchRequest>;
   private currentUserId: number;
   private currentTripId: number;
   private currentParcelRequestId: number;
   private currentEarningId: number;
   private currentNotificationId: number;
   private currentDisputeId: number;
+  private currentMatchRequestId: number;
 
   constructor() {
     this.users = new Map();
@@ -55,12 +64,14 @@ export class MemStorage implements IStorage {
     this.earnings = new Map();
     this.notifications = new Map();
     this.disputes = new Map();
+    this.matchRequests = new Map();
     this.currentUserId = 1;
     this.currentTripId = 1;
     this.currentParcelRequestId = 1;
     this.currentEarningId = 1;
     this.currentNotificationId = 1;
     this.currentDisputeId = 1;
+    this.currentMatchRequestId = 1;
     
     // Initialize with sample data
     this.initializeData();
@@ -574,6 +585,92 @@ export class MemStorage implements IStorage {
     
     this.disputes.set(id, dispute);
     return dispute;
+  }
+
+  async createMatchRequest(request: InsertMatchRequest): Promise<MatchRequest> {
+    const id = this.currentMatchRequestId++;
+    const now = new Date();
+    const expiresAt = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 hours for traveler to accept
+    
+    const newRequest: MatchRequest = {
+      id,
+      tripId: request.tripId ?? null,
+      parcelId: request.parcelId ?? null,
+      senderId: request.senderId,
+      travelerId: request.travelerId,
+      weight: request.weight,
+      reward: request.reward,
+      message: request.message ?? null,
+      status: "pending",
+      paymentStatus: null,
+      escrowStatus: null,
+      stripePaymentIntentId: null,
+      acceptedAt: null,
+      paidAt: null,
+      expiresAt,
+      createdAt: now,
+      updatedAt: now,
+    };
+    
+    this.matchRequests.set(id, newRequest);
+    return newRequest;
+  }
+
+  async getMatchRequest(id: number): Promise<MatchRequest | undefined> {
+    return this.matchRequests.get(id);
+  }
+
+  async getUserMatchRequests(userId: number): Promise<MatchRequest[]> {
+    return Array.from(this.matchRequests.values())
+      .filter(request => request.senderId === userId || request.travelerId === userId)
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+
+  async updateMatchRequestStatus(id: number, status: string): Promise<MatchRequest> {
+    const request = this.matchRequests.get(id);
+    if (!request) {
+      throw new Error(`Match request with id ${id} not found`);
+    }
+    
+    request.status = status;
+    request.updatedAt = new Date();
+    
+    if (status === "accepted") {
+      request.acceptedAt = new Date();
+      // Set expiration for payment (1 hour)
+      request.expiresAt = new Date(Date.now() + 60 * 60 * 1000);
+    }
+    
+    this.matchRequests.set(id, request);
+    return request;
+  }
+
+  async updateMatchRequestPayment(
+    id: number, 
+    paymentStatus: string, 
+    escrowStatus: string, 
+    stripePaymentIntentId?: string
+  ): Promise<MatchRequest> {
+    const request = this.matchRequests.get(id);
+    if (!request) {
+      throw new Error(`Match request with id ${id} not found`);
+    }
+    
+    request.paymentStatus = paymentStatus;
+    request.escrowStatus = escrowStatus;
+    request.updatedAt = new Date();
+    
+    if (stripePaymentIntentId) {
+      request.stripePaymentIntentId = stripePaymentIntentId;
+    }
+    
+    if (paymentStatus === "succeeded") {
+      request.status = "paid";
+      request.paidAt = new Date();
+    }
+    
+    this.matchRequests.set(id, request);
+    return request;
   }
 }
 

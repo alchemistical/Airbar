@@ -1,0 +1,146 @@
+elow is a two-part deliverable:
+Logical Workflow for the end-to-end Matching Process (market-browse → request → escrow → confirmation).
+
+
+Replit-ready prompt that breaks the build into clear routes, components, API hooks, and dev tickets.
+
+
+
+1  Logical Workflow — “Match & Escrow” 🔗
+sequenceDiagram
+  participant S as Sender
+  participant M as Marketplace UI
+  participant T as Traveler
+  participant P as Payment (Stripe)
+  participant E as Escrow Service
+  participant DB as DB/API
+
+  S->>M: Browse Trips
+  M->>DB: GET /trips?filters
+  DB-->>M: List of trips
+  S->>M: View Trip Detail
+  M->>DB: GET /trip/:id
+  S->>M: "Request Match" (choose reward)
+  M->>DB: POST /match-requests
+  T-->>M: Notification badge + detail page
+  T->>M: Accept or Decline
+  T-->>DB: PATCH /match-requests/:id status=accepted
+  Note over S,M: If accepted →
+  S->>M: Redirect to PaymentCheckout
+  M->>P: Create Checkout Session (reward amount)
+  P-->>S: Card entry → success
+  P-->>E: Hold funds in escrow
+  E-->>DB: webhook /payment_intent.succeeded
+  DB-->>M: Update Match status = confirmed
+  S-->>T: Chat opens, Tracking starts
+Status States
+Entity
+States
+Match Request
+pending → accepted / declined
+Payment
+pending → succeeded / failed
+Escrow
+held → released / refunded
+Match (order)
+confirmed → picked_up → in_transit → delivered → completed
+
+Timeout & Escrow Rules
+Event
+Timeout
+Auto-action
+Traveler doesn’t accept within 24 h
+Match Request → expired
+
+
+Sender fails to pay within 1 h after acceptance
+Match Request → cancelled
+
+
+Delivery not confirmed 7 days after ETA
+Escrow → dispute flag
+
+
+
+
+2  Replit Implementation 🚀
+Routes
+/marketplace
+  ├─ /marketplace/trips           (Browse Trips)
+/marketplace/trips/:id            (Trip Detail)
+/marketplace/parcels              (Browse Parcels)
+/marketplace/parcels/:id          (Parcel Detail)
+  
+/match-requests                   (My Requests list)
+/match-requests/:id               (Detail & payment step)
+
+/checkout/:matchId                (Stripe Checkout page)
+Core Components
+Component
+Purpose
+TripCard / ParcelCard
+marketplace listings
+FilterSidebar
+date, route, reward sliders
+MatchRequestModal
+choose reward, send message
+MatchStatusBadge
+pending / accepted / paid
+EscrowBanner
+Shows “Funds held ✓”
+StripeCheckout
+embeds Stripe Elements
+
+API Endpoints
+Verb
+Endpoint
+Notes
+GET
+/trips, /parcels
+filters & pagination
+POST
+/match-requests
+body: tripId / parcelId / reward
+PATCH
+/match-requests/:id
+accept / decline
+POST
+/payments/checkout-session
+Stripe session
+POST
+/webhooks/stripe
+listen “payment_intent.succeeded”
+
+
+Dev Tickets
+ID
+Task
+AC
+MP-01
+Scaffold /marketplace/* pages with filter sidebar
+List renders, filters on change
+MP-02
+TripCard, ParcelCard responsive design
+Hover shows CTA “Request Match”
+MR-03
+MatchRequestModal (step: reward → note)
+POST returns 201 with matchId
+MR-04
+Traveler “Accept / Decline” buttons on request detail
+Status updates; toast emitted
+PAY-05
+Stripe Checkout Page (/checkout/:matchId)
+On success → /match-requests/:id
+ESC-06
+EscrowBanner component (reads escrow state)
+Shows green badge when held
+NTF-07
+Socket / Pusher event “match.accepted”
+Bell count increment
+CRON-08
+Job to expire unpaid matches after 1 h
+Status → cancelled
+QA-09
+Cypress flow: sender→match→pay→escrow held
+All assertions pass
+

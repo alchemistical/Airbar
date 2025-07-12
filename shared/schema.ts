@@ -86,6 +86,26 @@ export const disputes = pgTable("disputes", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
+export const matchRequests = pgTable("match_requests", {
+  id: serial("id").primaryKey(),
+  tripId: integer("trip_id").references(() => trips.id),
+  parcelId: integer("parcel_id").references(() => parcelRequests.id),
+  senderId: integer("sender_id").notNull().references(() => users.id),
+  travelerId: integer("traveler_id").notNull().references(() => users.id),
+  weight: decimal("weight", { precision: 5, scale: 2 }).notNull(),
+  reward: decimal("reward", { precision: 8, scale: 2 }).notNull(),
+  message: text("message"),
+  status: text("status").notNull().default("pending"), // pending|accepted|declined|expired|paid|confirmed
+  paymentStatus: text("payment_status"), // pending|succeeded|failed
+  escrowStatus: text("escrow_status"), // held|released|refunded
+  stripePaymentIntentId: text("stripe_payment_intent_id"),
+  acceptedAt: timestamp("accepted_at"),
+  paidAt: timestamp("paid_at"),
+  expiresAt: timestamp("expires_at"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
@@ -118,6 +138,12 @@ export const insertDisputeSchema = createInsertSchema(disputes).omit({
   updatedAt: true,
 });
 
+export const insertMatchRequestSchema = createInsertSchema(matchRequests).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type Trip = typeof trips.$inferSelect;
@@ -125,6 +151,7 @@ export type ParcelRequest = typeof parcelRequests.$inferSelect;
 export type Earning = typeof earnings.$inferSelect;
 export type Notification = typeof notifications.$inferSelect;
 export type Dispute = typeof disputes.$inferSelect;
+export type MatchRequest = typeof matchRequests.$inferSelect;
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type InsertTrip = z.infer<typeof insertTripSchema>;
@@ -132,6 +159,7 @@ export type InsertParcelRequest = z.infer<typeof insertParcelRequestSchema>;
 export type InsertEarning = z.infer<typeof insertEarningSchema>;
 export type InsertNotification = z.infer<typeof insertNotificationSchema>;
 export type InsertDispute = z.infer<typeof insertDisputeSchema>;
+export type InsertMatchRequest = z.infer<typeof insertMatchRequestSchema>;
 
 // Dashboard specific types
 export type DashboardMetrics = {

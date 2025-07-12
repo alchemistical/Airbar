@@ -29,6 +29,11 @@ import Support from "@/pages/Support";
 import DisputeList from "@/pages/DisputeList";
 import DisputeNew from "@/pages/DisputeNew";
 import DisputeDetail from "@/pages/DisputeDetail";
+import MarketplaceTrips from "@/pages/MarketplaceTrips";
+import MarketplaceTripDetail from "@/pages/MarketplaceTripDetail";
+import MatchRequests from "@/pages/MatchRequests";
+import MatchRequestDetail from "@/pages/MatchRequestDetail";
+import Checkout from "@/pages/Checkout";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -61,6 +66,11 @@ function Router() {
       <Route path="/support/disputes" component={DisputeList} />
       <Route path="/support/disputes/new" component={DisputeNew} />
       <Route path="/support/disputes/:id" component={DisputeDetail} />
+      <Route path="/marketplace/trips" component={MarketplaceTrips} />
+      <Route path="/marketplace/trips/:id" component={MarketplaceTripDetail} />
+      <Route path="/match-requests" component={MatchRequests} />
+      <Route path="/match-requests/:id" component={MatchRequestDetail} />
+      <Route path="/checkout/:matchId" component={Checkout} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>

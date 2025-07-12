@@ -134,6 +134,81 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Match Request API endpoints
+  app.post("/api/match-requests", async (req, res) => {
+    try {
+      const matchRequest = await storage.createMatchRequest(req.body);
+      res.status(201).json(matchRequest);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create match request" });
+    }
+  });
+
+  app.get("/api/match-requests", async (req, res) => {
+    try {
+      // For demo, get requests for user 1
+      const requests = await storage.getUserMatchRequests(1);
+      res.json(requests);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch match requests" });
+    }
+  });
+
+  app.get("/api/match-requests/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const request = await storage.getMatchRequest(id);
+      if (!request) {
+        return res.status(404).json({ error: "Match request not found" });
+      }
+      res.json(request);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch match request" });
+    }
+  });
+
+  app.patch("/api/match-requests/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { status } = req.body;
+      const request = await storage.updateMatchRequestStatus(id, status);
+      res.json(request);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update match request" });
+    }
+  });
+
+  // Payment API endpoints
+  app.post("/api/payments/checkout-session", async (req, res) => {
+    try {
+      // Mock payment intent creation for demo
+      const { matchRequestId, amount } = req.body;
+      const clientSecret = `pi_mock_${matchRequestId}_secret`;
+      res.json({ clientSecret });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create payment session" });
+    }
+  });
+
+  app.post("/api/webhooks/stripe", async (req, res) => {
+    try {
+      // Mock webhook handler for payment success
+      const { type, data } = req.body;
+      if (type === "payment_intent.succeeded") {
+        const matchRequestId = parseInt(data.metadata.matchRequestId);
+        await storage.updateMatchRequestPayment(
+          matchRequestId, 
+          "succeeded", 
+          "held",
+          data.id
+        );
+      }
+      res.json({ received: true });
+    } catch (error) {
+      res.status(500).json({ error: "Webhook processing failed" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

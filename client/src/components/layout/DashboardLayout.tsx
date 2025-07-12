@@ -45,10 +45,10 @@ import type { User as UserType } from "@shared/schema";
 
 const navigationItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
-  { icon: Plane, label: "Trips", href: "/dashboard/traveler/trips" },
+  { icon: Plane, label: "Browse Trips", href: "/marketplace/trips" },
   { icon: Package, label: "Parcel Requests", href: "/dashboard/parcel-requests" },
   { icon: Send, label: "Send Package", href: "/send-package" },
-  { icon: Heart, label: "Matches", href: "/dashboard/matches" },
+  { icon: Heart, label: "Matches", href: "/match-requests" },
   { icon: MapPin, label: "Tracking", href: "/dashboard/tracking" },
   { icon: HelpCircle, label: "Support", href: "/dashboard/support" },
 ];
