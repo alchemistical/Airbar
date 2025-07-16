@@ -1,0 +1,122 @@
+[
+  {
+    "question": "What is Airbar?",
+    "answer": "Airbar is a peer-to-peer delivery platform that connects people who need to send packages with travelers who have extra luggage space. It's a secure, cost-effective way to ship items internationally.",
+    "category": "Getting Started"
+  },
+  {
+    "question": "How much does it cost to send a package?",
+    "answer": "Pricing depends on the size, weight, and destination of your package. On average, you can save 50-70% compared to traditional shipping methods. Use our pricing calculator to get an estimate.",
+    "category": "Getting Started"
+  },
+  {
+    "question": "Is Airbar available in my country?",
+    "answer": "Airbar operates globally. As long as there are travelers going to or from your location, you can use our service. Check our app to see available routes.",
+    "category": "Getting Started"
+  },
+  {
+    "question": "How do I create an account?",
+    "answer": "Download the Airbar app, click 'Sign Up', and follow the verification process. You'll need to provide a valid email, phone number, and government-issued ID for verification.",
+    "category": "Getting Started"
+  },
+  {
+    "question": "How do I send a package?",
+    "answer": "1. Post your package details including size, weight, and destination. 2. Browse and select a verified traveler. 3. Pay securely through our platform. 4. Meet the traveler to hand over your package. 5. Track your package and confirm delivery.",
+    "category": "Sending Packages"
+  },
+  {
+    "question": "What items can I send?",
+    "answer": "You can send most legal items including documents, electronics, clothing, and gifts. Prohibited items include weapons, illegal substances, hazardous materials, live animals, and perishables. Travelers have the right to inspect and refuse packages.",
+    "category": "Sending Packages"
+  },
+  {
+    "question": "How do I package my items?",
+    "answer": "Pack items securely in a box or padded envelope. Clearly label with recipient details. Take photos of the contents before sealing. Maximum dimensions are typically 62 linear inches and 23kg, but check with your traveler.",
+    "category": "Sending Packages"
+  },
+  {
+    "question": "Can I track my package?",
+    "answer": "Yes! You'll receive real-time updates when your package is picked up, in transit, and delivered. Both parties must confirm key milestones, and photos are required at pickup and delivery.",
+    "category": "Sending Packages"
+  },
+  {
+    "question": "How much can I earn as a traveler?",
+    "answer": "Earnings depend on your route, available space, and demand. On average, travelers earn $30-100 per trip. Popular international routes and business destinations typically offer higher earnings.",
+    "category": "Traveling"
+  },
+  {
+    "question": "What are my responsibilities as a traveler?",
+    "answer": "You must: inspect packages before accepting, take photos at pickup/delivery, communicate with senders, deliver packages on time, and comply with all customs regulations. You have the right to refuse any package.",
+    "category": "Traveling"
+  },
+  {
+    "question": "Am I liable for customs issues?",
+    "answer": "Senders are responsible for accurate customs declarations. As a traveler, you should only carry items that have been properly declared. We provide guidelines to help both parties comply with regulations.",
+    "category": "Traveling"
+  },
+  {
+    "question": "How do I list my trip?",
+    "answer": "Go to 'Add Trip' in the app, enter your departure/arrival cities and dates, specify available luggage space, set your price per kg, and publish. Your trip will be visible to senders immediately.",
+    "category": "Traveling"
+  },
+  {
+    "question": "When do I get paid?",
+    "answer": "Payment is held in escrow and released to you 24-48 hours after delivery confirmation from both parties. You can withdraw earnings to your bank account or keep them in your Airbar wallet.",
+    "category": "Payments"
+  },
+  {
+    "question": "What payment methods are accepted?",
+    "answer": "We accept all major credit/debit cards, PayPal, and bank transfers. All payments are processed securely through our escrow system.",
+    "category": "Payments"
+  },
+  {
+    "question": "What if there's a problem with delivery?",
+    "answer": "Our escrow system protects both parties. If issues arise, open a dispute within 48 hours. Our support team will review evidence from both parties and mediate a fair resolution.",
+    "category": "Payments"
+  },
+  {
+    "question": "Are there any hidden fees?",
+    "answer": "No hidden fees. Senders see the total cost upfront. Airbar charges a 15% platform fee which covers escrow protection, customer support, and platform operations.",
+    "category": "Payments"
+  },
+  {
+    "question": "How does Airbar verify users?",
+    "answer": "All users must provide government-issued ID, phone number verification, and email confirmation. Frequent travelers can apply for enhanced verification including background checks.",
+    "category": "Safety"
+  },
+  {
+    "question": "What if my package is damaged or lost?",
+    "answer": "Our escrow system ensures you're protected. File a dispute immediately with photos and documentation. Basic protection is included, with additional insurance available for high-value items.",
+    "category": "Safety"
+  },
+  {
+    "question": "How do I report suspicious activity?",
+    "answer": "Use the 'Report' button in the app or contact our 24/7 support team immediately. We investigate all reports thoroughly and take appropriate action to maintain platform safety.",
+    "category": "Safety"
+  },
+  {
+    "question": "Is my personal information safe?",
+    "answer": "We use bank-level encryption to protect your data. Personal information is only shared as necessary for deliveries. We never sell your data to third parties.",
+    "category": "Safety"
+  },
+  {
+    "question": "How do I verify my account?",
+    "answer": "Complete the KYC process in your profile settings. Upload a clear photo of your government ID and take a selfie for comparison. Verification typically takes 24-48 hours.",
+    "category": "Account"
+  },
+  {
+    "question": "Can I have multiple accounts?",
+    "answer": "No, each person is allowed only one account. Multiple accounts will be suspended. You can switch between sender and traveler roles within your single account.",
+    "category": "Account"
+  },
+  {
+    "question": "How do I delete my account?",
+    "answer": "Go to Settings > Account > Delete Account. Note that you must complete all pending deliveries and withdraw any remaining balance before deletion.",
+    "category": "Account"
+  },
+  {
+    "question": "What happens if I forget my password?",
+    "answer": "Click 'Forgot Password' on the login screen. We'll send a reset link to your registered email. For security, password resets expire after 24 hours.",
+    "category": "Account"
+  }
+]

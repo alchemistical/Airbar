@@ -37,10 +37,29 @@ import Checkout from "@/pages/Checkout";
 import PaymentCheckout from "@/pages/PaymentCheckout";
 import NotFound from "@/pages/not-found";
 
+// Marketing pages
+import MarketingHome from "@/marketing/pages/index";
+import HowItWorks from "@/marketing/pages/how-it-works";
+import Pricing from "@/marketing/pages/pricing";
+import Safety from "@/marketing/pages/safety";
+import Business from "@/marketing/pages/business";
+import FAQ from "@/marketing/pages/faq";
+import Contact from "@/marketing/pages/contact";
+
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Dashboard} />
+      {/* Marketing Routes */}
+      <Route path="/" component={MarketingHome} />
+      <Route path="/how-it-works" component={HowItWorks} />
+      <Route path="/pricing" component={Pricing} />
+      <Route path="/safety" component={Safety} />
+      <Route path="/business" component={Business} />
+      <Route path="/faq" component={FAQ} />
+      <Route path="/contact" component={Contact} />
+      
+      {/* App Routes */}
+      <Route path="/dashboard" component={Dashboard} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/dashboard/traveler/trips" component={TravelerTrips} />
       <Route path="/dashboard/traveler/trips/addtrip" component={AddTrip} />
