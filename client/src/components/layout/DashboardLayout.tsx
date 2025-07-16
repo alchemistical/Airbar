@@ -49,7 +49,8 @@ const navigationItems = [
   { icon: Plane, label: "Browse Trips", href: "/marketplace/trips" },
   { icon: Package, label: "Parcel Requests", href: "/dashboard/parcel-requests" },
   { icon: Send, label: "Send Package", href: "/send-package" },
-  { icon: Heart, label: "Matches", href: "/match-requests" },
+  { icon: Heart, label: "Match Requests", href: "/match-requests" },
+  { icon: CheckCircle, label: "Matches", href: "/dashboard/matches" },
   { icon: MapPin, label: "Tracking", href: "/dashboard/tracking" },
   { icon: HelpCircle, label: "Support", href: "/dashboard/support" },
 ];

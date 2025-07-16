@@ -1,7 +1,7 @@
 import { 
-  users, trips, parcelRequests, earnings, notifications, disputes, matchRequests,
-  type User, type Trip, type ParcelRequest, type Earning, type Notification, type Dispute, type MatchRequest,
-  type InsertUser, type InsertTrip, type InsertParcelRequest, type InsertEarning, type InsertNotification, type InsertDispute, type InsertMatchRequest,
+  users, trips, parcelRequests, earnings, notifications, disputes, matchRequests, matches,
+  type User, type Trip, type ParcelRequest, type Earning, type Notification, type Dispute, type MatchRequest, type Match,
+  type InsertUser, type InsertTrip, type InsertParcelRequest, type InsertEarning, type InsertNotification, type InsertDispute, type InsertMatchRequest, type InsertMatch,
   type DashboardMetrics, type TripWithRequests, type ParcelRequestWithSender
 } from "@shared/schema";
 
@@ -37,8 +37,14 @@ export interface IStorage {
   createMatchRequest(request: InsertMatchRequest): Promise<MatchRequest>;
   getMatchRequest(id: number): Promise<MatchRequest | undefined>;
   getUserMatchRequests(userId: number): Promise<MatchRequest[]>;
-  updateMatchRequestStatus(id: number, status: string): Promise<MatchRequest>;
+  updateMatchRequestStatus(id: number, status: string, acceptedAt?: Date): Promise<MatchRequest>;
   updateMatchRequestPayment(id: number, paymentStatus: string, escrowStatus: string, stripePaymentIntentId?: string): Promise<MatchRequest>;
+  
+  // Match methods
+  createMatch(match: InsertMatch): Promise<Match>;
+  getMatch(id: number): Promise<Match | undefined>;
+  getUserMatches(userId: number): Promise<Match[]>;
+  updateMatchTracking(id: number, trackingStep: string, data: any): Promise<Match>;
 }
 
 export class MemStorage implements IStorage {
@@ -49,6 +55,7 @@ export class MemStorage implements IStorage {
   private notifications: Map<number, Notification>;
   private disputes: Map<number, Dispute>;
   private matchRequests: Map<number, MatchRequest>;
+  private matches: Map<number, Match>;
   private currentUserId: number;
   private currentTripId: number;
   private currentParcelRequestId: number;
@@ -56,6 +63,7 @@ export class MemStorage implements IStorage {
   private currentNotificationId: number;
   private currentDisputeId: number;
   private currentMatchRequestId: number;
+  private currentMatchId: number;
 
   constructor() {
     this.users = new Map();
@@ -65,6 +73,7 @@ export class MemStorage implements IStorage {
     this.notifications = new Map();
     this.disputes = new Map();
     this.matchRequests = new Map();
+    this.matches = new Map();
     this.currentUserId = 1;
     this.currentTripId = 1;
     this.currentParcelRequestId = 1;
@@ -72,6 +81,7 @@ export class MemStorage implements IStorage {
     this.currentNotificationId = 1;
     this.currentDisputeId = 1;
     this.currentMatchRequestId = 1;
+    this.currentMatchId = 1;
     
     // Initialize with sample data
     this.initializeData();
@@ -600,6 +610,7 @@ export class MemStorage implements IStorage {
       travelerId: request.travelerId,
       weight: request.weight,
       reward: request.reward,
+      category: request.category || "general",
       message: request.message ?? null,
       status: "pending",
       paymentStatus: null,
@@ -626,7 +637,7 @@ export class MemStorage implements IStorage {
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }
 
-  async updateMatchRequestStatus(id: number, status: string): Promise<MatchRequest> {
+  async updateMatchRequestStatus(id: number, status: string, acceptedAt?: Date): Promise<MatchRequest> {
     const request = this.matchRequests.get(id);
     if (!request) {
       throw new Error(`Match request with id ${id} not found`);
@@ -636,7 +647,7 @@ export class MemStorage implements IStorage {
     request.updatedAt = new Date();
     
     if (status === "accepted") {
-      request.acceptedAt = new Date();
+      request.acceptedAt = acceptedAt || new Date();
       // Set expiration for payment (1 hour)
       request.expiresAt = new Date(Date.now() + 60 * 60 * 1000);
     }
@@ -671,6 +682,72 @@ export class MemStorage implements IStorage {
     
     this.matchRequests.set(id, request);
     return request;
+  }
+
+  async createMatch(match: InsertMatch): Promise<Match> {
+    const id = this.currentMatchId++;
+    const now = new Date();
+    
+    const newMatch: Match = {
+      id,
+      matchRequestId: match.matchRequestId,
+      tripId: match.tripId,
+      parcelId: match.parcelId,
+      senderId: match.senderId,
+      travelerId: match.travelerId,
+      status: match.status || "confirmed",
+      trackingStep: match.trackingStep || "picked_up",
+      pickupCode: match.pickupCode,
+      deliveryCode: match.deliveryCode,
+      pickupAddress: match.pickupAddress ?? null,
+      deliveryAddress: match.deliveryAddress ?? null,
+      pickupTime: match.pickupTime ?? null,
+      pickupPhotos: match.pickupPhotos ?? null,
+      pickupNotes: match.pickupNotes ?? null,
+      deliveryPhotos: match.deliveryPhotos ?? null,
+      deliveryNotes: match.deliveryNotes ?? null,
+      pickedUpAt: match.pickedUpAt ?? null,
+      deliveredAt: match.deliveredAt ?? null,
+      createdAt: now,
+      updatedAt: now,
+    };
+    
+    this.matches.set(id, newMatch);
+    return newMatch;
+  }
+
+  async getMatch(id: number): Promise<Match | undefined> {
+    return this.matches.get(id);
+  }
+
+  async getUserMatches(userId: number): Promise<Match[]> {
+    return Array.from(this.matches.values())
+      .filter(match => match.senderId === userId || match.travelerId === userId)
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+
+  async updateMatchTracking(id: number, trackingStep: string, data: any): Promise<Match> {
+    const match = this.matches.get(id);
+    if (!match) {
+      throw new Error(`Match with id ${id} not found`);
+    }
+    
+    match.trackingStep = trackingStep;
+    match.updatedAt = new Date();
+    
+    if (trackingStep === "picked_up" && data.pickupPhotos) {
+      match.pickupPhotos = data.pickupPhotos;
+      match.pickupNotes = data.pickupNotes;
+      match.pickedUpAt = new Date();
+    } else if (trackingStep === "delivered" && data.deliveryPhotos) {
+      match.deliveryPhotos = data.deliveryPhotos;
+      match.deliveryNotes = data.deliveryNotes;
+      match.deliveredAt = new Date();
+      match.status = "delivered";
+    }
+    
+    this.matches.set(id, match);
+    return match;
   }
 }
 

@@ -10,6 +10,7 @@ import ParcelRequests from "@/pages/ParcelRequests";
 import SenderParcels from "@/pages/SenderParcels";
 import ParcelRequestDetail from "@/pages/ParcelRequestDetail";
 import Matches from "@/pages/Matches";
+import DashboardMatches from "@/pages/DashboardMatches";
 import SendPackage from "@/pages/SendPackage";
 import Tracking from "@/pages/Tracking";
 import Wallet from "@/pages/Wallet";
@@ -29,11 +30,11 @@ import Support from "@/pages/Support";
 import DisputeList from "@/pages/DisputeList";
 import DisputeNew from "@/pages/DisputeNew";
 import DisputeDetail from "@/pages/DisputeDetail";
-import MarketplaceTrips from "@/pages/MarketplaceTrips";
+import MarketplaceTrips from "@/pages/marketplace/Trips";
 import MarketplaceTripDetail from "@/pages/MarketplaceTripDetail";
 import MatchRequests from "@/pages/MatchRequests";
-import MatchRequestDetail from "@/pages/MatchRequestDetail";
 import Checkout from "@/pages/Checkout";
+import PaymentCheckout from "@/pages/PaymentCheckout";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -46,7 +47,8 @@ function Router() {
       <Route path="/dashboard/parcel-requests" component={ParcelRequests} />
       <Route path="/dashboard/sender/parcels" component={SenderParcels} />
       <Route path="/parcel-request/:id" component={ParcelRequestDetail} />
-      <Route path="/dashboard/matches" component={Matches} />
+      <Route path="/dashboard/matches" component={DashboardMatches} />
+      <Route path="/dashboard/matches/:matchId" component={DashboardMatches} />
       <Route path="/send-package" component={SendPackage} />
       <Route path="/dashboard/tracking" component={Tracking} />
       <Route path="/dashboard/wallet" component={Wallet} />
@@ -69,8 +71,9 @@ function Router() {
       <Route path="/marketplace/trips" component={MarketplaceTrips} />
       <Route path="/marketplace/trips/:id" component={MarketplaceTripDetail} />
       <Route path="/match-requests" component={MatchRequests} />
-      <Route path="/match-requests/:id" component={MatchRequestDetail} />
+      <Route path="/match-requests/:id" component={MatchRequests} />
       <Route path="/checkout/:matchId" component={Checkout} />
+      <Route path="/payment-checkout/:id" component={PaymentCheckout} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>

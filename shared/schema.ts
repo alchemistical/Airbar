@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp, decimal } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, decimal, json } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -94,6 +94,7 @@ export const matchRequests = pgTable("match_requests", {
   travelerId: integer("traveler_id").notNull().references(() => users.id),
   weight: decimal("weight", { precision: 5, scale: 2 }).notNull(),
   reward: decimal("reward", { precision: 8, scale: 2 }).notNull(),
+  category: text("category").notNull().default("general"),
   message: text("message"),
   status: text("status").notNull().default("pending"), // pending|accepted|declined|expired|paid|confirmed
   paymentStatus: text("payment_status"), // pending|succeeded|failed
@@ -102,6 +103,30 @@ export const matchRequests = pgTable("match_requests", {
   acceptedAt: timestamp("accepted_at"),
   paidAt: timestamp("paid_at"),
   expiresAt: timestamp("expires_at"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const matches = pgTable("matches", {
+  id: serial("id").primaryKey(),
+  matchRequestId: integer("match_request_id").notNull().references(() => matchRequests.id),
+  tripId: integer("trip_id").notNull().references(() => trips.id),
+  parcelId: integer("parcel_id").notNull().references(() => parcelRequests.id),
+  senderId: integer("sender_id").notNull().references(() => users.id),
+  travelerId: integer("traveler_id").notNull().references(() => users.id),
+  status: text("status").notNull().default("confirmed"), // confirmed|in_transit|delivered|disputed
+  trackingStep: text("tracking_step").notNull().default("picked_up"), // picked_up|in_transit|delivered
+  pickupCode: text("pickup_code").notNull(),
+  deliveryCode: text("delivery_code").notNull(),
+  pickupAddress: text("pickup_address"),
+  deliveryAddress: text("delivery_address"),
+  pickupTime: timestamp("pickup_time"),
+  pickupPhotos: text().array(),
+  pickupNotes: text("pickup_notes"),
+  deliveryPhotos: text().array(),
+  deliveryNotes: text("delivery_notes"),
+  pickedUpAt: timestamp("picked_up_at"),
+  deliveredAt: timestamp("delivered_at"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
@@ -144,6 +169,12 @@ export const insertMatchRequestSchema = createInsertSchema(matchRequests).omit({
   updatedAt: true,
 });
 
+export const insertMatchSchema = createInsertSchema(matches).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type Trip = typeof trips.$inferSelect;
@@ -152,6 +183,7 @@ export type Earning = typeof earnings.$inferSelect;
 export type Notification = typeof notifications.$inferSelect;
 export type Dispute = typeof disputes.$inferSelect;
 export type MatchRequest = typeof matchRequests.$inferSelect;
+export type Match = typeof matches.$inferSelect;
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type InsertTrip = z.infer<typeof insertTripSchema>;
@@ -160,6 +192,7 @@ export type InsertEarning = z.infer<typeof insertEarningSchema>;
 export type InsertNotification = z.infer<typeof insertNotificationSchema>;
 export type InsertDispute = z.infer<typeof insertDisputeSchema>;
 export type InsertMatchRequest = z.infer<typeof insertMatchRequestSchema>;
+export type InsertMatch = z.infer<typeof insertMatchSchema>;
 
 // Dashboard specific types
 export type DashboardMetrics = {

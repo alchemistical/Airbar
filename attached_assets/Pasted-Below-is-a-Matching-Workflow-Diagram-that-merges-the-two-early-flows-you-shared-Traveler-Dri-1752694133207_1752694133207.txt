@@ -1,0 +1,119 @@
+Below is a **Matching Workflow Diagram** that merges the two early flows you shared (Traveler = “Driver” & Package Sender) into **one unified matching + escrow process** for Airbar.
+
+---
+
+## **Legend (visual mapping to your original diagrams)**
+
+- **Yellow square** = user-facing page/screen.
+- **Peach square** = auth step (login/register).
+- **Gray diamond** = decision / branch.
+- **Cylinder** = backend persistence (create/update record).
+- **Dashed lines** = optional / exception (declines, disputes).
+
+**High-Level Matching Flow (ASCII Outline)**
+
+MAIN PAGE
+├─ I'm Traveling → Travel Itinerary → [login?] → Add Trip → Save Trip (BE)
+│                  → Trip Overview → View Parcel Requests → Review Parcel → ▼
+│
+└─ I’m Sending → Send Package / Find Travelers → [login?] → Submit Parcel
+→ Save Parcel (BE) → Parcel Overview → View Trip Matches → ▼
+
+▼
+Create Match Request (Sender proposes reward & terms)
+→ Save Match Request (BE) → Notify Traveler
+→ Traveler Accepts? ──No→ Declined (notify sender, end)
+Yes→ Sender Pays into Escrow → Payment Success?
+──No→ Retry / Cancel
+Yes→ Match Confirmed
+→ Tracking Lifecycle
+→ Delivery Confirmed
+→ Escrow Released / Payout
+→ Ratings & History
+→ (If issue) Dispute Flow
+
+**Matching Workflow Diagram (Mermaid)**
+
+flowchart LR
+%% Style groups
+classDef pg fill:#FFF9C4,stroke:#BDB76B,color:#333;          %% yellow-ish
+classDef auth fill:#FFE0B2,stroke:#FB8C00,color:#333;        %% peach
+classDef dec fill:#E0E0E0,stroke:#9E9E9E,color:#333,stroke-dasharray:3 3; %% decline
+classDef sys fill:#E0F7FA,stroke:#00ACC1,color:#006064;      %% system
+classDef done fill:#E8F5E9,stroke:#43A047,color:#1B5E20;     %% success
+classDef alert fill:#FFEBEE,stroke:#E53935,color:#B71C1C;    %% dispute
+
+%% Entry
+MAIN[MAIN PAGE]:::pg --> ROLE{Traveling or Sending?}
+
+%% Traveler lane
+ROLE -->|Traveler| T1[Travel Itinerary Search]:::pg
+T1 --> TLGIN{Logged in?}
+TLGIN -->|No| AUTH_T[Login / Register]:::auth --> T1
+TLGIN -->|Yes| T2[Add Trip / Confirm Flight]:::pg --> SAVE_TRIP[(Save Trip<br/>in Backend)]:::sys
+SAVE_TRIP --> T3[Trip Overview]:::pg --> T4[View Parcel Requests]:::pg --> MRQ_TRIG[Review Parcel / Propose Match]:::pg
+
+%% Sender lane
+ROLE -->|Sending| S1[Send Package / Find Travelers]:::pg
+S1 --> SLGIN{Logged in?}
+SLGIN -->|No| AUTH_S[Login / Register]:::auth --> S1
+SLGIN -->|Yes| S2[Submit Parcel Form]:::pg --> SAVE_PARCEL[(Save Parcel<br/>in Backend)]:::sys
+SAVE_PARCEL --> S3[Parcel Overview]:::pg --> S4[View Trip Matches]:::pg --> MRQ_TRIG
+
+%% Unified match request
+MRQ_TRIG --> SAVE_MRQ[(Create Match Request<br/>in Backend)]:::sys --> NOTIF_TRAV[Notify Traveler]:::sys
+NOTIF_TRAV --> ACCEPT{Traveler Accept?}
+ACCEPT -->|No| DECLINED[Declined<br/>Sender Notified]:::dec
+ACCEPT -->|Yes| PAY[Sender Pay to Escrow]:::pg --> ESCROW_HOLD[(Payment Success?<br/>Hold Funds)]:::sys
+
+ESCROW_HOLD -->|Fail| PAY
+ESCROW_HOLD -->|Success| MATCH_CONF[Match Confirmed]:::done
+
+MATCH_CONF --> TRACK[Tracking Lifecycle<br/>Picked Up → In Transit]:::pg
+TRACK --> DELIVER{Delivery Confirmed?}
+DELIVER -->|Yes| RELEASE[(Release Escrow<br/>Payout Traveler)]:::sys --> RATE[Rate & Review]:::pg
+DELIVER -->|Issue| DISPUTE[Open Dispute]:::alert --> DISPUTE_SYS[(Dispute Center)]:::sys --> RESOLUTION[Resolved / Refund / Adjust]:::done --> RATE
+
+**Optional: Sequence View (who does what, when)**
+
+sequenceDiagram
+participant Sender
+participant Platform
+participant Traveler
+participant Payment
+participant Escrow
+
+Sender->>Platform: Submit Parcel + Reward
+Platform->>Sender: Parcel Saved
+Traveler->>Platform: Add Trip + Space
+Platform->>Traveler: Trip Saved
+Sender->>Platform: Request Match (tripId, reward)
+Platform->>Traveler: New Match Request
+Traveler->>Platform: Accept
+Platform->>Sender: Pay Now
+Sender->>Payment: Card / Wallet
+Payment-->>Escrow: Hold Funds
+Escrow-->>Platform: Escrow Held
+Platform->>Sender: Match Confirmed
+Platform->>Traveler: Match Confirmed
+Traveler->>Platform: Picked Up → In Transit
+Sender->>Platform: Delivery Confirmed
+Platform->>Escrow: Release
+Escrow-->>Traveler: Payout
+
+## **Where this fits in your Sitemap**
+
+**Add /dashboard/matches** (you already have) as the operational center after a match is created:
+
+/dashboard/matches
+├─ /dashboard/matches/:matchId
+├─ Status Timeline (Requested, Accepted, Paid, In Transit...)
+├─ Escrow Banner
+├─ Chat / Attachments
+├─ Action Buttons (Mark Picked Up / Delivered / Report Issue)
+
+**Entry points to Matching:**
+
+- From **Trip Overview** → “View Parcel Requests”
+- From **Parcel Overview** → “View Trip Matches”
+- From **Marketplace search** (public or inside dashboard)

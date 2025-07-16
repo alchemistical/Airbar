@@ -189,6 +189,121 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Match request endpoints
+  app.post("/api/match-requests", async (req, res) => {
+    try {
+      const userId = req.user?.id || 1; // Use authenticated user in production
+      const matchRequest = await storage.createMatchRequest({
+        ...req.body,
+        senderId: userId,
+        category: req.body.category || "general",
+      });
+      res.json(matchRequest);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create match request" });
+    }
+  });
+
+  app.get("/api/match-requests", async (req, res) => {
+    try {
+      const userId = req.user?.id || 1;
+      const requests = await storage.getUserMatchRequests(userId);
+      res.json(requests);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch match requests" });
+    }
+  });
+
+  app.post("/api/match-requests/:id/accept", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const request = await storage.updateMatchRequestStatus(id, "accepted");
+      res.json(request);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to accept match request" });
+    }
+  });
+
+  app.post("/api/match-requests/:id/decline", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const request = await storage.updateMatchRequestStatus(id, "declined");
+      res.json(request);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to decline match request" });
+    }
+  });
+
+  app.post("/api/match-requests/:id/pay", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { paymentIntentId } = req.body;
+      
+      // Update payment status
+      const request = await storage.updateMatchRequestPayment(
+        id,
+        "succeeded",
+        "held",
+        paymentIntentId
+      );
+      
+      // Create the match
+      const matchRequest = await storage.getMatchRequest(id);
+      if (!matchRequest) {
+        throw new Error("Match request not found");
+      }
+      
+      const match = await storage.createMatch({
+        matchRequestId: id,
+        tripId: matchRequest.tripId || 0,
+        parcelId: matchRequest.parcelId || 0,
+        senderId: matchRequest.senderId,
+        travelerId: matchRequest.travelerId,
+        pickupCode: Math.random().toString(36).substring(2, 8).toUpperCase(),
+        deliveryCode: Math.random().toString(36).substring(2, 8).toUpperCase(),
+      });
+      
+      res.json({ matchRequest: request, match });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to process payment" });
+    }
+  });
+
+  // Match endpoints
+  app.get("/api/matches", async (req, res) => {
+    try {
+      const userId = req.user?.id || 1;
+      const matches = await storage.getUserMatches(userId);
+      res.json(matches);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch matches" });
+    }
+  });
+
+  app.get("/api/matches/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const match = await storage.getMatch(id);
+      if (!match) {
+        return res.status(404).json({ error: "Match not found" });
+      }
+      res.json(match);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch match" });
+    }
+  });
+
+  app.patch("/api/matches/:id/tracking", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { trackingStep, ...data } = req.body;
+      const match = await storage.updateMatchTracking(id, trackingStep, data);
+      res.json(match);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update tracking" });
+    }
+  });
+
   // Payment API endpoints
   app.post("/api/payments/checkout-session", async (req, res) => {
     try {
