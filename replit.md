@@ -68,6 +68,12 @@ This is a full-stack web application for a package delivery marketplace called "
   - API endpoints for match requests and matches management
   - Role-based views in MatchRequests page (sender vs traveler)
   - DisputeButton component for initiating disputes on problematic deliveries
+- ✅ Enhanced Browse Trips with Date Filtering (January 16, 2025)
+  - Added date range filtering with calendar pickers (From Date / To Date)
+  - Added "Verified travelers only" checkbox filter
+  - Added "Clear Filters" button that appears when any filter is active
+  - Date validation ensures end date cannot be before start date
+  - Filters now include: location, dates, weight range, price range, and verification status
 
 ## User Preferences
 

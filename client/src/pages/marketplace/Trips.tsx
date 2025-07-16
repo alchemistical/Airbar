@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Checkbox } from "@/components/ui/checkbox";
 import { 
   Search, 
   Calendar as CalendarIcon, 
@@ -45,9 +46,11 @@ interface Trip {
 export default function MarketplaceTrips() {
   const [searchFrom, setSearchFrom] = useState("");
   const [searchTo, setSearchTo] = useState("");
-  const [dateRange, setDateRange] = useState<Date | undefined>();
+  const [startDate, setStartDate] = useState<Date | undefined>();
+  const [endDate, setEndDate] = useState<Date | undefined>();
   const [weightFilter, setWeightFilter] = useState("all");
   const [priceFilter, setPriceFilter] = useState("all");
+  const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
   const [showMatchModal, setShowMatchModal] = useState(false);
 
@@ -108,11 +111,23 @@ export default function MarketplaceTrips() {
   const filteredTrips = trips.filter(trip => {
     if (searchFrom && !trip.from.toLowerCase().includes(searchFrom.toLowerCase())) return false;
     if (searchTo && !trip.to.toLowerCase().includes(searchTo.toLowerCase())) return false;
+    
+    // Date filtering
+    if (startDate || endDate) {
+      const tripDate = new Date(trip.departureDate);
+      if (startDate && tripDate < startDate) return false;
+      if (endDate && tripDate > endDate) return false;
+    }
+    
     if (weightFilter !== "all") {
       if (weightFilter === "light" && trip.availableWeight > 5) return false;
       if (weightFilter === "medium" && (trip.availableWeight <= 5 || trip.availableWeight > 15)) return false;
       if (weightFilter === "heavy" && trip.availableWeight <= 15) return false;
     }
+    
+    // Verified filter
+    if (verifiedOnly && !trip.userVerified) return false;
+    
     return true;
   });
 
@@ -127,7 +142,7 @@ export default function MarketplaceTrips() {
 
         {/* Search Filters */}
         <div className="card">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
               <Label htmlFor="from">From</Label>
               <div className="relative mt-1">
@@ -154,6 +169,59 @@ export default function MarketplaceTrips() {
                   className="pl-10"
                 />
               </div>
+            </div>
+            
+            <div>
+              <Label>From Date</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal mt-1",
+                      !startDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {startDate ? format(startDate, "MMM d, yyyy") : "Select start date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={startDate}
+                    onSelect={setStartDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            <div>
+              <Label>To Date</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal mt-1",
+                      !endDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {endDate ? format(endDate, "MMM d, yyyy") : "Select end date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={endDate}
+                    onSelect={setEndDate}
+                    initialFocus
+                    disabled={(date) => startDate ? date < startDate : false}
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
             
             <div>
@@ -191,10 +259,43 @@ export default function MarketplaceTrips() {
         {/* Results Count */}
         <div className="flex items-center justify-between">
           <p className="text-secondary">Found {filteredTrips.length} available trips</p>
-          <Button variant="outline" size="sm">
-            <Search className="h-4 w-4 mr-2" />
-            Save Search
-          </Button>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="verified-only"
+                checked={verifiedOnly}
+                onCheckedChange={(checked) => setVerifiedOnly(checked as boolean)}
+              />
+              <label 
+                htmlFor="verified-only" 
+                className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer"
+              >
+                Verified travelers only
+                <Shield className="h-4 w-4 text-primary" />
+              </label>
+            </div>
+            {(searchFrom || searchTo || startDate || endDate || weightFilter !== "all" || priceFilter !== "all" || verifiedOnly) && (
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => {
+                  setSearchFrom("");
+                  setSearchTo("");
+                  setStartDate(undefined);
+                  setEndDate(undefined);
+                  setWeightFilter("all");
+                  setPriceFilter("all");
+                  setVerifiedOnly(false);
+                }}
+              >
+                Clear Filters
+              </Button>
+            )}
+            <Button variant="outline" size="sm">
+              <Search className="h-4 w-4 mr-2" />
+              Save Search
+            </Button>
+          </div>
         </div>
 
         {/* Trip Cards */}
