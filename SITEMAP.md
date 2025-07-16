@@ -3,31 +3,60 @@
 ## Overview
 This document provides a comprehensive sitemap of the Airbar crowdshipping platform, showing all available pages, their hierarchical structure, and navigation flow.
 
+## Last Updated: January 16, 2025
+
 ## Sitemap Structure
 
 ```
 /
-├── /dashboard (Main Dashboard)
+├── Marketing & Public Pages
+│   ├── / (Homepage - Conversion Optimized)
+│   ├── /about (About Us)
+│   ├── /how-it-works (How It Works)
+│   ├── /pricing (Pricing Calculator)
+│   ├── /safety (Safety & Trust)
+│   ├── /faq (Frequently Asked Questions)
+│   ├── /contact (Contact Us)
+│   ├── /terms (Terms of Service)
+│   ├── /privacy (Privacy Policy)
+│   ├── /business (Business Solutions)
+│   └── /careers (Career Opportunities)
+│
+├── Marketplace
+│   ├── /marketplace/trips (Browse Available Trips)
+│   │   └── /marketplace/trips/:id (Trip Details & Match Request)
+│   └── /browse-packages (Browse Package Requests)
+│
+├── Dashboard (Authenticated Area)
+│   ├── /dashboard (Main Dashboard)
 │   ├── /dashboard/traveler/trips (Trip Management)
-│   │   └── /dashboard/traveler/trips/addtrip (Add New Trip)
+│   │   └── /dashboard/traveler/trips/addtrip (Add New Trip - 6 Steps)
 │   ├── /dashboard/parcel-requests (Browse Parcel Requests)
 │   │   └── /dashboard/parcel-requests/:id (Parcel Request Detail)
 │   ├── /dashboard/sender/parcels (My Parcels - Sender View)
-│   ├── /dashboard/matches (Active Matches)
-│   ├── /send-package (Send Package Form)
+│   ├── /dashboard/matches (Active Matches & Requests)
+│   ├── /send-package (Send Package Form - Multi-step)
 │   ├── /dashboard/tracking (Package Tracking)
 │   └── /dashboard/support (Help & Support)
 │
-└── User Menu (Dropdown)
-    ├── /dashboard/wallet (Wallet Overview)
-    │   └── /dashboard/wallet/transactions (Transaction History)
-    ├── /dashboard/notifications (Notification Center)
-    ├── /dashboard/profile (Profile & Settings)
-    ├── /dashboard/referrals (Referral Program)
-    └── /dashboard/history (Delivery History)
-        ├── /dashboard/history/view/:id (History Detail)
-        ├── /dashboard/history/traveler (Traveler History)
-        └── /dashboard/history/sender (Sender History)
+├── User Menu (Dropdown)
+│   ├── /dashboard/wallet (Wallet Overview)
+│   │   └── /dashboard/wallet/transactions (Transaction History)
+│   ├── /dashboard/notifications (Notification Center)
+│   ├── /dashboard/profile (Profile & Settings)
+│   ├── /dashboard/referrals (Referral Program)
+│   └── /dashboard/history (Delivery History)
+│       ├── /dashboard/history/view/:id (History Detail)
+│       ├── /dashboard/history/traveler (Traveler History)
+│       └── /dashboard/history/sender (Sender History)
+│
+├── Dispute Resolution
+│   ├── /dashboard/disputes (Dispute List)
+│   ├── /dashboard/disputes/new (Create New Dispute - 3 Steps)
+│   └── /dashboard/disputes/:id (Dispute Details & Timeline)
+│
+└── Payment & Checkout
+    └── /payment/checkout/:matchRequestId (Stripe Payment)
 ```
 
 ## Page Descriptions
@@ -52,9 +81,11 @@ This document provides a comprehensive sitemap of the Airbar crowdshipping platf
   - Trip status tracking
   - Quick actions per trip
 - **Sub-page**: Add Trip (`/dashboard/traveler/trips/addtrip`)
-  - Multi-step form (5 steps)
+  - Multi-step form (6 steps)
   - Progress tracking
   - Validation
+  - Pricing calculator
+  - Consent checkboxes
 
 #### 3. Parcel Requests (`/dashboard/parcel-requests`)
 - **Purpose**: Browse available package delivery requests
@@ -144,6 +175,84 @@ This document provides a comprehensive sitemap of the Airbar crowdshipping platf
 - **Features**:
   - Referral code sharing
   - Earnings tracking
+  - Performance metrics
+  - Social sharing tools
+
+#### 13. History (`/dashboard/history`)
+- **Purpose**: Complete delivery history
+- **Features**:
+  - Role-based filtering
+  - Advanced search
+  - Date range selection
+  - Export functionality
+- **Sub-pages**:
+  - History Detail (`/dashboard/history/view/:id`)
+  - Traveler History (`/dashboard/history/traveler`)
+  - Sender History (`/dashboard/history/sender`)
+
+### Marketing & Public Pages
+
+#### Homepage (`/`)
+- **Purpose**: Conversion-optimized landing page
+- **Recent Refactor (January 16, 2025)**:
+  - Interactive Hero with intent capture (origin/destination fields)
+  - Sender/Traveler role toggle
+  - Trust badges highlighting escrow, KYC, tracking
+  - Tabbed audience cards reducing scroll
+  - Simplified 3-step visual process
+  - Enhanced safety pillars with detailed cards
+  - Auto-rotating testimonials with ratings
+  - Business CTA band
+  - Improved visual hierarchy
+
+#### Safety (`/safety`)
+- **Purpose**: Trust and safety information
+- **Features**:
+  - Escrow explanation
+  - KYC verification details
+  - Dispute resolution process
+  - Photo documentation requirements
+  - Prohibited items list
+
+#### FAQ (`/faq`)
+- **Purpose**: Comprehensive help resource
+- **Features**:
+  - 8 categorized sections
+  - 50+ questions and answers
+  - Search functionality
+  - Direct links to support
+
+### Marketplace
+
+#### Browse Trips (`/marketplace/trips`)
+- **Purpose**: Find available travelers
+- **Features**:
+  - Advanced filtering (location, dates, price, weight)
+  - Date range picker
+  - Verified traveler filter
+  - Trip details modal
+  - Match request system
+
+### Dispute Resolution
+
+#### Disputes (`/dashboard/disputes`)
+- **Purpose**: Manage delivery disputes
+- **Features**:
+  - 8 status states
+  - Timeline tracking
+  - Evidence upload
+  - 48-hour SLA
+  - Resolution offers
+
+### Payment Integration
+
+#### Payment Checkout (`/payment/checkout/:matchRequestId`)
+- **Purpose**: Secure payment processing
+- **Features**:
+  - Stripe integration ready
+  - Escrow payment flow
+  - 1-hour payment timeout
+  - Secure card processing
   - Referral status
   - Bonus information
 
