@@ -111,10 +111,19 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       </SidebarMenu>
 
       <SidebarFooter>
-        <SidebarMenuButton className="!text-airbar-black hover:!bg-gray-100 hover:!text-airbar-black">
-          <LogOut className="h-5 w-5" />
-          <span>Logout</span>
-        </SidebarMenuButton>
+        <Link href="/">
+          <SidebarMenuButton 
+            className="!text-airbar-black hover:!bg-gray-100 hover:!text-airbar-black"
+            onClick={() => {
+              // Clear any auth tokens/session here if needed
+              localStorage.removeItem('auth_token');
+              sessionStorage.clear();
+            }}
+          >
+            <LogOut className="h-5 w-5" />
+            <span>Logout</span>
+          </SidebarMenuButton>
+        </Link>
       </SidebarFooter>
     </>
   );
@@ -258,10 +267,19 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   
                   <DropdownMenuSeparator className="my-2" />
                   
-                  <DropdownMenuItem className="flex items-center space-x-3 p-3 rounded-lg cursor-pointer text-red-600 hover:bg-red-50">
-                    <LogOut className="h-5 w-5" />
-                    <span className="font-medium">Logout</span>
-                  </DropdownMenuItem>
+                  <Link href="/">
+                    <DropdownMenuItem 
+                      className="flex items-center space-x-3 p-3 rounded-lg cursor-pointer text-red-600 hover:bg-red-50"
+                      onClick={() => {
+                        // Clear any auth tokens/session here if needed
+                        localStorage.removeItem('auth_token');
+                        sessionStorage.clear();
+                      }}
+                    >
+                      <LogOut className="h-5 w-5" />
+                      <span className="font-medium">Logout</span>
+                    </DropdownMenuItem>
+                  </Link>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
