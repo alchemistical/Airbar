@@ -1,0 +1,355 @@
+PROJECT: Airbar Public Marketing Site
+OWNER: Lead Product + UI/UX
+DEV STACK: React 18 + TypeScript + Tailwind CSS (same DS tokens as app)
+HOSTING: Shared repo (marketing + app) w/ separate build entry
+GOAL: Convert visitors into (a) Senders posting packages, (b) Travelers posting trips, (c) Email waitlist/pilot signups, (d) Businesses contacting sales.
+
+SUCCESS KPIs (instrument!!)
+- >4% visitor→signup conversion (total)
+- >2% visitor→post-package (sender funnel)
+- >2% visitor→post-trip (traveler funnel)
+- <2.5s LCP on mobile 4G
+- Bounce <45% on hero scroll
+- 100% legal docs acceptance gating flows
+
+PRIMARY AUDIENCES
+-----------------
+1. INDIVIDUAL SENDERS – need safe, lower-cost, faster alt to intl shipping.
+2. TRAVELERS – want to earn money on unused luggage space.
+3. BUSINESSES / FREQUENT SHIPPERS – volume, API, insurance, invoicing.
+4. TRUST CHECKERS – regulators, press, partners (need legitimacy).
+
+PRIMARY CONVERSIONS
+-------------------
+• CTA-SEND: “Send a Package” → /send-package (app)
+• CTA-EARN: “Earn While You Travel” → /dashboard/traveler/trips/addtrip (auth gate)
+• CTA-BUSINESS: “Talk to Sales” form → CRM email webhook
+• CTA-WAITLIST: collect email + city for geo expansion
+
+GLOBAL DESIGN PRINCIPLES (Refactoring UI + Brand)
+-------------------------------------------------
+• Generous whitespace, 8/16/32 rhythm.
+• Keep brand green for actions; neutrals for background.
+• 1 hero CTA per intent; don’t crowd.
+• Use contrast tiers: H1 ~32/700, H2 24/700, H3 20/600, body 17/400.
+• Use card pattern for grouped info (steps, benefits, stats).
+• Motion subtle: 150ms ease, translate-y-px on hover.
+• Mobile-first stack; collapse complex grids to vertical scroll.
+
+COLOR TOKENS (import from DS)
+-----------------------------
+brand-600 #01A268 (primary)
+brand-700 #00905D (primary-hover)
+brand-400 #A1CCB4 (info)
+danger #EB5757
+gray-100 #F2F2F3 (page bg)
+gray-500 #808084 (meta)
+gray-700 #3A3B43 (body text)
+gray-1000 #1D1D21 (dark bg / footer)
+
+TYPOGRAPHY SCALE
+----------------
+Display 48/700 (rare, hero only)
+H1 32/700, H2 24/700, H3 20/600
+Body 17/400, Small 14/400
+All rem + clamp() responsive.
+
+GRID / LAYOUT
+-------------
+Max content width 1200px; 24px side gutters mobile; 40px tablet; 64px desktop.
+Section vertical spacing: 96px desktop / 64px tablet / 48px mobile.
+
+IMAGERY & ILLUSTRATIONS
+-----------------------
+• Lifestyle travel + parcel handoff imagery (rights checked).
+• Illustrated icon set: lucide line + flat accent fill.
+• Map/routing visuals to convey global reach.
+• All images lazy loaded; responsive breakpoints (srcset).
+
+ACCESSIBILITY
+-------------
+WCAG AA min contrast; keyboard tab order; skip-to-content link; semantic headings.
+
+SEO / META
+----------
+• Title, desc per page; canonical tags.
+• JSON-LD: Organization, FAQ, Product, BreadcrumbList.
+• OpenGraph + Twitter card.
+
+ANALYTICS & EVENTS
+------------------
+Use Segment or GA4 wrapper.
+Events: hero_cta_send_clicked, hero_cta_travel_clicked, pricing_estimate_generated, email_waitlist_submitted, business_lead_submitted.
+
+ROUTE MAP (PUBLIC MARKETING)
+----------------------------
+/
+├─ /how-it-works
+│   ├─ /how-it-works/travelers
+│   └─ /how-it-works/senders
+├─ /pricing   (estimator + fees explained)
+├─ /safety    (KYC, escrow, insurance, prohibited items)
+├─ /business  (volume, API, contact sales form)
+├─ /faq       (searchable; mirrored to in-app support)
+├─ /contact   (general inquiry)
+├─ /auth/login  (redirect into app shell)
+└─ /auth/register
+
+GLOBAL COMPONENTS (shared)
+--------------------------
+Header (sticky, shrink on scroll)
+  - Logo
+  - Nav links: How It Works, Find Travelers, Browse Packages, Pricing, Safety, Business
+  - CTAs: Sign In (ghost), Get Started (primary)
+  - Mobile: hamburger w/ slide-in menu + CTAs
+
+Announcement Bar (optional launch / pilot city banner)
+
+Footer (sitewide)
+  - Brand mission copy + global stats row
+  - Columns: Services / Support / Legal / Company / Social
+  - Locale selector (lang/currency)
+  - © + year
+
+COOKIES / CONSENT
+-----------------
+Cookie banner bottom-left; accept/decline; link to privacy.
+
+----------------------------------------
+PAGE SPECS
+----------------------------------------
+
+HOME (/)
+========
+SECTIONS ORDER:
+ 1. Hero w/ dual CTA split
+    copy: "Ship Globally. Earn While You Travel." sub: "Connect with verified travelers to deliver packages safely and affordably."
+    CTA primary: Send a Package
+    CTA secondary outline: I'm Traveling
+    Hero Search (optional v2): origin/destination quick search
+ 2. Credibility Stats Bar
+    icons + copy: 150+ Countries, 2M+ Users, 50K+ Deliveries, Escrow Protected
+ 3. Audience Split Cards
+    Card A (Senders) short 3-step: Post → Match → Delivered
+    Card B (Travelers) short 3-step: List Trip → Carry → Earn
+ 4. How It Works (interactive tabs: Sender / Traveler)
+    ~3 steps each, with icon and short copy, CTA at end.
+ 5. Pricing & Savings vs Carriers
+    - Quick estimator input (weight, route) => est reward/fee
+    - Comparison to courier avg
+ 6. Safety & Trust
+    - KYC, Escrow, Tracking, Disputes, Insurance-ready
+    - Link to /safety
+ 7. Featured Routes / Trending Corridors
+    - Data-driven list from app (top 6)
+ 8. Testimonials / Reviews slider
+    - Pull avg rating + 3 quotes
+ 9. Business CTA band
+    - "High volume or recurring shipments? Get a tailored solution."
+ 10. Final Conversion Band (Get Started Today)
+ 11. Footer global
+
+HOW IT WORKS (/how-it-works)
+============================
+Top tabs: Overview | Senders | Travelers
+Animated stepper: create, match, escrow, deliver, payout.
+FAQ inline; CTA to send / add trip.
+
+PRICING (/pricing)
+==================
+Interactive estimator (weight + route + urgency).
+Transparent breakdown: Reward, Platform Fee (15%), Insurance (opt).
+FAQ: When am I charged? When do travelers get paid?
+Legal disclaimers about customs & prohibited items.
+
+SAFETY (/safety)
+================
+Trust pillars grid: KYC Verified Travelers, Escrow Payments, Package Tracking, Dispute Resolution 48h SLA, Photo Proof, Community Ratings.
+Regulatory: What items are prohibited; customs forms; ID checks.
+Link: Report a Safety Issue → in-app support.
+
+BUSINESS (/business)
+====================
+Use case tiles: E-commerce overflow, sample shipments, documents.
+API / CSV import mention.
+Lead capture form (name, company, volume, country) → HubSpot/CRM webhook.
+Logos of early pilot merchants (placeholder).
+
+FAQ (/faq)
+==========
+Search field; categorized accordions; same content model used in-app.
+Structured data markup.
+
+CONTACT (/contact)
+==================
+General inquiry form; address; support email; trust & safety escalation link.
+
+AUTH LINKS
+==========
+Sign In / Register redirect into main app auth flows; preserve UTM + deep link.
+
+----------------------------------------
+CONTENT & COPYWRITING GUIDELINES
+----------------------------------------
+Voice: Clear, trustworthy, practical. Avoid jargon (“crowdshipping” explained simply).
+Benefit-first: "Save up to 70% vs couriers." / "Earn up to $300 per international trip."
+Trust in action: Show green verified shield; use “Funds held in escrow until delivery confirmed.”
+Legal accuracy: Always show prohibited items link near send CTA.
+
+----------------------------------------
+IMPLEMENTATION STEPS / TASKS
+----------------------------------------
+
+LP-00  Repo Split & Routing
+  • Create /marketing entry in monorepo
+  • Configure React Router or Next.js static export path segment
+  • Shared design tokens import from /ui
+
+LP-01  Tailwind Theme Sync
+  • Import brand and gray palette tokens
+  • Responsive container utilities
+
+LP-02  Global Header + Mobile Nav
+  • Sticky; shrink on scroll (max-height 80→56)
+  • Active link underline
+  • CTA button for Get Started (brand)
+
+LP-03  Global Footer (as previously spec’d)
+  • Multi-column; language selector; legal links
+  • Reuse DS icons
+
+LP-04  Homepage Hero
+  • Two-column layout desktop; stacked mobile
+  • CTA-SEND (primary) / CTA-TRAVEL (secondary)
+  • Option: route search field (controlled component; not required MVP marketing)
+
+LP-05  Stats Strip
+  • Flexible grid; animate count on visible
+
+LP-06  Audience Split Cards
+  • Each card w/ icon, 3 short steps, CTA
+
+LP-07  How It Works Toggle (sender/traveler)
+  • Tabbed; step timeline; CTA deep links
+
+LP-08  Pricing Estimator
+  • Inputs: from, to, weight, urgency
+  • Call /api/pricing/quote → display reward & fee
+  • Save events to analytics
+
+LP-09  Safety Section
+  • Pillars grid w/ icons; link to /safety
+
+LP-10  Featured Routes Carousel
+  • Pull from `/api/public/top-routes` (seeded)
+  • Card shows avg reward / next available trip
+
+LP-11  Testimonials Slider
+  • import sample reviews; star rating; user avatar initial + country flag
+
+LP-12  Business CTA Band
+  • Large gradient banner; lead form in modal
+
+LP-13  Final CTA Band
+  • Simple; 1 headline; big CTA; trust copy line
+
+LP-14  Page: How It Works
+  • Reuse section components; longer copy; embed 90s explainer video (later)
+
+LP-15  Page: Pricing
+  • Estimator full width; fee table; courier compare chart
+
+LP-16  Page: Safety
+  • Multi-section doc; scrollspy TOC left
+  • Prohibited Items expandable list
+
+LP-17  Page: Business
+  • Lead capture validated; spam guard (honey pot, captcha)
+
+LP-18  Page: FAQ
+  • Search, accordion; mark helpful (👍/👎)
+
+LP-19  Contact Page
+  • Basic form; categories; emoji-level severity tag
+
+LP-20  Localization Scaffold
+  • i18n JSON keys; fallback en-US; future languages
+
+LP-21  Analytics Wiring
+  • Track all primary CTA events (see above)
+  • Push UTM + ref codes into signup deep links
+
+LP-22  Performance & SEO
+  • Preload hero image; compress < 150kb
+  • meta + OG tags; sitemap.xml generator
+
+LP-23  Accessibility Audit
+  • Axe-core pass; keyboard nav; high-contrast toggle
+
+LP-24  Launch Content Pass
+  • Replace lorem w/ approved marketing copy
+  • Legal disclaimers inserted where required
+
+LP-25  QA + Regression
+  • Cross-browser (Chrome, Safari, Firefox, iOS Safari, Android Chrome)
+  • Mobile breakpoints (<640, 640-1024, >1024)
+
+ACCEPTANCE CRITERIA (GLOBAL)
+----------------------------
+✓ Lighthouse ≥90 Perf / ≥95 A11y / ≥90 SEO
+✓ All CTAs deep-link properly into app auth flows w/ redirectOnSuccess
+✓ Responsive across mobile/desktop
+✓ Analytics events fire w/ user context or anonID
+✓ Legal docs available & linked from every footer
+✓ No console errors; no 404 assets
+
+FILE STRUCTURE SUGGESTION
+-------------------------
+/marketing
+  /components
+    Header.tsx
+    Footer.tsx
+    Hero.tsx
+    StatsStrip.tsx
+    AudienceCards.tsx
+    HowItWorksTabs.tsx
+    PricingEstimator.tsx
+    SafetyPillars.tsx
+    RoutesCarousel.tsx
+    Testimonials.tsx
+    CTASection.tsx
+  /pages
+    index.tsx
+    how-it-works.tsx
+    pricing.tsx
+    safety.tsx
+    business.tsx
+    faq.tsx
+    contact.tsx
+  /data
+    faq.json
+    safety-policies.md
+    prohibited-items.json
+    testimonials.json
+  /hooks
+    usePricingQuote.ts
+    useTopRoutes.ts
+  /styles
+    marketing.css (only page-specific overrides)
+  /i18n
+    en.json
+    fr.json (placeholder)
+    es.json (placeholder)
+
+MIGRATION / INTEGRATION NOTES
+-----------------------------
+• Marketing site and app share domain? If yes, host on root & mount app at /app OR use subdomain (recommended: app.airbar.app).
+• Ensure CORS + cookie scope correct if cross-subdomain auth.
+• Redirect old root traffic → marketing.
+
+DEPLOY STEPS
+------------
+1. Build marketing bundle separate from app (Vite multi-entry).
+2. Netlify / Vercel / Cloudflare Pages for static site; env points API domain env var.
+3. Validate UTM param pass-through to app signups.
+4. Pre-render FAQ for SEO.
