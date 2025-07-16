@@ -48,13 +48,13 @@
   --success: hsl(142, 71%, 45%);
   
   /* Sidebar colors */
-  --sidebar-background: hsl(220, 13%, 18%);
-  --sidebar-foreground: hsl(0, 0%, 100%);
+  --sidebar-background: hsl(0, 0%, 100%);
+  --sidebar-foreground: hsl(220, 13%, 20%);
   --sidebar-primary: var(--brand-600);
   --sidebar-primary-foreground: hsl(0, 0%, 100%);
-  --sidebar-accent: hsla(0, 0%, 100%, 0.08);
-  --sidebar-accent-foreground: hsl(0, 0%, 100%);
-  --sidebar-border: hsl(220, 13%, 26%);
+  --sidebar-accent: hsl(220, 14%, 96%);
+  --sidebar-accent-foreground: hsl(220, 13%, 20%);
+  --sidebar-border: hsl(220, 13%, 91%);
   --sidebar-ring: var(--brand-600);
 }
 
@@ -270,4 +270,27 @@
   .border-sidebar-border {
     border-color: var(--sidebar-border) !important;
   }
+}
+
+/* Force sidebar styles */
+[data-sidebar] {
+  background-color: white !important;
+}
+
+[data-sidebar] * {
+  background-color: transparent !important;
+}
+
+[data-sidebar-menu-button]:not([data-active="true"]):hover {
+  background-color: hsl(220, 14%, 96%) !important;
+  color: hsl(220, 13%, 20%) !important;
+}
+
+[data-sidebar-menu-button][data-active="true"] {
+  background-color: hsl(207, 100%, 51%) !important;
+  color: white !important;
+}
+
+[data-sidebar-menu-button][data-active="true"]:hover {
+  background-color: hsl(207, 100%, 45%) !important;
 }

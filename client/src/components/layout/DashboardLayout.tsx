@@ -122,7 +122,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <SidebarProvider>
       {/* Desktop Sidebar */}
-      <Sidebar className="hidden lg:flex !bg-white !w-64 border-r border-gray-200 shadow-sm">
+      <Sidebar className="hidden lg:flex !bg-white !w-64 border-r border-gray-200 shadow-sm [&_[data-sidebar=sidebar]]:!bg-white">
         <SidebarContent className="flex flex-col h-full !p-6 !bg-white">
           <SidebarNavigation />
         </SidebarContent>
