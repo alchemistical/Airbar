@@ -36,26 +36,24 @@ export default function Header() {
       <div className="container mx-auto px-6 md:px-10 lg:px-16 max-w-7xl">
         <nav className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/">
-            <a className="flex items-center">
-              <span className="text-2xl font-bold text-primary">Airbar</span>
-            </a>
+          <Link href="/" className="flex items-center">
+            <span className="text-2xl font-bold text-primary">Airbar</span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
-              <Link key={link.href} href={link.href}>
-                <a
-                  className={cn(
-                    "text-sm font-medium transition-colors hover:text-primary",
-                    location === link.href
-                      ? "text-primary border-b-2 border-primary"
-                      : "text-gray-700"
-                  )}
-                >
-                  {link.label}
-                </a>
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  "text-sm font-medium transition-colors hover:text-primary",
+                  location === link.href
+                    ? "text-primary border-b-2 border-primary"
+                    : "text-gray-700"
+                )}
+              >
+                {link.label}
               </Link>
             ))}
           </div>
@@ -63,14 +61,10 @@ export default function Header() {
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-4">
             <Link href="/auth/login">
-              <a>
-                <Button variant="ghost">Sign In</Button>
-              </a>
+              <Button variant="ghost">Sign In</Button>
             </Link>
             <Link href="/auth/register">
-              <a>
-                <Button>Get Started</Button>
-              </a>
+              <Button>Get Started</Button>
             </Link>
           </div>
 
@@ -95,32 +89,28 @@ export default function Header() {
           <div className="container mx-auto px-6 py-4">
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => (
-                <Link key={link.href} href={link.href}>
-                  <a
-                    className={cn(
-                      "text-base font-medium py-2 transition-colors",
-                      location === link.href
-                        ? "text-primary"
-                        : "text-gray-700"
-                    )}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {link.label}
-                  </a>
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "text-base font-medium py-2 transition-colors block",
+                    location === link.href
+                      ? "text-primary"
+                      : "text-gray-700"
+                  )}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.label}
                 </Link>
               ))}
               <div className="flex flex-col gap-2 pt-4 border-t border-gray-200">
-                <Link href="/auth/login">
-                  <a onClick={() => setIsMobileMenuOpen(false)}>
-                    <Button variant="outline" className="w-full">
-                      Sign In
-                    </Button>
-                  </a>
+                <Link href="/auth/login" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button variant="outline" className="w-full">
+                    Sign In
+                  </Button>
                 </Link>
-                <Link href="/auth/register">
-                  <a onClick={() => setIsMobileMenuOpen(false)}>
-                    <Button className="w-full">Get Started</Button>
-                  </a>
+                <Link href="/auth/register" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button className="w-full">Get Started</Button>
                 </Link>
               </div>
             </div>
