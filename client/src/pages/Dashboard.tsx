@@ -115,26 +115,24 @@ export default function Dashboard() {
     ];
 
     return [...baseStats, ...roleSpecificStats].map((stat, index) => (
-      <Card key={index} className="hover:shadow-md transition-shadow rounded-xl">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 mb-1">{stat.title}</p>
-              <p className="text-3xl font-bold text-airbar-black">{stat.value}</p>
-            </div>
-            <div className={`p-3 rounded-xl ${stat.bgColor}`}>
-              <stat.icon className={`h-6 w-6 ${stat.color}`} />
-            </div>
+      <div key={index} className="card hover-lift">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-small mb-2">{stat.title}</p>
+            <p className="text-h2">{stat.value}</p>
           </div>
-          {stat.link && (
-            <Link href={stat.link}>
-              <Button variant="ghost" size="sm" className="mt-2 p-0 h-auto text-sm text-blue-600 hover:text-blue-800">
-                View details <ArrowRight className="h-3 w-3 ml-1" />
-              </Button>
-            </Link>
-          )}
-        </CardContent>
-      </Card>
+          <div className={`p-3 rounded-xl ${stat.bgColor}`}>
+            <stat.icon className={`h-6 w-6 ${stat.color}`} />
+          </div>
+        </div>
+        {stat.link && (
+          <Link href={stat.link}>
+            <Button variant="ghost" size="sm" className="mt-3 p-0 h-auto text-sm text-primary hover:text-primary/80">
+              View details <ArrowRight className="h-3 w-3 ml-1" />
+            </Button>
+          </Link>
+        )}
+      </div>
     ));
   };
 
@@ -188,50 +186,45 @@ export default function Dashboard() {
         </div>
 
         {/* Quick Actions */}
-        <Card className="rounded-xl">
-          <CardHeader className="pb-4">
-            <CardTitle className="flex items-center text-lg">
-              <TrendingUp className="h-5 w-5 mr-2 text-blue-600" />
-              Quick Actions
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ScrollArea className="w-full">
-              <div className="flex space-x-4 pb-4">
-                {quickActions.map((action, index) => (
-                  <Link key={index} href={action.href}>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button 
-                          className={`${action.color} text-white min-w-[140px] rounded-xl transition-all hover:scale-105`}
-                          size="lg"
-                        >
-                          <action.icon className="h-5 w-5 mr-2" />
-                          {action.label}
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>{action.label}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </Link>
-                ))}
-              </div>
-            </ScrollArea>
-          </CardContent>
-        </Card>
+        <div className="card">
+          <div className="flex items-center mb-6">
+            <TrendingUp className="h-5 w-5 mr-2 text-primary" />
+            <h2 className="text-h3">Quick Actions</h2>
+          </div>
+          <ScrollArea className="w-full">
+            <div className="flex space-x-4 pb-4">
+              {quickActions.map((action, index) => (
+                <Link key={index} href={action.href}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button 
+                        className={`${index === 0 ? 'btn-primary' : 'btn-secondary'} min-w-[140px] hover-lift`}
+                      >
+                        <action.icon className="h-5 w-5 mr-2" />
+                        {action.label}
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{action.label}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </Link>
+              ))}
+            </div>
+          </ScrollArea>
+        </div>
 
         {/* Main Grid */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Left Column - Main Content */}
           <div className="space-y-8 lg:col-span-2">
             {/* Wallet Snapshot */}
-            <Card className="rounded-xl">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center text-lg">
-                  <Wallet className="h-5 w-5 mr-2 text-green-600" />
-                  Wallet Overview
-                </CardTitle>
+            <div className="card">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center">
+                  <Wallet className="h-5 w-5 mr-2 text-primary" />
+                  <h2 className="text-h3">Wallet Overview</h2>
+                </div>
                 <div className="flex items-center space-x-2">
                   <Button
                     variant={walletView === "summary" ? "default" : "outline"}
@@ -251,9 +244,8 @@ export default function Dashboard() {
                     Graph
                   </Button>
                 </div>
-              </CardHeader>
-              <CardContent>
-                {walletView === "summary" ? (
+              </div>
+              {walletView === "summary" ? (
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     <div className="text-center p-4 bg-green-50 rounded-xl">
                       <p className="text-sm text-green-700 mb-1">Available Balance</p>
@@ -284,24 +276,20 @@ export default function Dashboard() {
                     </Button>
                   </Link>
                   <Link href="/dashboard/wallet/withdrawals">
-                    <Button className="bg-green-600 hover:bg-green-700 text-white rounded-lg">
+                    <Button className="bg-primary hover:bg-primary/90 text-white rounded-lg">
                       <DollarSign className="h-4 w-4 mr-2" />
                       Withdraw Funds
                     </Button>
                   </Link>
                 </div>
-              </CardContent>
-            </Card>
+            </div>
 
             {/* Trip Timeline */}
-            <Card className="rounded-xl">
-              <CardHeader>
-                <CardTitle className="flex items-center text-lg">
-                  <Calendar className="h-5 w-5 mr-2 text-purple-600" />
-                  Trip Timeline
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
+            <div className="card">
+              <div className="flex items-center mb-6">
+                <Calendar className="h-5 w-5 mr-2 text-primary" />
+                <h2 className="text-h3">Trip Timeline</h2>
+              </div>
                 <Tabs defaultValue="upcoming" className="w-full">
                   <TabsList className="grid w-full grid-cols-2 rounded-lg">
                     <TabsTrigger value="upcoming" className="rounded-lg">Upcoming</TabsTrigger>
@@ -309,22 +297,22 @@ export default function Dashboard() {
                   </TabsList>
                   <TabsContent value="upcoming" className="space-y-4 mt-6">
                     {upcomingTrips.map((trip) => (
-                      <div key={trip.id} className="flex items-center justify-between p-4 border rounded-xl hover:shadow-sm transition-shadow">
+                      <div key={trip.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
                         <div className="flex items-center space-x-4">
                           <div className="flex items-center space-x-2 text-sm">
                             <span className="font-medium">{trip.from}</span>
                             <ArrowRight className="h-4 w-4 text-gray-400" />
                             <span className="font-medium">{trip.to}</span>
                           </div>
-                          <Badge variant={trip.status === "confirmed" ? "default" : "secondary"} className="rounded-full">
+                          <span className={`badge ${trip.status === "confirmed" ? "badge-success" : "badge-secondary"}`}>
                             {trip.status}
-                          </Badge>
+                          </span>
                         </div>
                         <div className="flex items-center space-x-4">
                           <span className="text-sm text-gray-600">{trip.date}</span>
-                          <Badge variant="outline" className="rounded-full">
+                          <span className="badge badge-secondary">
                             {trip.matches} matches
-                          </Badge>
+                          </span>
                         </div>
                       </div>
                     ))}
@@ -338,26 +326,22 @@ export default function Dashboard() {
                 </Tabs>
                 <div className="mt-6 pt-4 border-t">
                   <Link href="/dashboard/traveler/trips">
-                    <Button variant="outline" className="w-full rounded-lg">
+                    <button className="btn-secondary w-full">
                       View All Trips
-                    </Button>
+                    </button>
                   </Link>
                 </div>
-              </CardContent>
-            </Card>
+            </div>
           </div>
 
           {/* Right Column - Sidebar Content */}
           <div className="space-y-8">
             {/* To-Do List */}
-            <Card className="rounded-xl">
-              <CardHeader>
-                <CardTitle className="flex items-center text-lg">
-                  <CheckCircle2 className="h-5 w-5 mr-2 text-blue-600" />
-                  Action Items ({todoItems.length})
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
+            <div className="card">
+              <div className="flex items-center mb-6">
+                <CheckCircle2 className="h-5 w-5 mr-2 text-primary" />
+                <h2 className="text-h3">Action Items ({todoItems.length})</h2>
+              </div>
                 {todoItems.length === 0 ? (
                   <div className="text-center py-8 text-gray-500">
                     <CheckCircle2 className="h-12 w-12 mx-auto mb-4 opacity-50" />
@@ -367,7 +351,7 @@ export default function Dashboard() {
                   <div className="space-y-3">
                     {todoItems.map((item, index) => (
                       <Link key={index} href={item.href}>
-                        <div className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+                        <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
                           <div className="flex items-center space-x-3">
                             <div className={`w-2 h-2 rounded-full ${
                               item.priority === "high" ? "bg-red-500" :
@@ -375,26 +359,22 @@ export default function Dashboard() {
                             }`} />
                             <span className="text-sm font-medium">{item.text}</span>
                           </div>
-                          <Badge variant="outline" className="rounded-full">
+                          <span className="badge badge-secondary">
                             {item.count}
-                          </Badge>
+                          </span>
                         </div>
                       </Link>
                     ))}
                   </div>
                 )}
-              </CardContent>
-            </Card>
+            </div>
 
             {/* Recent Activity */}
-            <Card className="rounded-xl">
-              <CardHeader>
-                <CardTitle className="flex items-center text-lg">
-                  <Clock className="h-5 w-5 mr-2 text-gray-600" />
-                  Recent Activity
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
+            <div className="card">
+              <div className="flex items-center mb-6">
+                <Clock className="h-5 w-5 mr-2 text-primary" />
+                <h2 className="text-h3">Recent Activity</h2>
+              </div>
                 <ScrollArea className="h-64">
                   <div className="space-y-4">
                     {recentActivity.map((activity) => (
@@ -410,8 +390,7 @@ export default function Dashboard() {
                     ))}
                   </div>
                 </ScrollArea>
-              </CardContent>
-            </Card>
+            </div>
           </div>
         </div>
       </div>

@@ -1,0 +1,66 @@
+GOAL
+----
+Apply Refactoring UI design guidelines to the entire Airbar web app so every screen feels balanced, scannable, and visually polished.
+
+CORE PRINCIPLES (from Refactoring UI)
+-------------------------------------
+1. **Use generous whitespace** – 1×/2× rhythm (e.g. 8 px → 16 px → 32 px).  
+2. **Establish clear hierarchy** – size, weight, and color (never more than 3 text sizes per card).  
+3. **Leverage subtle shadows** – only one shadow tier for elevation (rgba 0,0,0,0.06).  
+4. **Mute demanding colors** – strong brand color only for primary action & accents.  
+5. **Design for empty states** – helpful copy + illustration.  
+6. **Build cards, not rows** – wrap related info in white card with 8 px radius & 24 px padding.  
+7. **Prefer gray-400 borders, gray-100 dividers** – crisp but low-contrast.  
+8. **Make everything a tiny bit larger** (font 16 → 17 px; line-height 1.5).  
+9. **Delight with micro-interactions** – 150 ms ease-in-out, translate-y-1 on hover.  
+10. **Consistent icon set & stroke weight** – Lucide 24 × 24, stroke-2.
+
+TASK LIST
+---------
+UIR-01  **Spacing Sweep**  
+  • Replace all hard-coded margins with spacing scale: `space-2/4/8/12/16/24/32` (Tailwind).  
+  • Increase vertical rhythm between sections from 24 → 32 px.
+
+UIR-02  **Typography Cleanup**  
+  • H1 32/700, H2 24/700, H3 20/600, body 17/400, small 14/400.  
+  • Use `text-gray-700` for body, `text-gray-500` for meta.
+
+UIR-03  **Cardification**  
+  • Wrap KPI tiles, Timeline, Wallet, Parcel rows in `.card` = `bg-white rounded-lg shadow-sm p-6`.  
+  • Remove table borders; rely on card boundary.
+
+UIR-04  **Action Colors**  
+  • Primary = brand-600 (#01A268).  
+  • Secondary = gray-700 text + border.  
+  • Danger = #EB5757.  
+  • Remove any extra accent colors.
+
+UIR-05  **Shadow Pass**  
+  • Only one global shadow: `shadow-[0_1px_3px_rgba(0,0,0,0.06)]` everywhere.
+
+UIR-06  **Icon Consistency**  
+  • Replace mixed icon sets with Lucide; import as `<Icon className="w-5 h-5 mr-2" />`.
+
+UIR-07  **Empty States**  
+  • For Trips, Parcels, Matches lists: show illustration (400 × 250 SVG), headline, “Add Trip” CTA.
+
+UIR-08  **Micro-Interactions**  
+  • Buttons/tiles: `transition transform duration-150 ease-in-out hover:-translate-y-px hover:shadow`  
+  • List rows: subtle bg change `hover:bg-gray-50`.
+
+UIR-09  **Form Refinement**  
+  • Inputs: `rounded-md border-gray-300 focus:ring-2 focus:ring-brand-600`.  
+  • Group labels + inputs with 16 px stack gap.
+
+UIR-10 **Dark-Mode Readiness**  
+  • Wrap `class="dark"`; for cards add `dark:bg-gray-800 dark:text-gray-100`.  
+  • Color tokens via CSS variables.
+
+ACCEPTANCE CRITERIA
+-------------------
+✓ Figma pixel-distance: min spacing 8 px grid, multiples only.  
+✓ Lighthouse a11y score ≥ 95 (contrast).  
+✓ All pages use `.card` container; zero stray table borders.  
+✓ No more than 1 primary button per view.  
+✓ Empty-state component appears when lists.length === 0.  
+✓ Visual QA: dashboard, trips, parcel requests, matching, support all follow new palette & hierarchy.

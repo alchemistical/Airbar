@@ -4,44 +4,55 @@
 
 :root {
   --background: hsl(0, 0%, 100%);
-  --foreground: hsl(20, 14.3%, 4.1%);
-  --muted: hsl(60, 4.8%, 95.9%);
-  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --foreground: hsl(220, 13%, 20%);
+  --muted: hsl(220, 14%, 96%);
+  --muted-foreground: hsl(220, 9%, 46%);
   --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --popover-foreground: hsl(220, 13%, 20%);
   --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(20, 14.3%, 4.1%);
-  --border: hsl(20, 5.9%, 90%);
-  --input: hsl(20, 5.9%, 90%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(60, 4.8%, 95.9%);
-  --secondary-foreground: hsl(24, 9.8%, 10%);
-  --accent: hsl(60, 4.8%, 95.9%);
-  --accent-foreground: hsl(24, 9.8%, 10%);
-  --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(60, 9.1%, 97.8%);
-  --ring: hsl(20, 14.3%, 4.1%);
+  --card-foreground: hsl(220, 13%, 20%);
+  --border: hsl(220, 13%, 91%);
+  --input: hsl(220, 13%, 91%);
+  --primary: hsl(160, 98%, 32%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(220, 13%, 20%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(220, 14%, 96%);
+  --accent-foreground: hsl(220, 13%, 20%);
+  --destructive: hsl(0, 73%, 63%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(160, 98%, 32%);
   --radius: 0.5rem;
 
-  /* Airbar custom colors */
-  --airbar-blue: hsl(207, 90%, 54%);
-  --airbar-green: hsl(142, 71%, 45%);
-  --airbar-orange: hsl(25, 85%, 63%);
-  --airbar-red: hsl(0, 84%, 63%);
-  --airbar-light-gray: hsl(0, 0%, 95%);
-  --airbar-dark-gray: hsl(0, 0%, 31%);
-  --airbar-black: hsl(0, 0%, 20%);
-
+  /* Refactoring UI Colors */
+  --brand-600: hsl(160, 98%, 32%); /* #01A268 */
+  --gray-50: hsl(220, 14%, 98%);
+  --gray-100: hsl(220, 14%, 96%);
+  --gray-200: hsl(220, 13%, 91%);
+  --gray-300: hsl(220, 13%, 84%);
+  --gray-400: hsl(220, 9%, 65%);
+  --gray-500: hsl(220, 9%, 46%);
+  --gray-600: hsl(220, 13%, 39%);
+  --gray-700: hsl(220, 13%, 26%);
+  --gray-800: hsl(220, 13%, 18%);
+  --gray-900: hsl(220, 13%, 13%);
+  
+  /* Shadow */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  
+  /* Danger */
+  --danger: hsl(0, 73%, 63%); /* #EB5757 */
+  
   /* Sidebar colors */
-  --sidebar-background: hsl(0, 0%, 20%);
+  --sidebar-background: hsl(220, 13%, 18%);
   --sidebar-foreground: hsl(0, 0%, 100%);
-  --sidebar-primary: hsl(207, 90%, 54%);
-  --sidebar-primary-foreground: hsl(211, 100%, 99%);
-  --sidebar-accent: hsl(0, 0%, 100%, 0.1);
+  --sidebar-primary: var(--brand-600);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: hsla(0, 0%, 100%, 0.08);
   --sidebar-accent-foreground: hsl(0, 0%, 100%);
-  --sidebar-border: hsl(0, 0%, 38%);
-  --sidebar-ring: hsl(240, 4.9%, 83.9%);
+  --sidebar-border: hsl(220, 13%, 26%);
+  --sidebar-ring: var(--brand-600);
 }
 
 .dark {
@@ -79,25 +90,51 @@
 }
 
 @layer utilities {
+  /* Typography - Refactoring UI */
   .text-h1 {
-    @apply text-[32px] leading-[1.2] font-bold;
+    @apply text-[32px] leading-[1.2] font-bold tracking-tight;
   }
   
   .text-h2 {
-    @apply text-[24px] leading-[1.3] font-bold;
+    @apply text-[24px] leading-[1.3] font-bold tracking-tight;
   }
   
   .text-h3 {
-    @apply text-[20px] leading-[1.4] font-medium;
+    @apply text-[20px] leading-[1.4] font-semibold;
   }
   
   .text-body {
-    @apply text-[16px] leading-[1.5] font-normal;
+    @apply text-[17px] leading-[1.5] font-normal text-gray-700;
   }
   
   .text-small {
-    @apply text-[14px] leading-[1.4] font-normal;
+    @apply text-[14px] leading-[1.4] font-normal text-gray-500;
   }
+  
+  /* Card Component - Refactoring UI */
+  .card {
+    @apply bg-white rounded-lg shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-6;
+  }
+  
+  .card-compact {
+    @apply bg-white rounded-lg shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4;
+  }
+  
+  /* Micro-interactions */
+  .hover-lift {
+    @apply transition-all duration-150 ease-in-out hover:-translate-y-px hover:shadow-md;
+  }
+  
+  .hover-highlight {
+    @apply transition-colors duration-150 ease-in-out hover:bg-gray-50;
+  }
+  
+  /* Spacing utilities */
+  .stack-xs { @apply space-y-2; }
+  .stack-sm { @apply space-y-4; }
+  .stack-md { @apply space-y-6; }
+  .stack-lg { @apply space-y-8; }
+  .stack-xl { @apply space-y-12; }
   
   .bg-airbar-blue {
     background-color: var(--airbar-blue);
