@@ -245,4 +245,29 @@
   .text-airbar-black {
     color: var(--airbar-black);
   }
+  
+  /* Sidebar specific styles */
+  .bg-sidebar {
+    background-color: var(--sidebar-background) !important;
+  }
+  
+  .text-sidebar-foreground {
+    color: var(--sidebar-foreground) !important;
+  }
+  
+  .bg-sidebar-primary {
+    background-color: var(--sidebar-primary) !important;
+  }
+  
+  .bg-sidebar-accent {
+    background-color: var(--sidebar-accent) !important;
+  }
+  
+  .text-sidebar-accent-foreground {
+    color: var(--sidebar-accent-foreground) !important;
+  }
+  
+  .border-sidebar-border {
+    border-color: var(--sidebar-border) !important;
+  }
 }
