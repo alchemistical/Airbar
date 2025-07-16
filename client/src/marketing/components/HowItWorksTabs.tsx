@@ -1,54 +1,45 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { Package, Plane, Search, Shield, CreditCard, CheckCircle } from "lucide-react";
+import { Package, Plane, Search, CreditCard, Camera, DollarSign } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function HowItWorksTabs() {
   const [activeTab, setActiveTab] = useState<"sender" | "traveler">("sender");
 
   const senderSteps = [
     {
-      icon: Package,
-      title: "Post Your Package",
-      description: "Describe what you need to send, where it's going, and when you need it delivered.",
-    },
-    {
       icon: Search,
-      title: "Match with Travelers",
-      description: "Browse verified travelers heading to your destination and send match requests.",
+      title: "Post",
+      description: "List your package details and destination",
     },
     {
       icon: CreditCard,
-      title: "Secure Payment",
-      description: "Pay securely through our escrow system. Funds are held until delivery is confirmed.",
+      title: "Match & Pay",
+      description: "Select a traveler and pay securely",
     },
     {
-      icon: CheckCircle,
-      title: "Track & Receive",
-      description: "Track your package in real-time and confirm receipt with photo verification.",
+      icon: Camera,
+      title: "Deliver",
+      description: "Track and confirm with photos",
     },
   ];
 
   const travelerSteps = [
     {
       icon: Plane,
-      title: "List Your Trip",
-      description: "Add your travel dates, route, and how much space you have available.",
+      title: "List Trip",
+      description: "Add your route and available space",
     },
     {
-      icon: Search,
-      title: "Review Requests",
-      description: "Check package requests from verified senders and accept the ones that suit you.",
+      icon: Package,
+      title: "Accept Packages",
+      description: "Review and accept requests",
     },
     {
-      icon: Shield,
-      title: "Carry Safely",
-      description: "Inspect items, take photos, and carry only what you're comfortable with.",
-    },
-    {
-      icon: CreditCard,
-      title: "Earn Money",
-      description: "Get paid after successful delivery. Funds released from escrow to your account.",
+      icon: DollarSign,
+      title: "Get Paid",
+      description: "Earn after successful delivery",
     },
   ];
 
@@ -61,55 +52,70 @@ export default function HowItWorksTabs() {
         <div className="inline-flex rounded-lg bg-gray-100 p-1">
           <button
             onClick={() => setActiveTab("sender")}
-            className={`px-6 py-2 rounded-md font-medium transition-all duration-150 ${
+            className={cn(
+              "px-6 py-2 rounded-md font-medium transition-all duration-150",
               activeTab === "sender"
                 ? "bg-white text-primary shadow-sm"
                 : "text-gray-600 hover:text-gray-900"
-            }`}
+            )}
           >
             I want to send
           </button>
           <button
             onClick={() => setActiveTab("traveler")}
-            className={`px-6 py-2 rounded-md font-medium transition-all duration-150 ${
+            className={cn(
+              "px-6 py-2 rounded-md font-medium transition-all duration-150",
               activeTab === "traveler"
                 ? "bg-white text-primary shadow-sm"
                 : "text-gray-600 hover:text-gray-900"
-            }`}
+            )}
           >
             I'm traveling
           </button>
         </div>
       </div>
 
-      {/* Steps */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-        {steps.map((step, index) => (
-          <div key={index} className="text-center">
-            <div className="relative mb-6">
-              <div className="w-20 h-20 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
-                <step.icon className="h-10 w-10 text-primary" />
+      {/* Timeline Steps */}
+      <div className="relative max-w-4xl mx-auto mb-12">
+        {/* Timeline Bar */}
+        <div className="absolute top-16 left-16 right-16 h-1 bg-gray-200 hidden md:block"></div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {steps.map((step, index) => (
+            <div key={index} className="relative text-center">
+              {/* Step Number */}
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold">
+                {index + 1}
               </div>
-              {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-10 left-full w-full h-0.5 bg-gray-200">
-                  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-gray-300 rounded-full" />
+              
+              {/* Icon Circle */}
+              <div className="relative mb-4">
+                <div className="w-32 h-32 mx-auto bg-primary/10 rounded-full flex items-center justify-center group hover:bg-primary/20 transition-colors">
+                  <step.icon className="h-16 w-16 text-primary" />
                 </div>
-              )}
+              </div>
+              
+              <h3 className="font-bold text-lg mb-2">{step.title}</h3>
+              <p className="text-sm text-gray-600">{step.description}</p>
             </div>
-            <h3 className="font-semibold text-lg mb-2">{step.title}</h3>
-            <p className="text-sm text-gray-600">{step.description}</p>
-          </div>
-        ))}
+          ))}
+        </div>
+      </div>
+
+      {/* Average Savings Badge */}
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 text-green-700 rounded-full">
+          <DollarSign className="h-5 w-5" />
+          <span className="font-semibold">Average delivery savings: 65%</span>
+        </div>
       </div>
 
       {/* CTA */}
       <div className="text-center">
         <Link href={activeTab === "sender" ? "/send-package" : "/dashboard/traveler/trips/addtrip"}>
-          <a>
-            <Button size="lg">
-              {activeTab === "sender" ? "Send Your First Package" : "List Your Trip"}
-            </Button>
-          </a>
+          <Button size="lg">
+            {activeTab === "sender" ? "Start Your First Package" : "Add Your Trip"}
+          </Button>
         </Link>
       </div>
     </div>

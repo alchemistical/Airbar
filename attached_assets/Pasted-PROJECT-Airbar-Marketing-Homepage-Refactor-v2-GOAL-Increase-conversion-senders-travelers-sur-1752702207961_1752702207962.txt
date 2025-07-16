@@ -1,0 +1,103 @@
+PROJECT: Airbar Marketing Homepage Refactor v2
+GOAL: Increase conversion (senders & travelers) + surface trust & pricing sooner.
+
+SCOPE
+-----
+Refactor current home page structure per UX spec. Reduce scroll fatigue, elevate trust, add interactive price hook, and clarify dual-audience CTAs.
+
+BREAKDOWN
+---------
+HP-01  Layout Shell
+  • Max-width 1200px; responsive gutters.
+  • Section padding: py-24 md:py-32; alt bg-gray-100 stripes.
+
+HP-02  Hero Intent Block
+  • Headline: "Send Globally. Earn While You Travel."
+  • Sub: "Verified travelers. Escrow protected. Save vs couriers; earn on empty luggage."
+  • Two large CTAs: [Send a Package] (primary) [I’m Traveling] (secondary).
+  • Optional quick intent tabs above CTAs (Send | Earn) toggles bullet copy.
+  • Hero image full-height right; aspect 16:10; gradient overlay for legibility.
+  • Inline micro link: "What can I send?" → /safety#prohibited-items.
+
+HP-03  Trust Badges Strip (immediately below hero)
+  • 4–5 items: KYC Verified, Escrow Payments, Live Tracking, Photo Proof, Community Reviews.
+  • Click → /safety anchor.
+  • Larger icons; center-aligned mobile.
+
+HP-04  Persona Switch Cards (collapsed)
+  • Tabs: Senders | Travelers
+  • Tab content: 3 bullet benefits + single CTA.
+  • Replace current side-by-side tall cards to reduce vertical scroll.
+
+HP-05  How It Works Section
+  • 3 step timeline icons; copy tuned per persona (use same tabs above).
+  • Step anchors: Post → Match & Pay → Deliver / Get Paid.
+  • CTA: "Start Your First Package" / "Add Your Trip".
+
+HP-06  Price Estimator (moved up)
+  • Fields: From (city/airport autocomplete), To, Weight, Delivery window (select).
+  • On submit: call /api/public/estimate (mock if unavailable).
+  • Show: Estimated Reward / Est Savings vs Courier.
+  • CTA continues to appropriate flow; if not logged in -> auth.
+
+HP-07  Safety & Trust Grid
+  • Two-column responsive; each card = icon, short desc, Learn link.
+  • Include Escrow explanation line: "Funds held until sender confirms delivery."
+
+HP-08  Popular Routes
+  • 2-row responsive grid; show top 6 corridors (data props or mock list).
+  • Card: route, next available date, avg reward, # travelers.
+  • CTA: "Browse All Routes" bottom.
+
+HP-09  Testimonials Slider
+  • Carousel or rotating fade; avatar, name abbrev, rating, country.
+  • Secondary stat row: avg rating, deliveries completed, dispute resolution SLA.
+
+HP-10  Business CTA Band (full-bleed gradient brand-600→brand-400)
+  • Headline: "High Volume or Recurring Shipments?"
+  • CTA: [Talk to Sales] opens modal lead form.
+
+HP-11  Final Conversion Band
+  • Headline: "Ready to Get Started?"
+  • Dual CTA: Send Package / I’m Traveling
+  • Legal microcopy line.
+
+HP-12  Footer Integration (existing global DS footer)
+  • Ensure Services / Support / Legal / Company links correct.
+  • Add language selector + region disclaimers.
+
+STYLE & TOKENS
+--------------
+Use Airbar design tokens:
+  brand-600 #01A268 primary
+  brand-700 hover
+  gray-100 page bg, gray-700 body text, gray-500 meta
+  white cards, 8px radius, shadow-sm
+
+COPY PLACEHOLDERS
+-----------------
+See /marketing/content/home.json (create if missing).
+Include hero bullets & trust copy strings.
+
+ANALYTICS
+---------
+Fire events:
+  hp_send_cta_click
+  hp_travel_cta_click
+  hp_price_estimate_submit
+  hp_trust_badge_click
+  hp_popular_route_click
+  hp_business_lead_submit
+
+ACCESSIBILITY
+-------------
+All interactive elements keyboard reachable; aria-label on icons; heading hierarchy maintained (h1 single).
+
+DONE CRITERIA
+-------------
+✓ Visual diff shows new section order.
+✓ Page passes Lighthouse Perf>90 A11y>95.
+✓ Primary CTAs visible w/in 600px on 375px mobile screen.
+✓ Estimator returns value & flows to send/travel auth.
+✓ Trust badges clickable; /safety reachable.
+✓ Metrics instrumentation logs to console (stub) if analytics not wired.

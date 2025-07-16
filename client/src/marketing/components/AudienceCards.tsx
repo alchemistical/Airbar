@@ -1,97 +1,91 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Package, Plane, ArrowRight, Check } from "lucide-react";
+import { Package, Plane, ArrowRight, Check, DollarSign, Shield, Clock } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function AudienceCards() {
-  const cards = [
-    {
-      title: "For Senders",
+  const [activeTab, setActiveTab] = useState<"senders" | "travelers">("senders");
+
+  const content = {
+    senders: {
+      title: "Send Packages Globally",
       icon: Package,
-      steps: [
-        "Post your package details",
-        "Match with verified travelers",
-        "Track until delivered",
-      ],
       benefits: [
-        "Save up to 70% on shipping",
-        "Escrow payment protection",
-        "Real-time tracking",
+        { icon: DollarSign, text: "Save up to 70% on international shipping" },
+        { icon: Shield, text: "Escrow payment protection & insurance" },
+        { icon: Clock, text: "Real-time tracking with photo updates" },
       ],
-      cta: "Send a Package",
+      cta: "Send Your First Package",
       ctaHref: "/send-package",
-      color: "bg-blue-50",
-      iconColor: "text-blue-600",
     },
-    {
-      title: "For Travelers",
+    travelers: {
+      title: "Earn While You Travel",
       icon: Plane,
-      steps: [
-        "List your upcoming trip",
-        "Accept package requests",
-        "Earn from unused space",
-      ],
       benefits: [
-        "Earn up to $300 per trip",
-        "Choose what you carry",
-        "Secure payment system",
+        { icon: DollarSign, text: "Earn $50-300 per trip from unused luggage space" },
+        { icon: Shield, text: "Choose what packages you want to carry" },
+        { icon: Clock, text: "Get paid within 48 hours of delivery" },
       ],
-      cta: "Start Earning",
+      cta: "Start Earning Today",
       ctaHref: "/dashboard/traveler/trips/addtrip",
-      color: "bg-green-50",
-      iconColor: "text-green-600",
     },
-  ];
+  };
+
+  const currentContent = content[activeTab];
 
   return (
-    <div className="grid md:grid-cols-2 gap-8">
-      {cards.map((card, index) => (
-        <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow duration-150">
-          <div className={`h-2 ${card.iconColor.replace('text-', 'bg-')}`} />
-          <CardContent className="p-8">
-            <div className={`inline-flex p-3 rounded-lg ${card.color} mb-6`}>
-              <card.icon className={`h-8 w-8 ${card.iconColor}`} />
-            </div>
-            
-            <h3 className="text-2xl font-bold mb-6">{card.title}</h3>
-            
-            <div className="mb-6">
-              <h4 className="font-semibold mb-3">How it works:</h4>
-              <ol className="space-y-2">
-                {card.steps.map((step, stepIndex) => (
-                  <li key={stepIndex} className="flex items-start gap-3">
-                    <span className={`flex-shrink-0 w-6 h-6 rounded-full ${card.iconColor.replace('text-', 'bg-')} text-white flex items-center justify-center text-sm font-semibold`}>
-                      {stepIndex + 1}
-                    </span>
-                    <span className="text-gray-600">{step}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-            
-            <div className="mb-8">
-              <h4 className="font-semibold mb-3">Benefits:</h4>
-              <ul className="space-y-2">
-                {card.benefits.map((benefit, benefitIndex) => (
-                  <li key={benefitIndex} className="flex items-start gap-2">
-                    <Check className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600">{benefit}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            
-            <Link href={card.ctaHref}>
-              <a>
-                <Button className="w-full group">
-                  {card.cta}
-                  <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </a>
-            </Link>
-          </CardContent>
-        </Card>
-      ))}
+    <div className="max-w-3xl mx-auto">
+      {/* Tab Header */}
+      <div className="flex rounded-lg bg-gray-100 p-1 mb-8">
+        <button
+          onClick={() => setActiveTab("senders")}
+          className={cn(
+            "flex-1 py-3 px-6 rounded-md font-medium transition-all",
+            activeTab === "senders"
+              ? "bg-white text-primary shadow-sm"
+              : "text-gray-600 hover:text-gray-900"
+          )}
+        >
+          <Package className="h-5 w-5 inline-block mr-2" />
+          For Senders
+        </button>
+        <button
+          onClick={() => setActiveTab("travelers")}
+          className={cn(
+            "flex-1 py-3 px-6 rounded-md font-medium transition-all",
+            activeTab === "travelers"
+              ? "bg-white text-primary shadow-sm"
+              : "text-gray-600 hover:text-gray-900"
+          )}
+        >
+          <Plane className="h-5 w-5 inline-block mr-2" />
+          For Travelers
+        </button>
+      </div>
+
+      {/* Tab Content */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+        <h3 className="text-2xl font-bold mb-6">{currentContent.title}</h3>
+        
+        <ul className="space-y-4 mb-8">
+          {currentContent.benefits.map((benefit, index) => (
+            <li key={index} className="flex items-start gap-3">
+              <div className="flex-shrink-0 p-2 rounded-lg bg-primary/10">
+                <benefit.icon className="h-5 w-5 text-primary" />
+              </div>
+              <span className="text-gray-700 pt-1">{benefit.text}</span>
+            </li>
+          ))}
+        </ul>
+
+        <Link href={currentContent.ctaHref}>
+          <Button size="lg" className="w-full sm:w-auto group">
+            {currentContent.cta}
+            <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }
