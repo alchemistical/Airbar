@@ -120,6 +120,67 @@
     @apply bg-white rounded-lg shadow-[0_1px_3px_rgba(0,0,0,0.06)] p-4;
   }
   
+  /* Button Components - Refactoring UI */
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-medium rounded-lg transition-colors duration-150;
+    &:hover {
+      background-color: hsl(160, 98%, 28%);
+    }
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors duration-150;
+  }
+  
+  .btn-ghost {
+    @apply inline-flex items-center justify-center px-4 py-2 text-gray-600 font-medium rounded-lg hover:bg-gray-100 transition-colors duration-150;
+  }
+  
+  .btn-danger {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-danger text-white font-medium rounded-lg transition-colors duration-150;
+    &:hover {
+      background-color: hsl(0, 73%, 58%);
+    }
+  }
+  
+  /* Badge Components */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .badge-primary {
+    @apply bg-primary/10 text-primary;
+  }
+  
+  .badge-secondary {
+    @apply bg-gray-100 text-gray-700;
+  }
+  
+  .badge-success {
+    @apply bg-green-100 text-green-700;
+  }
+  
+  .badge-warning {
+    @apply bg-yellow-100 text-yellow-700;
+  }
+  
+  .badge-danger {
+    @apply bg-red-100 text-red-700;
+  }
+  
+  /* Text utilities */
+  .text-primary {
+    @apply text-gray-900;
+  }
+  
+  .text-secondary {
+    @apply text-gray-600;
+  }
+  
+  .text-success {
+    @apply text-green-600;
+  }
+  
   /* Micro-interactions */
   .hover-lift {
     @apply transition-all duration-150 ease-in-out hover:-translate-y-px hover:shadow-md;
