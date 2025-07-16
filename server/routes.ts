@@ -327,6 +327,126 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Browse Packages endpoint
+  app.get("/api/packages/browse", async (req, res) => {
+    try {
+      const packages = [
+        {
+          id: 1,
+          senderId: 2,
+          senderName: "Sarah Chen",
+          senderRating: "4.8",
+          senderVerified: true,
+          fromCity: "New York",
+          toCity: "Los Angeles",
+          weight: "5.5",
+          description: "Electronics - laptop and accessories, requires careful handling",
+          collectionDate: "2024-05-15",
+          deliveryDate: "2024-05-18",
+          status: "pending",
+          offerAmount: "125",
+          createdAt: new Date().toISOString(),
+          urgency: "express",
+          packageType: "Electronics"
+        },
+        {
+          id: 2,
+          senderId: 3,
+          senderName: "John Davis",
+          senderRating: "4.5",
+          senderVerified: false,
+          fromCity: "San Francisco",
+          toCity: "Seattle",
+          weight: "3.0",
+          description: "Documents - important business papers in sealed envelope",
+          collectionDate: "2024-05-12",
+          deliveryDate: "2024-05-14",
+          status: "pending",
+          offerAmount: "85",
+          createdAt: new Date().toISOString(),
+          urgency: "urgent",
+          packageType: "Documents"
+        },
+        {
+          id: 3,
+          senderId: 4,
+          senderName: "Emma Wilson",
+          senderRating: "4.9",
+          senderVerified: true,
+          fromCity: "London",
+          toCity: "Paris",
+          weight: "8.5",
+          description: "Gift package - birthday presents, fragile items included",
+          collectionDate: "2024-05-20",
+          deliveryDate: "2024-05-22",
+          status: "pending",
+          offerAmount: "150",
+          createdAt: new Date().toISOString(),
+          urgency: "standard",
+          packageType: "Gift"
+        },
+        {
+          id: 4,
+          senderId: 5,
+          senderName: "Michael Brown",
+          senderRating: "4.6",
+          senderVerified: true,
+          fromCity: "Berlin",
+          toCity: "Rome",
+          weight: "12.0",
+          description: "Art supplies - canvases and painting materials",
+          collectionDate: "2024-05-25",
+          deliveryDate: "2024-05-28",
+          status: "pending",
+          offerAmount: "200",
+          createdAt: new Date().toISOString(),
+          urgency: "standard",
+          packageType: "Art"
+        },
+        {
+          id: 5,
+          senderId: 6,
+          senderName: "Lisa Martinez",
+          senderRating: "4.7",
+          senderVerified: false,
+          fromCity: "Miami",
+          toCity: "Atlanta",
+          weight: "6.5",
+          description: "Fashion items - designer clothing and accessories",
+          collectionDate: "2024-05-16",
+          deliveryDate: "2024-05-18",
+          status: "pending",
+          offerAmount: "110",
+          createdAt: new Date().toISOString(),
+          urgency: "express",
+          packageType: "Fashion"
+        },
+        {
+          id: 6,
+          senderId: 7,
+          senderName: "David Lee",
+          senderRating: "4.9",
+          senderVerified: true,
+          fromCity: "Toronto",
+          toCity: "Montreal",
+          weight: "4.0",
+          description: "Medical supplies - non-prescription items",
+          collectionDate: "2024-05-14",
+          deliveryDate: "2024-05-15",
+          status: "pending",
+          offerAmount: "95",
+          createdAt: new Date().toISOString(),
+          urgency: "urgent",
+          packageType: "Medical"
+        }
+      ];
+      
+      res.json(packages);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch packages" });
+    }
+  });
+
   // Payment API endpoints
   app.post("/api/payments/checkout-session", async (req, res) => {
     try {

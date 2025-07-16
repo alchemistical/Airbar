@@ -84,6 +84,14 @@ This is a full-stack web application for a package delivery marketplace called "
   - Dashboard Footer: Added mini-links for Safety, Terms, Privacy, Support, and Referrals
   - Fixed nested anchor tag warnings in Footer and RoutesCarousel components
   - Added avatar field to user schema to resolve TypeScript errors
+- ✅ Browse Packages Feature & Static Pages (January 16, 2025)
+  - Created comprehensive Browse Packages page at /browse-packages with advanced filtering
+  - Package filters: location, dates, weight, price, urgency, and verified senders
+  - Mock API endpoint /api/packages/browse with sample package data
+  - Added static pages for footer links: Terms, Privacy, Cookies, About, Careers, Press, Blog
+  - All legal pages include comprehensive content matching industry standards
+  - Connected Airbar logo in dashboard sidebar to redirect to home page
+  - Updated router with all new static page routes
 
 ## User Preferences
 

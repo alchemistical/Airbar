@@ -35,6 +35,7 @@ import MarketplaceTripDetail from "@/pages/MarketplaceTripDetail";
 import MatchRequests from "@/pages/MatchRequests";
 import Checkout from "@/pages/Checkout";
 import PaymentCheckout from "@/pages/PaymentCheckout";
+import BrowsePackages from "@/pages/BrowsePackages";
 import NotFound from "@/pages/not-found";
 
 // Marketing pages
@@ -45,6 +46,13 @@ import Safety from "@/marketing/pages/safety";
 import Business from "@/marketing/pages/business";
 import FAQ from "@/marketing/pages/faq";
 import Contact from "@/marketing/pages/contact";
+import Terms from "@/marketing/pages/terms";
+import Privacy from "@/marketing/pages/privacy";
+import Cookies from "@/marketing/pages/cookies";
+import About from "@/marketing/pages/about";
+import Careers from "@/marketing/pages/careers";
+import Press from "@/marketing/pages/press";
+import Blog from "@/marketing/pages/blog";
 
 function Router() {
   return (
@@ -57,6 +65,13 @@ function Router() {
       <Route path="/business" component={Business} />
       <Route path="/faq" component={FAQ} />
       <Route path="/contact" component={Contact} />
+      <Route path="/terms" component={Terms} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/cookies" component={Cookies} />
+      <Route path="/about" component={About} />
+      <Route path="/careers" component={Careers} />
+      <Route path="/press" component={Press} />
+      <Route path="/blog" component={Blog} />
       
       {/* App Routes */}
       <Route path="/dashboard" component={Dashboard} />
@@ -89,6 +104,7 @@ function Router() {
       <Route path="/support/disputes/:id" component={DisputeDetail} />
       <Route path="/marketplace/trips" component={MarketplaceTrips} />
       <Route path="/marketplace/trips/:id" component={MarketplaceTripDetail} />
+      <Route path="/browse-packages" component={BrowsePackages} />
       <Route path="/match-requests" component={MatchRequests} />
       <Route path="/match-requests/:id" component={MatchRequests} />
       <Route path="/checkout/:matchId" component={Checkout} />
