@@ -24,6 +24,10 @@ export default {
         primary: {
           DEFAULT: "var(--primary)",
           foreground: "var(--primary-foreground)",
+          500: "#00D750",
+          600: "#01A268",
+          700: "#00905D",
+          dark: "#00905D",
         },
         secondary: {
           DEFAULT: "var(--secondary)",
