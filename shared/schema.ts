@@ -9,6 +9,7 @@ export const users = pgTable("users", {
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   email: text("email").notNull().unique(),
+  avatar: text("avatar"),
   isKycVerified: boolean("is_kyc_verified").default(false),
   rating: decimal("rating", { precision: 3, scale: 2 }).default("0.00"),
   createdAt: timestamp("created_at").defaultNow(),

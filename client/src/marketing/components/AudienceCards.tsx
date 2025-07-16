@@ -79,8 +79,15 @@ export default function AudienceCards() {
           ))}
         </ul>
 
-        <Link href={currentContent.ctaHref}>
-          <Button size="lg" className="w-full sm:w-auto group">
+        <Link href={`${currentContent.ctaHref}?intent=${activeTab === "senders" ? "send" : "travel"}&src=homepage_audience`}>
+          <Button 
+            size="lg" 
+            className="w-full sm:w-auto group"
+            onClick={() => {
+              localStorage.setItem('userIntent', activeTab === "senders" ? "send" : "travel");
+              localStorage.setItem('intentSource', 'homepage_audience');
+            }}
+          >
             {currentContent.cta}
             <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
           </Button>

@@ -87,13 +87,21 @@ export default function RoutesCarousel() {
                 </div>
               </div>
               
-              <Link href={`/marketplace/trips?from=${route.from}&to=${route.to}`}>
-                <a>
-                  <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-white transition-colors">
-                    View Trips
-                    <ArrowRight className="h-4 w-4 ml-2" />
-                  </Button>
-                </a>
+              <Link 
+                href={`/marketplace/trips?from=${route.from}&to=${route.to}`}
+                onClick={() => {
+                  const intent = localStorage.getItem('userIntent');
+                  if (!intent) {
+                    // Show modal to choose persona if no intent set
+                    localStorage.setItem('showPersonaModal', 'true');
+                    localStorage.setItem('pendingRoute', JSON.stringify({ from: route.from, to: route.to }));
+                  }
+                }}
+              >
+                <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-white transition-colors">
+                  View Trips
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </Button>
               </Link>
             </CardContent>
           </Card>
@@ -102,11 +110,9 @@ export default function RoutesCarousel() {
       
       <div className="text-center mt-8">
         <Link href="/marketplace/trips">
-          <a>
-            <Button size="lg">
-              Browse All Routes
-            </Button>
-          </a>
+          <Button size="lg">
+            Browse All Routes
+          </Button>
         </Link>
       </div>
     </div>

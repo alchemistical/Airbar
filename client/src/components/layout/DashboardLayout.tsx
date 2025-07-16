@@ -157,7 +157,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     <div className="mt-4 pt-4 border-t border-gray-200">
                       <div className="flex items-center space-x-3 mb-4">
                         <Avatar className="h-8 w-8">
-                          <AvatarImage src={user?.avatar} alt={user?.username} />
+                          <AvatarImage src={user?.avatar || undefined} alt={user?.username} />
                           <AvatarFallback className="bg-airbar-blue text-white text-sm font-medium">
                             {user?.username?.charAt(0).toUpperCase() || "U"}
                           </AvatarFallback>
@@ -222,7 +222,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     }`}
                   >
                     <Avatar className="h-8 w-8">
-                      <AvatarImage src={user?.avatar} alt={user?.username} />
+                      <AvatarImage src={user?.avatar || undefined} alt={user?.username} />
                       <AvatarFallback className="bg-airbar-blue text-white text-sm font-medium">
                         {user?.username?.charAt(0).toUpperCase() || "U"}
                       </AvatarFallback>
@@ -292,6 +292,32 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             {children}
           </div>
         </main>
+        
+        {/* Dashboard Footer */}
+        <footer className="bg-white border-t border-gray-200 px-6 py-4">
+          <div className="mx-auto max-w-7xl flex flex-wrap items-center justify-between gap-4 text-sm text-gray-600">
+            <div className="flex items-center gap-6">
+              <Link href="/safety" className="hover:text-primary transition-colors">
+                Safety Guidelines
+              </Link>
+              <Link href="/terms" className="hover:text-primary transition-colors">
+                Terms
+              </Link>
+              <Link href="/privacy" className="hover:text-primary transition-colors">
+                Privacy
+              </Link>
+              <Link href="/dashboard/support" className="hover:text-primary transition-colors">
+                Support
+              </Link>
+              <Link href="/dashboard/referrals" className="hover:text-primary transition-colors">
+                Refer & Earn
+              </Link>
+            </div>
+            <div className="text-gray-500">
+              © {new Date().getFullYear()} Airbar. All rights reserved.
+            </div>
+          </div>
+        </footer>
       </div>
     </SidebarProvider>
   );

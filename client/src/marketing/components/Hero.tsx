@@ -8,9 +8,16 @@ export default function Hero() {
   const [activeIntent, setActiveIntent] = useState<"send" | "earn">("send");
 
   const handleCTAClick = (type: "send" | "earn") => {
+    // Store intent in localStorage
+    localStorage.setItem('userIntent', type === "earn" ? "travel" : "send");
+    localStorage.setItem('intentSource', 'homepage_hero');
+    
     // Track analytics
     if (typeof window !== 'undefined' && (window as any).analytics) {
-      (window as any).analytics.track(`hp_${type}_cta_click`);
+      (window as any).analytics.track(`hp_${type}_cta_click`, {
+        source: 'homepage_hero',
+        intent: type === "earn" ? "travel" : "send"
+      });
     }
   };
 
@@ -105,14 +112,14 @@ export default function Hero() {
           
           {/* Dual CTAs with clear separation */}
           <div className="flex flex-col sm:flex-row gap-4 mb-4">
-            <Link href="/send-package" onClick={() => handleCTAClick("send")}>
+            <Link href="/send-package?intent=send&src=homepage_hero" onClick={() => handleCTAClick("send")}>
               <Button size="lg" className="w-full sm:w-auto group text-base">
                 <Package className="h-5 w-5 mr-2" />
                 Send a Package
                 <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-            <Link href="/dashboard/traveler/trips/addtrip" onClick={() => handleCTAClick("earn")}>
+            <Link href="/dashboard/traveler/trips/addtrip?intent=travel&src=homepage_hero" onClick={() => handleCTAClick("earn")}>
               <Button size="lg" variant="outline" className="w-full sm:w-auto group text-base">
                 <Plane className="h-5 w-5 mr-2" />
                 I'm Traveling

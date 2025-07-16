@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import TrustBadges from "../components/TrustBadges";
+import StatsStrip from "../components/StatsStrip";
 import AudienceCards from "../components/AudienceCards";
 import HowItWorksTabs from "../components/HowItWorksTabs";
 import PricingEstimator from "../components/PricingEstimator";
@@ -29,6 +30,9 @@ export default function HomePage() {
         
         {/* Trust Badges Strip - Immediately below hero */}
         <TrustBadges />
+        
+        {/* Stats Strip - Platform metrics */}
+        <StatsStrip />
         
         {/* Persona Switch Cards - Collapsed with tabs */}
         <section className="py-24 md:py-32 bg-gray-100">
@@ -110,13 +114,28 @@ export default function HomePage() {
               Join thousands who are already saving up to 70% on international deliveries
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/send-package">
-                <Button size="lg" className="min-w-[200px]">
+              <Link href="/send-package?intent=send&src=homepage_final_cta">
+                <Button 
+                  size="lg" 
+                  className="min-w-[200px]"
+                  onClick={() => {
+                    localStorage.setItem('userIntent', 'send');
+                    localStorage.setItem('intentSource', 'homepage_final_cta');
+                  }}
+                >
                   Send a Package
                 </Button>
               </Link>
-              <Link href="/dashboard/traveler/trips/addtrip">
-                <Button size="lg" variant="outline" className="min-w-[200px]">
+              <Link href="/dashboard/traveler/trips/addtrip?intent=travel&src=homepage_final_cta">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="min-w-[200px]"
+                  onClick={() => {
+                    localStorage.setItem('userIntent', 'travel');
+                    localStorage.setItem('intentSource', 'homepage_final_cta');
+                  }}
+                >
                   List Your Trip
                 </Button>
               </Link>

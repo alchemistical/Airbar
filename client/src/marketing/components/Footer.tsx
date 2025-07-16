@@ -72,10 +72,8 @@ export default function Footer() {
             <ul className="space-y-2">
               {footerLinks.services.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href}>
-                    <a className="text-gray-400 hover:text-white transition-colors text-sm">
-                      {link.label}
-                    </a>
+                  <Link href={link.href} className="text-gray-400 hover:text-white transition-colors text-sm">
+                    {link.label}
                   </Link>
                 </li>
               ))}
@@ -87,10 +85,8 @@ export default function Footer() {
             <ul className="space-y-2">
               {footerLinks.support.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href}>
-                    <a className="text-gray-400 hover:text-white transition-colors text-sm">
-                      {link.label}
-                    </a>
+                  <Link href={link.href} className="text-gray-400 hover:text-white transition-colors text-sm">
+                    {link.label}
                   </Link>
                 </li>
               ))}
@@ -102,10 +98,8 @@ export default function Footer() {
             <ul className="space-y-2">
               {footerLinks.legal.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href}>
-                    <a className="text-gray-400 hover:text-white transition-colors text-sm">
-                      {link.label}
-                    </a>
+                  <Link href={link.href} className="text-gray-400 hover:text-white transition-colors text-sm">
+                    {link.label}
                   </Link>
                 </li>
               ))}
@@ -117,10 +111,8 @@ export default function Footer() {
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href}>
-                    <a className="text-gray-400 hover:text-white transition-colors text-sm">
-                      {link.label}
-                    </a>
+                  <Link href={link.href} className="text-gray-400 hover:text-white transition-colors text-sm">
+                    {link.label}
                   </Link>
                 </li>
               ))}

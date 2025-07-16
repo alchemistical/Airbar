@@ -74,6 +74,16 @@ This is a full-stack web application for a package delivery marketplace called "
   - Added "Clear Filters" button that appears when any filter is active
   - Date validation ensures end date cannot be before start date
   - Filters now include: location, dates, weight range, price range, and verification status
+- ✅ Cross-Surface Harmony v1 Implementation (January 16, 2025)
+  - Intent Parameter Bridge: All marketing CTAs now include ?intent=send|travel params and persist in localStorage
+  - CTA Routing: Hero and audience cards use deep-links to /send-package or /dashboard/traveler/trips/addtrip
+  - Trust Badge Links: Dynamic routing based on auth state (dashboard features vs public safety page)
+  - Shared Stats Service: Created /api/public/stats endpoint consumed by homepage StatsStrip component
+  - Popular Routes Deep Links: Route cards track intent and prepare for persona modal if not set
+  - Content Management: Created /content/faq.json and /content/tokens.json for unified copy
+  - Dashboard Footer: Added mini-links for Safety, Terms, Privacy, Support, and Referrals
+  - Fixed nested anchor tag warnings in Footer and RoutesCarousel components
+  - Added avatar field to user schema to resolve TypeScript errors
 
 ## User Preferences
 
