@@ -82,12 +82,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const SidebarNavigation = () => (
     <>
       <SidebarHeader>
-        <div className="flex items-center space-x-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white">
-            <span className="text-sm font-bold text-airbar-black">A</span>
+        <Link href="/">
+          <div className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-opacity">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white">
+              <span className="text-sm font-bold text-airbar-black">A</span>
+            </div>
+            <span className="text-xl font-bold">airbar</span>
           </div>
-          <span className="text-xl font-bold">airbar</span>
-        </div>
+        </Link>
       </SidebarHeader>
 
       <SidebarMenu>
