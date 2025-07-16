@@ -44,6 +44,9 @@
   /* Danger */
   --danger: hsl(0, 73%, 63%); /* #EB5757 */
   
+  /* Success */
+  --success: hsl(142, 71%, 45%);
+  
   /* Sidebar colors */
   --sidebar-background: hsl(220, 13%, 18%);
   --sidebar-foreground: hsl(0, 0%, 100%);
@@ -122,10 +125,7 @@
   
   /* Button Components - Refactoring UI */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-medium rounded-lg transition-colors duration-150;
-    &:hover {
-      background-color: hsl(160, 98%, 28%);
-    }
+    @apply inline-flex items-center justify-center px-6 py-3 bg-primary text-white font-medium rounded-lg transition-colors duration-150 hover:opacity-90;
   }
   
   .btn-secondary {
@@ -137,10 +137,7 @@
   }
   
   .btn-danger {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-danger text-white font-medium rounded-lg transition-colors duration-150;
-    &:hover {
-      background-color: hsl(0, 73%, 58%);
-    }
+    @apply inline-flex items-center justify-center px-6 py-3 bg-danger text-white font-medium rounded-lg transition-colors duration-150 hover:opacity-90;
   }
   
   /* Badge Components */
