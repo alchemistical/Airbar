@@ -7,6 +7,7 @@ export default function Footer() {
 
   const footerLinks = {
     services: [
+      { label: "Dashboard", href: "/dashboard" },
       { label: "Send a Package", href: "/send-package" },
       { label: "List Your Trip", href: "/dashboard/traveler/trips/addtrip" },
       { label: "Find Travelers", href: "/marketplace/trips" },
