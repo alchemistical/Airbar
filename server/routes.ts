@@ -479,6 +479,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   const httpServer = createServer(app);
+  // Debug endpoint for form testing
+  app.post("/api/debug/send-package", (req, res) => {
+    console.log("Send Package Form Data:", req.body);
+    res.json({ success: true, data: req.body });
+  });
+
+  app.post("/api/debug/add-trip", (req, res) => {
+    console.log("Add Trip Form Data:", req.body);
+    res.json({ success: true, data: req.body });
+  });
+
   // Location API endpoints
   app.get("/api/locations/search", (req, res) => {
     const { query } = req.query;

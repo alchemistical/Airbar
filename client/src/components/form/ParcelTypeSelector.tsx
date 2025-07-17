@@ -94,19 +94,21 @@ export function ParcelTypeSelector({
           const isSelected = safeValue.includes(type.value);
           
           return (
-            <label
+            <div
               key={type.value}
               className={cn(
                 "relative flex cursor-pointer rounded-lg border p-4 hover:bg-accent/50 transition-colors",
                 isSelected && "border-primary bg-primary/5",
                 error && "border-destructive"
               )}
+              onClick={() => handleChange(type.value, !isSelected)}
             >
-              <div className="flex items-start gap-3 w-full">
+              <div className="flex items-start gap-3 w-full pointer-events-none">
                 <Checkbox
                   checked={isSelected}
                   onCheckedChange={(checked) => handleChange(type.value, !!checked)}
-                  className="mt-1"
+                  className="mt-1 pointer-events-auto"
+                  onClick={(e) => e.stopPropagation()}
                 />
                 <div className="flex-1 space-y-1">
                   <div className="flex items-center gap-2">
@@ -118,7 +120,7 @@ export function ParcelTypeSelector({
                   </p>
                 </div>
               </div>
-            </label>
+            </div>
           );
         })}
       </div>

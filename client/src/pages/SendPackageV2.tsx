@@ -163,14 +163,25 @@ export default function SendPackageV2() {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
-      // Mock API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log("Submitting package:", data);
+      const response = await fetch("/api/debug/send-package", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      
+      const result = await response.json();
+      console.log("Package submitted successfully:", result);
+      
+      // Show success message
+      alert("Package submitted successfully! Check console for details.");
       
       // Redirect to payment/escrow
-      setLocation("/dashboard/payment-checkout");
+      // setLocation("/dashboard/payment-checkout");
     } catch (error) {
       console.error("Error submitting package:", error);
+      alert("Error submitting package. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
