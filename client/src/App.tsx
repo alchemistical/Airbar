@@ -6,12 +6,14 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Dashboard from "@/pages/Dashboard";
 import TravelerTrips from "@/pages/TravelerTrips";
 import AddTrip from "@/pages/AddTrip";
+import AddTripV2 from "@/pages/AddTripV2";
 import ParcelRequests from "@/pages/ParcelRequests";
 import SenderParcels from "@/pages/SenderParcels";
 import ParcelRequestDetail from "@/pages/ParcelRequestDetail";
 import Matches from "@/pages/Matches";
 import DashboardMatches from "@/pages/DashboardMatches";
 import SendPackage from "@/pages/SendPackage";
+import SendPackageV2 from "@/pages/SendPackageV2";
 import Tracking from "@/pages/Tracking";
 import Wallet from "@/pages/Wallet";
 import WalletEscrow from "@/pages/WalletEscrow";
@@ -77,13 +79,13 @@ function Router() {
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/dashboard/traveler/trips" component={TravelerTrips} />
-      <Route path="/dashboard/traveler/trips/addtrip" component={AddTrip} />
+      <Route path="/dashboard/traveler/trips/addtrip" component={AddTripV2} />
       <Route path="/dashboard/parcel-requests" component={ParcelRequests} />
       <Route path="/dashboard/sender/parcels" component={SenderParcels} />
       <Route path="/parcel-request/:id" component={ParcelRequestDetail} />
       <Route path="/dashboard/matches" component={DashboardMatches} />
       <Route path="/dashboard/matches/:matchId" component={DashboardMatches} />
-      <Route path="/send-package" component={SendPackage} />
+      <Route path="/send-package" component={SendPackageV2} />
       <Route path="/dashboard/tracking" component={Tracking} />
       <Route path="/dashboard/wallet" component={Wallet} />
       <Route path="/dashboard/wallet/escrow" component={WalletEscrow} />
