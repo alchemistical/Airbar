@@ -390,12 +390,13 @@ export default function AddTripV2() {
                   <input
                     type="checkbox"
                     id={type.value}
-                    checked={field.value.includes(type.value)}
+                    checked={Array.isArray(field.value) && field.value.includes(type.value)}
                     onChange={(e) => {
+                      const currentValue = Array.isArray(field.value) ? field.value : [];
                       if (e.target.checked) {
-                        field.onChange([...field.value, type.value]);
+                        field.onChange([...currentValue, type.value]);
                       } else {
-                        field.onChange(field.value.filter(v => v !== type.value));
+                        field.onChange(currentValue.filter(v => v !== type.value));
                       }
                     }}
                     className="rounded border-gray-300"
@@ -456,7 +457,7 @@ export default function AddTripV2() {
         )}
       />
 
-      {watchSpace > 0 && watchBagType.length > 0 && (
+      {watchSpace > 0 && Array.isArray(watchBagType) && watchBagType.length > 0 && (
         <Alert>
           <Luggage className="h-4 w-4" />
           <AlertDescription>
@@ -514,7 +515,7 @@ export default function AddTripV2() {
         )}
       />
 
-      {watchAcceptableTypes.includes("fragile") && (
+      {Array.isArray(watchAcceptableTypes) && watchAcceptableTypes.includes("fragile") && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>
@@ -581,12 +582,13 @@ export default function AddTripV2() {
                   <input
                     type="checkbox"
                     id={window.value}
-                    checked={field.value.includes(window.value)}
+                    checked={Array.isArray(field.value) && field.value.includes(window.value)}
                     onChange={(e) => {
+                      const currentValue = Array.isArray(field.value) ? field.value : [];
                       if (e.target.checked) {
-                        field.onChange([...field.value, window.value]);
+                        field.onChange([...currentValue, window.value]);
                       } else {
-                        field.onChange(field.value.filter(v => v !== window.value));
+                        field.onChange(currentValue.filter(v => v !== window.value));
                       }
                     }}
                     className="rounded border-gray-300"

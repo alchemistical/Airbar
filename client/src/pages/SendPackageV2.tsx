@@ -307,7 +307,7 @@ export default function SendPackageV2() {
         )}
       />
 
-      {routeRestrictions.length > 0 && watchParcelTypes.some(t => routeRestrictions.includes(t)) && (
+      {routeRestrictions.length > 0 && Array.isArray(watchParcelTypes) && watchParcelTypes.some(t => routeRestrictions.includes(t)) && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>

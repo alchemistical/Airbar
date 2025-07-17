@@ -61,21 +61,24 @@ interface ParcelTypeSelectorProps {
 }
 
 export function ParcelTypeSelector({
-  value,
+  value = [],
   onChange,
   required = false,
   error,
   className,
   singleSelect = false
 }: ParcelTypeSelectorProps) {
+  // Ensure value is always an array
+  const safeValue = Array.isArray(value) ? value : [];
+  
   const handleChange = (type: ParcelType, checked: boolean) => {
     if (singleSelect) {
       onChange(checked ? [type] : []);
     } else {
       if (checked) {
-        onChange([...value, type]);
+        onChange([...safeValue, type]);
       } else {
-        onChange(value.filter(v => v !== type));
+        onChange(safeValue.filter(v => v !== type));
       }
     }
   };
@@ -88,7 +91,7 @@ export function ParcelTypeSelector({
       
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {parcelTypes.map(type => {
-          const isSelected = value.includes(type.value);
+          const isSelected = safeValue.includes(type.value);
           
           return (
             <label

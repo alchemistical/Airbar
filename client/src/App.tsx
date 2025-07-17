@@ -38,6 +38,7 @@ import MatchRequests from "@/pages/MatchRequests";
 import Checkout from "@/pages/Checkout";
 import PaymentCheckout from "@/pages/PaymentCheckout";
 import BrowsePackages from "@/pages/BrowsePackages";
+import TestForms from "@/pages/TestForms";
 import NotFound from "@/pages/not-found";
 
 // Marketing pages
@@ -111,6 +112,7 @@ function Router() {
       <Route path="/match-requests/:id" component={MatchRequests} />
       <Route path="/checkout/:matchId" component={Checkout} />
       <Route path="/payment-checkout/:id" component={PaymentCheckout} />
+      <Route path="/test-forms" component={TestForms} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
