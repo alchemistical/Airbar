@@ -416,7 +416,11 @@ export default function SendPackageV2() {
             <FormItem>
               <FormLabel>Available From *</FormLabel>
               <FormControl>
-                <Input type="date" {...field} />
+                <Input 
+                  type="date" 
+                  {...field} 
+                  min={new Date().toISOString().split('T')[0]}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -430,7 +434,11 @@ export default function SendPackageV2() {
             <FormItem>
               <FormLabel>Available Until *</FormLabel>
               <FormControl>
-                <Input type="date" {...field} />
+                <Input 
+                  type="date" 
+                  {...field} 
+                  min={new Date().toISOString().split('T')[0]}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

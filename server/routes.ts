@@ -479,5 +479,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   const httpServer = createServer(app);
+  // Location API endpoints
+  app.get("/api/locations/search", (req, res) => {
+    const { query } = req.query;
+    
+    if (!query || typeof query !== 'string' || query.length < 2) {
+      return res.json([]);
+    }
+    
+    // Mock location search - in production would use a real geocoding API
+    const mockResults = [
+      {
+        id: "loc_" + query.toLowerCase().replace(/\s/g, '_'),
+        type: "city" as const,
+        name: query,
+        state: "State",
+        country: "United States",
+        countryCode: "US",
+        lat: 40.7128,
+        lon: -74.0060
+      }
+    ];
+    
+    res.json(mockResults);
+  });
+
+  app.get("/api/locations/recent", (req, res) => {
+    // Return empty array for now - in production would track user's recent locations
+    res.json([]);
+  });
+
+  app.get("/api/locations/favorites", (req, res) => {
+    // Return empty array for now - in production would return user's saved favorites
+    res.json([]);
+  });
+
   return httpServer;
 }

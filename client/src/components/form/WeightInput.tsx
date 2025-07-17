@@ -31,11 +31,14 @@ export function WeightInput({
 
   // Convert weight to display unit
   useEffect(() => {
-    if (value === 0) {
+    if (!value || value === 0) {
       setDisplayValue("");
     } else {
-      const converted = unit === "lb" ? value * 2.20462 : value;
-      setDisplayValue(converted.toFixed(1));
+      const numValue = typeof value === 'number' ? value : parseFloat(value);
+      if (!isNaN(numValue)) {
+        const converted = unit === "lb" ? numValue * 2.20462 : numValue;
+        setDisplayValue(converted.toFixed(1));
+      }
     }
   }, [value, unit]);
 
@@ -58,9 +61,12 @@ export function WeightInput({
     locationService.setWeightUnitPreference(newUnit);
     
     // Recalculate display value
-    if (value > 0) {
-      const converted = newUnit === "lb" ? value * 2.20462 : value;
-      setDisplayValue(converted.toFixed(1));
+    if (value && value > 0) {
+      const numValue = typeof value === 'number' ? value : parseFloat(value);
+      if (!isNaN(numValue)) {
+        const converted = newUnit === "lb" ? numValue * 2.20462 : numValue;
+        setDisplayValue(converted.toFixed(1));
+      }
     }
   }, [unit, value]);
 
