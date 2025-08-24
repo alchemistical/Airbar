@@ -148,10 +148,12 @@ export default function MyTrips() {
         <div className="flex gap-2 mt-4">
           {trip.status === "upcoming" && (
             <>
-              <Button size="sm" variant="outline" className="flex-1">
-                <Eye className="h-4 w-4 mr-1" />
-                View Requests
-              </Button>
+              <Link href={`/match-requests?trip=${trip.id}`} className="flex-1">
+                <Button size="sm" variant="outline" className="w-full">
+                  <Eye className="h-4 w-4 mr-1" />
+                  View Requests
+                </Button>
+              </Link>
               <Button size="sm" variant="outline" className="flex-1">
                 <Edit className="h-4 w-4 mr-1" />
                 Edit Trip

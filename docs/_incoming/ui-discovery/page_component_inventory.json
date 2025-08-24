@@ -1,0 +1,77 @@
+{
+  "analysis_date": "2025-08-24",
+  "total_pages": 50,
+  "core_routes": {
+    "/": {
+      "component": "marketing/HomePage.tsx",
+      "status": "exists",
+      "browser_safe": true,
+      "dependencies": ["Header", "Footer", "HeroIntent", "TrustStrip", "PersonaTabs"]
+    },
+    "/dashboard": {
+      "component": "pages/Dashboard.tsx", 
+      "status": "exists",
+      "browser_safe": true,
+      "dependencies": ["DashboardLayout", "@tanstack/react-query", "wouter", "@/components/ui/*"]
+    },
+    "/add-trip": {
+      "component": "pages/AddTrip.tsx",
+      "status": "exists", 
+      "browser_safe": "unknown",
+      "dependencies": ["needs_analysis"]
+    },
+    "/send-package": {
+      "component": "pages/SendPackage.tsx",
+      "status": "exists",
+      "browser_safe": "unknown", 
+      "dependencies": ["needs_analysis"]
+    }
+  },
+  "auth_pages": {
+    "/auth/login": {
+      "component": "pages/auth/LoginPage.tsx",
+      "status": "exists",
+      "browser_safe": "unknown"
+    },
+    "/auth/register": {
+      "component": "pages/auth/RegisterPage.tsx", 
+      "status": "exists",
+      "browser_safe": "unknown"
+    },
+    "/auth/forgot-password": {
+      "component": "pages/auth/ForgotPasswordPage.tsx",
+      "status": "exists",
+      "browser_safe": "unknown"
+    }
+  },
+  "dashboard_sub_pages": {
+    "/dashboard/matches": {"component": "pages/DashboardMatches.tsx", "status": "exists"},
+    "/dashboard/wallet": {"component": "pages/Wallet.tsx", "status": "exists"},
+    "/dashboard/profile": {"component": "pages/Profile.tsx", "status": "exists"},
+    "/dashboard/history": {"component": "pages/History.tsx", "status": "exists"},
+    "/dashboard/tracking": {"component": "pages/Tracking.tsx", "status": "exists"},
+    "/dashboard/support": {"component": "pages/Support.tsx", "status": "exists"}
+  },
+  "marketplace_pages": {
+    "/marketplace/trips": {"component": "pages/marketplace/Trips.tsx", "status": "exists"},
+    "/marketplace/trips/:id": {"component": "pages/MarketplaceTripDetail.tsx", "status": "exists"}
+  },
+  "package_management": {
+    "/packages/browse": {"component": "pages/BrowsePackages.tsx", "status": "exists"},
+    "/packages/my": {"component": "pages/MyParcels.tsx", "status": "exists"},
+    "/packages/sender": {"component": "pages/SenderParcels.tsx", "status": "exists"}
+  },
+  "trip_management": {
+    "/trips/my": {"component": "pages/MyTrips.tsx", "status": "exists"},
+    "/trips/traveler": {"component": "pages/TravelerTrips.tsx", "status": "exists"},
+    "/trips/add-v2": {"component": "pages/AddTripV2.tsx", "status": "exists"}
+  },
+  "potential_issues": [
+    "Many components import from @/components/ui/* - need to verify UI library setup",
+    "@tanstack/react-query setup required for data fetching",
+    "DashboardLayout component critical for dashboard pages",
+    "Authentication state management unclear",
+    "API integration points unknown"
+  ],
+  "compilation_status": "needs_build_test"
+}

@@ -1,0 +1,76 @@
+{
+  "current_state": {
+    "file": "apps/web/src/App.tsx",
+    "type": "static_page",
+    "routing": "none",
+    "content": "status_message"
+  },
+  "last_known_good": {
+    "commit": "6eed84b",
+    "file": "apps/web/src/App.tsx",
+    "router_library": "wouter",
+    "routes": [
+      {
+        "path": "/",
+        "component": "HomePage",
+        "file": "marketing/HomePage.tsx",
+        "description": "Full marketing homepage"
+      },
+      {
+        "path": "/landing", 
+        "component": "LandingPage",
+        "file": "inline",
+        "description": "Quick start page with dashboard cards"
+      },
+      {
+        "path": "/dashboard",
+        "component": "Dashboard", 
+        "file": "pages/Dashboard.tsx",
+        "description": "Main user dashboard"
+      },
+      {
+        "path": "/add-trip",
+        "component": "AddTrip",
+        "file": "pages/AddTrip.tsx", 
+        "description": "Trip creation form"
+      },
+      {
+        "path": "/send-package",
+        "component": "SendPackage",
+        "file": "pages/SendPackage.tsx",
+        "description": "Package sending form"
+      },
+      {
+        "path": "*",
+        "component": "404Component",
+        "file": "inline",
+        "description": "404 fallback"
+      }
+    ],
+    "navigation": {
+      "header": ["Home", "Dashboard", "Add Trip", "Send Package", "Quick Start"],
+      "landing_cards": ["Dashboard", "Add Trip", "Send Package"]
+    }
+  },
+  "available_pages": {
+    "total_count": 50,
+    "categories": {
+      "core": ["Dashboard.tsx", "AddTrip.tsx", "SendPackage.tsx"],
+      "auth": ["LoginPage.tsx", "RegisterPage.tsx", "ForgotPasswordPage.tsx", "ResetPasswordPage.tsx"],
+      "user_mgmt": ["Profile.tsx", "Notifications.tsx"],
+      "packages": ["MyParcels.tsx", "SenderParcels.tsx", "BrowsePackages.tsx", "Tracking.tsx"],
+      "trips": ["MyTrips.tsx", "TravelerTrips.tsx", "AddTripV2.tsx"],
+      "matching": ["Matches.tsx", "DashboardMatches.tsx", "MatchRequests.tsx", "MatchRequestDetail.tsx"],
+      "financial": ["Wallet.tsx", "WalletTransactions.tsx", "Checkout.tsx", "PaymentCheckout.tsx"],
+      "support": ["Support.tsx", "DisputeList.tsx", "DisputeDetail.tsx", "History.tsx"],
+      "marketing": ["marketing/HomePage.tsx", "landing-v2/HomePageNew.tsx", "marketplace/Trips.tsx"]
+    }
+  },
+  "dependencies": {
+    "router": "wouter",
+    "ui_components": "@/components/ui/*",
+    "layout": "DashboardLayout",
+    "state": "@tanstack/react-query",
+    "icons": "lucide-react"
+  }
+}
