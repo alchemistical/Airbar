@@ -17,6 +17,8 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@airbar/db": "workspace:*",
+    "@prisma/client": "^6.14.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {

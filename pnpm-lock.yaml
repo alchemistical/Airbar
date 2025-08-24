@@ -395,6 +395,12 @@ importers:
 
   packages/shared:
     dependencies:
+      '@airbar/db':
+        specifier: workspace:*
+        version: link:../db
+      '@prisma/client':
+        specifier: ^6.14.0
+        version: 6.14.0(prisma@6.14.0(typescript@5.9.2))(typescript@5.9.2)
       zod:
         specifier: ^3.25.76
         version: 3.25.76

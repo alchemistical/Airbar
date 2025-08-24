@@ -27,3 +27,9 @@ export type LoginSchema = z.infer<typeof loginSchema>
 export type RegisterSchema = z.infer<typeof registerSchema>
 export type ForgotPasswordSchema = z.infer<typeof forgotPasswordSchema>
 export type ResetPasswordSchema = z.infer<typeof resetPasswordSchema>
+
+// Export as Input types for consistency with frontend expectations
+export type LoginInput = LoginSchema
+export type RegisterInput = RegisterSchema
+export type ForgotPasswordInput = ForgotPasswordSchema
+export type ResetPasswordInput = ResetPasswordSchema
