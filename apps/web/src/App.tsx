@@ -1,105 +1,200 @@
 import React from 'react'
-import { Router, Route, useLocation, Link } from 'wouter'
+import { Router, Route } from 'wouter'
 
-// Import your existing pages
+// Marketing & Landing Pages
+import HomePage from './marketing/HomePage'
+
+// Main Dashboard Pages
 import Dashboard from './pages/Dashboard'
 import AddTrip from './pages/AddTrip'
+import AddTripV2 from './pages/AddTripV2'
 import SendPackage from './pages/SendPackage'
-import HomePage from './marketing/HomePage'
+import SendPackageV2 from './pages/SendPackageV2'
+
+// User Management Pages
+import Profile from './pages/Profile'
+import Notifications from './pages/Notifications'
+
+// Trip & Package Management
+import MyTrips from './pages/MyTrips'
+import TravelerTrips from './pages/TravelerTrips'
+import MyParcels from './pages/MyParcels'
+import SenderParcels from './pages/SenderParcels'
+import BrowsePackages from './pages/BrowsePackages'
+
+// Matching & Discovery
+import Matches from './pages/Matches'
+import MatchesDiscovery from './pages/MatchesDiscovery'
+import MatchesHub from './pages/MatchesHub'
+import DashboardMatches from './pages/DashboardMatches'
+import MatchRequests from './pages/MatchRequests'
+import MatchRequestDetail from './pages/MatchRequestDetail'
+import ParcelRequests from './pages/ParcelRequests'
+import ParcelRequestDetail from './pages/ParcelRequestDetail'
+
+// Transactions & History
+import History from './pages/History'
+import HistoryDetail from './pages/HistoryDetail'
+import HistorySender from './pages/HistorySender'
+import HistoryTraveler from './pages/HistoryTraveler'
+
+// Wallet & Payments
+import Wallet from './pages/Wallet'
+import WalletTransactions from './pages/WalletTransactions'
+import WalletEscrow from './pages/WalletEscrow'
+import WalletSender from './pages/WalletSender'
+import WalletWithdrawals from './pages/WalletWithdrawals'
+import WalletReferrals from './pages/WalletReferrals'
+import PaymentCheckout from './pages/PaymentCheckout'
+import Checkout from './pages/Checkout'
+
+// Tracking & Delivery
+import Tracking from './pages/Tracking'
+import NewDelivery from './pages/NewDelivery'
+
+// Disputes & Support
+import DisputeList from './pages/DisputeList'
+import DisputeDetail from './pages/DisputeDetail'
+import DisputeNew from './pages/DisputeNew'
+import Support from './pages/Support'
+
+// Marketplace
+import MarketplaceTripDetail from './pages/MarketplaceTripDetail'
+import Trips from './pages/marketplace/Trips'
+
+// Additional Features
+import Referrals from './pages/Referrals'
+import TestForms from './pages/TestForms'
+
+// Authentication Pages
+import LoginPage from './pages/auth/LoginPage'
+import RegisterPage from './pages/auth/RegisterPage'
+import ForgotPasswordPage from './pages/auth/ForgotPasswordPage'
+import ResetPasswordPage from './pages/auth/ResetPasswordPage'
+
+// Landing V2 Pages
+import HomePageNew from './pages/landing-v2/HomePageNew'
+import LandingV2 from './pages/landing-v2/LandingV2'
+
+// Marketing Pages  
+import About from './marketing/pages/about'
+import Blog from './marketing/pages/blog'
+import Business from './marketing/pages/business'
+import Careers from './marketing/pages/careers'
+import Contact from './marketing/pages/contact'
+import Cookies from './marketing/pages/cookies'
+import FAQ from './marketing/pages/faq'
+import HowItWorks from './marketing/pages/how-it-works'
+import Press from './marketing/pages/press'
+import Pricing from './marketing/pages/pricing'
+import Privacy from './marketing/pages/privacy'
+import Safety from './marketing/pages/safety'
+import Terms from './marketing/pages/terms'
+import MarketingIndex from './marketing/pages/index'
+
+// 404 Page
+import NotFound from './pages/not-found'
 
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50">
-        {/* Navigation Header */}
-        <nav className="bg-white shadow-sm border-b">
-          <div className="container mx-auto px-4 py-3">
-            <div className="flex items-center justify-between">
-              <Link href="/" className="text-2xl font-bold text-blue-600">
-                Airbar
-              </Link>
-              <div className="flex space-x-4">
-                <Link href="/" className="text-gray-600 hover:text-blue-600">Home</Link>
-                <Link href="/dashboard" className="text-gray-600 hover:text-blue-600">Dashboard</Link>
-                <Link href="/add-trip" className="text-gray-600 hover:text-blue-600">Add Trip</Link>
-                <Link href="/send-package" className="text-gray-600 hover:text-blue-600">Send Package</Link>
-                <Link href="/landing" className="text-gray-600 hover:text-blue-600">Quick Start</Link>
-              </div>
-            </div>
-          </div>
-        </nav>
-
-        {/* Routes */}
-        <Route path="/" component={HomePage} />
-        <Route path="/landing" component={LandingPage} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/add-trip" component={AddTrip} />
-        <Route path="/send-package" component={SendPackage} />
-        
-        {/* 404 fallback */}
-        <Route>
-          {() => (
-            <div className="container mx-auto px-4 py-8 text-center">
-              <h1 className="text-2xl font-bold text-gray-900 mb-4">Page Not Found</h1>
-              <Link href="/" className="text-blue-600 hover:underline">Go Home</Link>
-            </div>
-          )}
-        </Route>
-      </div>
+      {/* Marketing & Landing Pages */}
+      <Route path="/" component={HomePage} />
+      <Route path="/landing" component={LandingV2} />
+      <Route path="/home" component={HomePageNew} />
+      
+      {/* Main Dashboard */}
+      <Route path="/dashboard" component={Dashboard} />
+      
+      {/* Trip Management */}
+      <Route path="/add-trip" component={AddTrip} />
+      <Route path="/dashboard/traveler/trips/addtrip" component={AddTripV2} />
+      <Route path="/dashboard/traveler/trips" component={TravelerTrips} />
+      <Route path="/dashboard/my-trips" component={MyTrips} />
+      
+      {/* Package Management */}
+      <Route path="/send-package" component={SendPackage} />
+      <Route path="/dashboard/sender/parcels" component={SenderParcels} />
+      <Route path="/dashboard/my-parcels" component={MyParcels} />
+      <Route path="/browse-packages" component={BrowsePackages} />
+      
+      {/* Matching System */}
+      <Route path="/dashboard/matches" component={DashboardMatches} />
+      <Route path="/matches" component={Matches} />
+      <Route path="/matches/discovery" component={MatchesDiscovery} />
+      <Route path="/dashboard/matches/discovery" component={MatchesDiscovery} />
+      <Route path="/dashboard/matches/hub" component={MatchesHub} />
+      <Route path="/dashboard/match-requests" component={MatchRequests} />
+      <Route path="/match-requests" component={MatchRequests} />
+      <Route path="/match-requests/:id" component={MatchRequestDetail} />
+      <Route path="/parcel-requests" component={ParcelRequests} />
+      <Route path="/parcel-request/:id" component={ParcelRequestDetail} />
+      
+      {/* History & Transactions */}
+      <Route path="/dashboard/history" component={History} />
+      <Route path="/dashboard/history/traveler" component={HistoryTraveler} />
+      <Route path="/dashboard/history/sender" component={HistorySender} />
+      <Route path="/dashboard/history/view/:id" component={HistoryDetail} />
+      
+      {/* Wallet & Payments */}
+      <Route path="/dashboard/wallet" component={Wallet} />
+      <Route path="/dashboard/wallet/transactions" component={WalletTransactions} />
+      <Route path="/dashboard/wallet/escrow" component={WalletEscrow} />
+      <Route path="/dashboard/wallet/sender" component={WalletSender} />
+      <Route path="/dashboard/wallet/withdrawals" component={WalletWithdrawals} />
+      <Route path="/dashboard/wallet/referrals" component={WalletReferrals} />
+      <Route path="/checkout" component={Checkout} />
+      <Route path="/payment/checkout/:matchRequestId" component={PaymentCheckout} />
+      
+      {/* Tracking & Delivery */}
+      <Route path="/dashboard/tracking" component={Tracking} />
+      <Route path="/tracking" component={Tracking} />
+      <Route path="/new-delivery" component={NewDelivery} />
+      
+      {/* Disputes & Support */}
+      <Route path="/dashboard/disputes" component={DisputeList} />
+      <Route path="/dashboard/disputes/new" component={DisputeNew} />
+      <Route path="/dashboard/disputes/:id" component={DisputeDetail} />
+      <Route path="/dashboard/support" component={Support} />
+      
+      {/* Profile & User Management */}
+      <Route path="/dashboard/profile" component={Profile} />
+      <Route path="/dashboard/notifications" component={Notifications} />
+      <Route path="/dashboard/referrals" component={Referrals} />
+      
+      {/* Marketplace */}
+      <Route path="/marketplace/trips" component={Trips} />
+      <Route path="/marketplace/trips/:id" component={MarketplaceTripDetail} />
+      
+      {/* Authentication */}
+      <Route path="/auth/login" component={LoginPage} />
+      <Route path="/auth/register" component={RegisterPage} />
+      <Route path="/auth/forgot-password" component={ForgotPasswordPage} />
+      <Route path="/auth/reset-password" component={ResetPasswordPage} />
+      
+      {/* Marketing & Information Pages */}
+      <Route path="/how-it-works" component={HowItWorks} />
+      <Route path="/pricing" component={Pricing} />
+      <Route path="/safety" component={Safety} />
+      <Route path="/business" component={Business} />
+      <Route path="/about" component={About} />
+      <Route path="/careers" component={Careers} />
+      <Route path="/press" component={Press} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/faq" component={FAQ} />
+      <Route path="/contact" component={Contact} />
+      
+      {/* Legal Pages */}
+      <Route path="/terms" component={Terms} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/cookies" component={Cookies} />
+      
+      {/* Development/Testing */}
+      <Route path="/test-forms" component={TestForms} />
+      
+      {/* 404 fallback */}
+      <Route component={NotFound} />
     </Router>
-  )
-}
-
-// Landing page component
-function LandingPage() {
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          🚀 Welcome to Airbar
-        </h1>
-        <p className="text-lg text-gray-600">
-          Your crowdshipping platform is ready!
-        </p>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-          <h3 className="text-xl font-semibold mb-2">📊 Dashboard</h3>
-          <p className="text-gray-600 mb-4">View your trips, packages, and earnings</p>
-          <Link href="/dashboard" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors inline-block">
-            Go to Dashboard
-          </Link>
-        </div>
-        
-        <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-          <h3 className="text-xl font-semibold mb-2">✈️ Add Trip</h3>
-          <p className="text-gray-600 mb-4">Post your travel plans to carry packages</p>
-          <Link href="/add-trip" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors inline-block">
-            Add Trip
-          </Link>
-        </div>
-        
-        <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-          <h3 className="text-xl font-semibold mb-2">📦 Send Package</h3>
-          <p className="text-gray-600 mb-4">Find travelers to deliver your packages</p>
-          <Link href="/send-package" className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition-colors inline-block">
-            Send Package
-          </Link>
-        </div>
-      </div>
-      
-      <div className="mt-12 text-center">
-        <p className="text-gray-500">
-          Status: Frontend ✅ | Backend ✅ | Database ✅
-        </p>
-        <div className="mt-4">
-          <Link href="/home" className="text-blue-600 hover:underline">
-            View Full Marketing Homepage
-          </Link>
-        </div>
-      </div>
-    </div>
   )
 }
 

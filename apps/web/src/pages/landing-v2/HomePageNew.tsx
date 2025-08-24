@@ -10,7 +10,7 @@ import { SafetyList } from "../../components/landing/SafetyList";
 import { FAQAccordion } from "../../components/landing/FAQAccordion";
 import { FinalCTA } from "../../components/landing/FinalCTA";
 
-export const HomePage: React.FC = () => {
+const HomePage: React.FC = () => {
   const [role, setRole] = useState<"sender" | "traveler">("sender");
 
   const handleQuoteSubmit = (form: {
@@ -291,3 +291,5 @@ export const HomePage: React.FC = () => {
     </TooltipProvider>
   );
 };
+
+export default HomePage;

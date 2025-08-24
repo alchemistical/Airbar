@@ -1,0 +1,43 @@
+
+> @airbar/web@0.1.0 dev /Users/hadinem/Projects/AirbarDashboard/apps/web
+> vite
+
+
+  VITE v5.4.19  ready in 152 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: http://192.168.1.157:5173/
+Error:   Failed to scan for dependencies from entries:
+  /Users/hadinem/Projects/AirbarDashboard/apps/web/index.html
+
+  [31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNo matching export in "src/pages/landing-v2/HomePageNew.tsx" for import "default"[0m
+
+    src/App.tsx:76:7:
+[37m      76 │ import [32mHomePageNew[37m from './pages/landing-v2/HomePageNew'
+         ╵        [32m~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNo matching export in "src/hooks/useMatching.ts" for import "useCreateMatchRequest"[0m
+
+    src/components/matching/MatchCard.tsx:24:9:
+[37m      24 │ import { [32museCreateMatchRequest[37m } from "@/hooks/useMatching";
+         ╵          [32m~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNo matching export in "src/hooks/useMatching.ts" for import "useMatchDiscovery"[0m
+
+    src/components/matching/MatchDiscovery.tsx:25:9:
+[37m      25 │ import { [32museMatchDiscovery[37m } from "@/hooks/useMatching";
+         ╵          [32m~~~~~~~~~~~~~~~~~[0m
+
+
+    at failureErrorWithLog (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:1472:15)
+    at /Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:945:25
+    at runOnEndCallbacks (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:1315:45)
+    at buildResponseToResult (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:943:7)
+    at /Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:955:9
+    at new Promise (<anonymous>)
+    at requestCallbacks.on-end (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:954:54)
+    at handleRequest (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:647:17)
+    at handleIncomingPacket (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:672:7)
+    at Socket.readFromStdout (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/esbuild@0.21.5/node_modules/esbuild/lib/main.js:600:7)

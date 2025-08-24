@@ -1,180 +1,89 @@
 # Airbar Application Sitemap
 
-*Last Updated: January 24, 2025*
+*Last Updated: August 24, 2025*
 
 ## Overview
 This document provides a comprehensive sitemap of the Airbar crowdshipping platform, showing all available pages, their hierarchical structure, and navigation flow.
 
-## Public Pages
+## Core Application Routes
+- `/` - Homepage (Marketing homepage with hero, features, testimonials)
+- `/landing` - Quick Start Landing Page (Dashboard links and feature cards)
+- `/dashboard` - Main Dashboard
+- `/add-trip` - Add Trip Form
+- `/send-package` - Send Package Form
 
-### Landing & Authentication
-- `/` - Landing page (redirects to dashboard if authenticated)
-- `/login` - User login
-- `/register` - User registration
-- `/forgot-password` - Password recovery
-- `/reset-password/:token` - Password reset with token
-
-### Marketing Pages
-- `/about` - About Us
+## Marketing & Information Pages
 - `/how-it-works` - How It Works
-- `/pricing` - Pricing Calculator
-- `/safety` - Safety & Trust
+- `/marketplace/trips` - Find Travelers
+- `/browse-packages` - Browse Packages  
+- `/pricing` - Pricing Information
+- `/safety` - Safety Guidelines
+- `/business` - Business Solutions
+- `/about` - About Us
+- `/careers` - Careers Page
+- `/press` - Press & Media
+- `/blog` - Blog
 - `/faq` - Frequently Asked Questions
 - `/contact` - Contact Us
+
+## Authentication Routes
+- `/auth/login` - Sign In Page
+- `/auth/register` - Registration Page
+- `/auth/forgot-password` - Forgot Password
+- `/auth/reset-password` - Reset Password
+
+## User Dashboard Pages
+- `/dashboard/matches` - View Matches
+- `/dashboard/matches/discovery` - Discover Matches
+- `/dashboard/matches/hub` - Matches Hub
+- `/dashboard/match-requests` - Match Requests
+- `/dashboard/traveler/trips` - My Trips (Traveler)
+- `/dashboard/traveler/trips/addtrip` - Add New Trip (6-step form)
+- `/dashboard/sender/parcels` - My Parcels (Sender)
+- `/dashboard/history` - Transaction History
+- `/dashboard/history/traveler` - Traveler History
+- `/dashboard/history/sender` - Sender History
+- `/dashboard/history/view/:id` - Individual History Record
+- `/dashboard/profile` - User Profile
+- `/dashboard/wallet` - Wallet & Payments
+- `/dashboard/wallet/transactions` - Transaction History
+- `/dashboard/wallet/escrow` - Escrow Management
+- `/dashboard/wallet/sender` - Sender Wallet View
+- `/dashboard/wallet/withdrawals` - Withdrawal History
+- `/dashboard/wallet/referrals` - Referral Earnings
+- `/dashboard/notifications` - Notifications
+- `/dashboard/support` - Support Center
+- `/dashboard/tracking` - Package Tracking
+- `/dashboard/disputes` - Dispute Management
+- `/dashboard/disputes/new` - Create New Dispute
+- `/dashboard/disputes/:id` - Dispute Details
+- `/dashboard/referrals` - Referral Program
+
+## Transaction & Delivery Pages
+- `/checkout` - Payment Checkout
+- `/payment/checkout/:matchRequestId` - Stripe Payment Page
+- `/tracking` - Package Tracking
+- `/match-requests` - Manage Match Requests
+- `/match-requests/:id` - Match Request Details
+- `/parcel-request/:id` - Individual Parcel Request Details
+- `/parcel-requests` - View Parcel Requests
+- `/new-delivery` - Create New Delivery
+
+## Marketplace Pages
+- `/marketplace/trips/:id` - Trip Detail Page
+- `/matches/discovery` - Discover Matches
+- `/matches/hub` - Matches Hub
+
+## Legal & Policy Pages
 - `/terms` - Terms of Service
-- `/privacy` - Privacy Policy
-- `/business` - Business Solutions
-- `/careers` - Career Opportunities
+- `/privacy` - Privacy Policy  
+- `/cookies` - Cookie Policy
+- `/safety#prohibited` - Prohibited Items
 
-## Authenticated Pages
-
-### Main Dashboard
-- `/dashboard` - Main dashboard with metrics, activity feed, and quick actions
-  - Active trips counter
-  - Parcel requests counter
-  - In-escrow amount
-  - Average rating
-  - Available balance
-  - Pending earnings
-  - Total earned
-  - Recent activity feed
-
-### Trips Management
-- `/dashboard/traveler/trips` - List all trips
-  - Active trips
-  - Completed trips
-  - Search and filter functionality
-- `/dashboard/traveler/trips/addtrip` - Add new trip (6-step form)
-  - Step 1: Route Details
-  - Step 2: Travel Information
-  - Step 3: Package Preferences
-  - Step 4: Terms & Conditions
-  - Step 5: Pricing Calculator
-  - Step 6: Review & Submit
-
-### Marketplace
-- `/marketplace/trips` - Browse available trips
-  - Advanced filters (city, date, price, weight)
-  - Verified traveler filter
-  - Sort options
-  - Grid/list view toggle
-- `/marketplace/trips/:id` - Trip details page
-  - Traveler profile
-  - Trip specifications
-  - Match request modal
-  - Similar trips
-- `/browse-packages` - Browse Package Requests
-
-### Parcel Management
-- `/dashboard/parcel-requests` - View incoming parcel requests
-  - Pending requests
-  - Accepted requests
-  - Filter by status
-- `/parcel-request/:id` - Individual parcel request details
-  - Package information
-  - Sender details
-  - Accept/decline actions
-- `/dashboard/sender/parcels` - My Parcels (Sender View)
-- `/send-package` - Send new package (multi-step form)
-  - Package details
-  - Route selection
-  - Delivery preferences
-  - Review & submit
-
-### Matches & Connections
-- `/dashboard/matches` - Active Matches & Requests
-- `/match-requests` - Manage match requests
-  - Sender view (sent requests)
-  - Traveler view (received requests)
-  - Status filters
-  - Quick actions
-- `/match-requests/:id` - Match request details
-  - Timeline view
-  - Escrow status
-  - Payment information
-  - Contact options
-
-### Payment & Checkout
-- `/payment/checkout/:matchRequestId` - Stripe payment page
-- `/checkout/:matchId` - Alternative Stripe payment page
-  - Payment form
-  - Order summary
-  - Escrow information
-
-### Tracking
-- `/dashboard/tracking` - Real-time package tracking
-  - Active deliveries
-  - Timeline visualization
-  - Status updates
-  - Role-based views (sender/traveler)
-
-### Financial Management
-- `/dashboard/wallet` - Wallet overview
-  - Available balance
-  - Pending earnings
-  - In-escrow funds
-  - Quick actions (withdraw, view history)
-- `/dashboard/wallet/transactions` - Transaction history
-  - Comprehensive filters
-  - Date range selection
-  - Export functionality
-  - Transaction details
-
-### User Profile & Settings
-- `/dashboard/profile` - User profile management
-  - Personal information
-  - KYC verification
-  - Security settings
-  - Privacy preferences
-  - Payment methods
-- `/dashboard/notifications` - Notification center
-  - All notifications
-  - Filter by type
-  - Mark as read
-  - Notification preferences
-
-### History & Records
-- `/dashboard/history` - Complete delivery history
-  - All deliveries
-  - Role filter (sender/traveler)
-  - Status filter
-  - Search functionality
-- `/dashboard/history/view/:id` - Individual history record
-  - Complete timeline
-  - Transaction details
-  - Dispute history
-  - Export/print options
-- `/dashboard/history/traveler` - Traveler-specific history
-- `/dashboard/history/sender` - Sender-specific history
-
-### Referrals
-- `/dashboard/referrals` - Referral program
-  - Referral code
-  - Earnings from referrals
-  - Invited users list
-  - Share options
-
-### Support & Help
-- `/dashboard/support` - Help center
-  - FAQ section
-  - Knowledge base
-  - Contact support
-  - Submit ticket
-
-### Dispute Resolution
-- `/dashboard/disputes` - Dispute List
-- `/support/disputes` - Alternative dispute management
-- `/support/disputes/new` - Create new dispute (3-step form)
-  - Step 1: Issue details
-  - Step 2: Evidence upload
-  - Step 3: Resolution preference
-- `/dashboard/disputes/new` - Alternative create dispute
-- `/support/disputes/:id` - Dispute details
-- `/dashboard/disputes/:id` - Alternative dispute details
-  - Timeline tracking
-  - Evidence gallery
-  - Resolution offers
-  - Communication thread
+## Additional Features
+- 404 Error Page (catch-all route)
+- Language selector (English USD, Français EUR, Español EUR)
+- Social media integration (Facebook, Twitter, Instagram)
 
 ## API Endpoints
 

@@ -1,0 +1,335 @@
+{
+  "routerFile": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/App.tsx",
+  "results": [
+    {
+      "spec": "react",
+      "resolved": true,
+      "note": "alias/pkg"
+    },
+    {
+      "spec": "wouter",
+      "resolved": true,
+      "note": "alias/pkg"
+    },
+    {
+      "spec": "./marketing/HomePage",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/marketing/HomePage.tsx"
+    },
+    {
+      "spec": "./pages/Dashboard",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/Dashboard.tsx"
+    },
+    {
+      "spec": "./pages/AddTrip",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/AddTrip.tsx"
+    },
+    {
+      "spec": "./pages/AddTripV2",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/AddTripV2.tsx"
+    },
+    {
+      "spec": "./pages/SendPackage",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/SendPackage.tsx"
+    },
+    {
+      "spec": "./pages/SendPackageV2",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/SendPackageV2.tsx"
+    },
+    {
+      "spec": "./pages/Profile",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/Profile.tsx"
+    },
+    {
+      "spec": "./pages/Notifications",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/Notifications.tsx"
+    },
+    {
+      "spec": "./pages/MyTrips",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/MyTrips.tsx"
+    },
+    {
+      "spec": "./pages/TravelerTrips",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/TravelerTrips.tsx"
+    },
+    {
+      "spec": "./pages/MyParcels",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/MyParcels.tsx"
+    },
+    {
+      "spec": "./pages/SenderParcels",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/SenderParcels.tsx"
+    },
+    {
+      "spec": "./pages/BrowsePackages",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/BrowsePackages.tsx"
+    },
+    {
+      "spec": "./pages/Matches",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/Matches.tsx"
+    },
+    {
+      "spec": "./pages/MatchesDiscovery",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/MatchesDiscovery.tsx"
+    },
+    {
+      "spec": "./pages/MatchesHub",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/MatchesHub.tsx"
+    },
+    {
+      "spec": "./pages/DashboardMatches",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/DashboardMatches.tsx"
+    },
+    {
+      "spec": "./pages/MatchRequests",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/MatchRequests.tsx"
+    },
+    {
+      "spec": "./pages/MatchRequestDetail",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/MatchRequestDetail.tsx"
+    },
+    {
+      "spec": "./pages/ParcelRequests",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/ParcelRequests.tsx"
+    },
+    {
+      "spec": "./pages/ParcelRequestDetail",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/ParcelRequestDetail.tsx"
+    },
+    {
+      "spec": "./pages/History",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/History.tsx"
+    },
+    {
+      "spec": "./pages/HistoryDetail",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/HistoryDetail.tsx"
+    },
+    {
+      "spec": "./pages/HistorySender",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/HistorySender.tsx"
+    },
+    {
+      "spec": "./pages/HistoryTraveler",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/HistoryTraveler.tsx"
+    },
+    {
+      "spec": "./pages/Wallet",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/Wallet.tsx"
+    },
+    {
+      "spec": "./pages/WalletTransactions",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/WalletTransactions.tsx"
+    },
+    {
+      "spec": "./pages/WalletEscrow",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/WalletEscrow.tsx"
+    },
+    {
+      "spec": "./pages/WalletSender",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/WalletSender.tsx"
+    },
+    {
+      "spec": "./pages/WalletWithdrawals",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/WalletWithdrawals.tsx"
+    },
+    {
+      "spec": "./pages/WalletReferrals",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/WalletReferrals.tsx"
+    },
+    {
+      "spec": "./pages/PaymentCheckout",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/PaymentCheckout.tsx"
+    },
+    {
+      "spec": "./pages/Checkout",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/Checkout.tsx"
+    },
+    {
+      "spec": "./pages/Tracking",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/Tracking.tsx"
+    },
+    {
+      "spec": "./pages/NewDelivery",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/NewDelivery.tsx"
+    },
+    {
+      "spec": "./pages/DisputeList",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/DisputeList.tsx"
+    },
+    {
+      "spec": "./pages/DisputeDetail",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/DisputeDetail.tsx"
+    },
+    {
+      "spec": "./pages/DisputeNew",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/DisputeNew.tsx"
+    },
+    {
+      "spec": "./pages/Support",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/Support.tsx"
+    },
+    {
+      "spec": "./pages/MarketplaceTripDetail",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/MarketplaceTripDetail.tsx"
+    },
+    {
+      "spec": "./pages/marketplace/Trips",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/marketplace/Trips.tsx"
+    },
+    {
+      "spec": "./pages/Referrals",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/Referrals.tsx"
+    },
+    {
+      "spec": "./pages/TestForms",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/TestForms.tsx"
+    },
+    {
+      "spec": "./pages/auth/LoginPage",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/auth/LoginPage.tsx"
+    },
+    {
+      "spec": "./pages/auth/RegisterPage",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/auth/RegisterPage.tsx"
+    },
+    {
+      "spec": "./pages/auth/ForgotPasswordPage",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/auth/ForgotPasswordPage.tsx"
+    },
+    {
+      "spec": "./pages/auth/ResetPasswordPage",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/auth/ResetPasswordPage.tsx"
+    },
+    {
+      "spec": "./pages/landing-v2/HomePageNew",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/landing-v2/HomePageNew.tsx"
+    },
+    {
+      "spec": "./pages/landing-v2/LandingV2",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/landing-v2/LandingV2.tsx"
+    },
+    {
+      "spec": "./marketing/pages/about",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/marketing/pages/about.tsx"
+    },
+    {
+      "spec": "./marketing/pages/blog",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/marketing/pages/blog.tsx"
+    },
+    {
+      "spec": "./marketing/pages/business",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/marketing/pages/business.tsx"
+    },
+    {
+      "spec": "./marketing/pages/careers",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/marketing/pages/careers.tsx"
+    },
+    {
+      "spec": "./marketing/pages/contact",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/marketing/pages/contact.tsx"
+    },
+    {
+      "spec": "./marketing/pages/cookies",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/marketing/pages/cookies.tsx"
+    },
+    {
+      "spec": "./marketing/pages/faq",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/marketing/pages/faq.tsx"
+    },
+    {
+      "spec": "./marketing/pages/how-it-works",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/marketing/pages/how-it-works.tsx"
+    },
+    {
+      "spec": "./marketing/pages/press",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/marketing/pages/press.tsx"
+    },
+    {
+      "spec": "./marketing/pages/pricing",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/marketing/pages/pricing.tsx"
+    },
+    {
+      "spec": "./marketing/pages/privacy",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/marketing/pages/privacy.tsx"
+    },
+    {
+      "spec": "./marketing/pages/safety",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/marketing/pages/safety.tsx"
+    },
+    {
+      "spec": "./marketing/pages/terms",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/marketing/pages/terms.tsx"
+    },
+    {
+      "spec": "./marketing/pages/index",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/marketing/pages/index.tsx"
+    },
+    {
+      "spec": "./pages/not-found",
+      "resolved": true,
+      "path": "/Users/hadinem/Projects/AirbarDashboard/apps/web/src/pages/not-found.tsx"
+    }
+  ]
+}

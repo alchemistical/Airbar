@@ -1,0 +1,3 @@
+Cannot find package 'babel-plugin-transform-remove-console'
+
+The vite config is trying to use a babel plugin for removing console logs in production, but the package is not installed. Need to either install the package or remove the babel plugin configuration from vite.config.ts.

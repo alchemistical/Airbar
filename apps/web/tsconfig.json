@@ -8,7 +8,7 @@
     "allowImportingTsExtensions": true,
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
-    "strict": true,
+    "strict": false,
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": ".",

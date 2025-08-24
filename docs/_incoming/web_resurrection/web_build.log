@@ -1,0 +1,119 @@
+
+> @airbar/web@0.1.0 build /Users/hadinem/Projects/AirbarDashboard/apps/web
+> vite build
+
+vite v5.4.19 building for production...
+transforming...
+✓ 2 modules transformed.
+x Build failed in 119ms
+error during build:
+[vite:react-babel] Cannot find package 'babel-plugin-transform-remove-console' imported from /Users/hadinem/Projects/AirbarDashboard/apps/web/babel-virtual-resolve-base.js
+file: /Users/hadinem/Projects/AirbarDashboard/apps/web/src/main.tsx
+    at __node_internal_ (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:224:9)
+    at new NodeError (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:194:5)
+    at packageResolve (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:898:9)
+    at moduleResolve (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:938:18)
+    at defaultResolve (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:1016:15)
+    at resolve (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:1029:12)
+    at tryImportMetaResolve (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/config/files/plugins.js:149:45)
+    at resolveStandardizedNameForImport (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/config/files/plugins.js:174:19)
+    at resolveStandardizedName (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/config/files/plugins.js:186:22)
+    at loadPlugin (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/config/files/plugins.js:56:7)
+    at loadPlugin.next (<anonymous>)
+    at createDescriptor (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/config/config-descriptors.js:140:16)
+    at createDescriptor.next (<anonymous>)
+    at step (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:261:32)
+    at evaluateAsync (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:291:5)
+    at /Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:44:11
+    at Array.forEach (<anonymous>)
+    at gensync.async (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:43:15)
+    at gensync.all (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:216:13)
+    at Generator.next (<anonymous>)
+    at createDescriptors (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/config/config-descriptors.js:102:41)
+    at createDescriptors.next (<anonymous>)
+    at createPluginDescriptors (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/config/config-descriptors.js:99:17)
+    at createPluginDescriptors.next (<anonymous>)
+    at /Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/config/config-descriptors.js:65:32
+    at Generator.next (<anonymous>)
+    at Function.<anonymous> (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/gensync-utils/async.js:21:3)
+    at Generator.next (<anonymous>)
+    at step (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:269:25)
+    at evaluateAsync (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:291:5)
+    at Function.errback (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:113:7)
+    at errback (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/gensync-utils/async.js:65:18)
+    at async (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:188:17)
+    at onFirstPause (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:216:13)
+    at Generator.next (<anonymous>)
+    at cachedFunction (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/config/caching.js:52:46)
+    at cachedFunction.next (<anonymous>)
+    at mergeChainOpts (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/config/config-chain.js:349:34)
+    at mergeChainOpts.next (<anonymous>)
+    at chainWalker (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/config/config-chain.js:316:14)
+    at chainWalker.next (<anonymous>)
+    at buildRootChain (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/config/config-chain.js:56:36)
+    at buildRootChain.next (<anonymous>)
+    at loadPrivatePartialConfig (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/config/partial.js:72:62)
+    at loadPrivatePartialConfig.next (<anonymous>)
+    at loadFullConfig (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/config/full.js:36:46)
+    at loadFullConfig.next (<anonymous>)
+    at transform (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/transform.js:20:44)
+    at transform.next (<anonymous>)
+    at step (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:269:25)
+    at evaluateAsync (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:291:5)
+    at /Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:93:9
+    at new Promise (<anonymous>)
+    at async (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/gensync@1.0.0-beta.2/node_modules/gensync/index.js:92:14)
+    at stopHiding - secret - don't use this - v1 (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at Module.transformAsync (/Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@babel+core@7.28.3/node_modules/@babel/core/lib/transform.js:45:77)
+    at Object.handler (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/@vitejs+plugin-react@4.7.0_vite@5.4.19_@types+node@20.19.11_lightningcss@1.30.1_/node_modules/@vitejs/plugin-react/dist/index.js:195:34)
+    at async transform (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:21086:16)
+    at async ModuleLoader.addModuleSource (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:21299:36)
+/Users/hadinem/Projects/AirbarDashboard/apps/web:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @airbar/web@0.1.0 build: `vite build`
+Exit status 1
+
+> @airbar/web@0.1.0 build /Users/hadinem/Projects/AirbarDashboard/apps/web
+> vite build
+
+vite v5.4.19 building for production...
+transforming...
+✓ 3087 modules transformed.
+x Build failed in 2.41s
+error during build:
+src/components/matching/MatchCard.tsx (24:9): "useCreateMatchRequest" is not exported by "src/hooks/useMatching.ts", imported by "src/components/matching/MatchCard.tsx".
+file: /Users/hadinem/Projects/AirbarDashboard/apps/web/src/components/matching/MatchCard.tsx:24:9
+
+22: import { Label } from "@/components/ui/label";
+23: import { Input } from "@/components/ui/input";
+24: import { useCreateMatchRequest } from "@/hooks/useMatching";
+             ^
+25: import type { MatchResult } from "@/types/matching";
+26: import { toast } from "@/hooks/use-toast";
+
+    at getRollupError (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+    at error (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/parseAst.js:397:42)
+    at Module.error (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:16893:16)
+    at Module.traceVariable (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:17345:29)
+    at ModuleScope.findVariable (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:15015:39)
+    at FunctionScope.findVariable (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:5626:38)
+    at FunctionBodyScope.findVariable (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:5626:38)
+    at Identifier.bind (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:5400:40)
+    at CallExpression.bind (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:2791:23)
+    at CallExpression.bind (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:12066:15)
+    at VariableDeclarator.bind (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:2791:23)
+    at VariableDeclaration.bind (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:2787:28)
+    at BlockStatement.bind (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:2787:28)
+    at FunctionDeclaration.bind (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:2791:23)
+    at ExportNamedDeclaration.bind (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:12590:27)
+    at Program.bind (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:2787:28)
+    at Module.bindReferences (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:16872:18)
+    at Graph.sortModules (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:22668:20)
+    at Graph.build (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:22566:14)
+    at async file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:23256:13
+    at async catchUnfinishedHookActions (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:22727:16)
+    at async rollupInternal (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/rollup@4.48.0/node_modules/rollup/dist/es/shared/node-entry.js:23251:5)
+    at async build (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/vite@5.4.19_@types+node@20.19.11_lightningcss@1.30.1/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:65693:14)
+    at async CAC.<anonymous> (file:///Users/hadinem/Projects/AirbarDashboard/node_modules/.pnpm/vite@5.4.19_@types+node@20.19.11_lightningcss@1.30.1/node_modules/vite/dist/node/cli.js:829:5)
+/Users/hadinem/Projects/AirbarDashboard/apps/web:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @airbar/web@0.1.0 build: `vite build`
+Exit status 1

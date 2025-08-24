@@ -115,3 +115,42 @@ export function useMatching(): UseMatchingReturn {
     refreshMatches
   }
 }
+
+export function useCreateMatchRequest() {
+  return {
+    mutateAsync: async (data: any) => {
+      const response = await fetch('/api/match-requests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(data)
+      })
+      if (!response.ok) throw new Error('Failed to create match request')
+      return response.json()
+    },
+    isPending: false
+  }
+}
+
+export function useMatchDiscovery() {
+  const [results, setResults] = useState([])
+  const [loading, setLoading] = useState(false)
+  
+  const discover = async (params: any) => {
+    setLoading(true)
+    try {
+      const response = await fetch('/api/match-discovery', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(params)
+      })
+      const data = await response.json()
+      setResults(data)
+    } finally {
+      setLoading(false)
+    }
+  }
+  
+  return { results, loading, discover }
+}
