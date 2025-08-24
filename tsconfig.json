@@ -1,32 +1,10 @@
 {
-  "include": ["client/src/**/*", "shared/**/*"],
-  "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
-  "compilerOptions": {
-    "incremental": true,
-    "tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",
-    "noEmit": true,
-    "module": "ESNext",
-    "strict": true,
-    "noImplicitAny": true,
-    "noUncheckedIndexedAccess": true,
-    "noFallthroughCasesInSwitch": true,
-    "exactOptionalPropertyTypes": true,
-    "lib": ["esnext", "dom", "dom.iterable"],
-    "jsx": "preserve",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "allowImportingTsExtensions": true,
-    "moduleResolution": "bundler",
-    "baseUrl": ".",
-    "types": ["node", "vite/client"],
-    "paths": {
-      "@/*": ["./client/src/*"],
-      "@/components/*": ["./client/src/components/*"],
-      "@/pages/*": ["./client/src/pages/*"],
-      "@/hooks/*": ["./client/src/hooks/*"],
-      "@/lib/*": ["./client/src/lib/*"],
-      "@/server/*": ["./client/src/server/*"],
-      "@shared/*": ["./shared/*"]
-    }
-  }
+  "extends": "./tsconfig.base.json",
+  "include": [],
+  "references": [
+    { "path": "./apps/api" },
+    { "path": "./apps/web" },
+    { "path": "./packages/shared" },
+    { "path": "./packages/db" }
+  ]
 }

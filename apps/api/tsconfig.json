@@ -6,6 +6,9 @@
     "outDir": "dist",
     "rootDir": "src",
     "noEmit": false,
+    "strict": false,
+    "noImplicitAny": true,
+    "strictNullChecks": false,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
