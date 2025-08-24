@@ -1,0 +1,1 @@
+{"success":false,"error":{"code":"VALIDATION_ERROR","message":"Validation failed","details":[{"type":"field","msg":"Valid email is required","path":"email","location":"body"},{"type":"field","msg":"Password is required","path":"password","location":"body"}]}}

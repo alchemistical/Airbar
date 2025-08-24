@@ -1,0 +1,1 @@
+{"status":"ok","timestamp":"2025-08-24T17:41:23.121Z","uptime":105.023267625,"version":"0.1.0","environment":"development","services":{"api":{"status":"ok","lastChecked":"2025-08-24T17:41:23.121Z"},"database":{"status":"ok","lastChecked":"2025-08-24T17:41:23.121Z"},"redis":{"status":"ok","lastChecked":"2025-08-24T17:41:23.121Z"}}}

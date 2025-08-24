@@ -1,0 +1,15 @@
+Sample structured log from server output:
+{
+  "timestamp": "2025-08-24T17:40:48.509Z",
+  "correlationId": "e4ccea10-6482-417b-944a-f69c1f531450", 
+  "method": "POST",
+  "url": "/api/auth/login",
+  "ip": "::1",
+  "userAgent": "curl/8.7.1",
+  "error": {
+    "name": "APIError",
+    "message": "Global rate limit exceeded",
+    "statusCode": 429,
+    "code": "RATE_LIMIT_EXCEEDED"
+  }
+}
