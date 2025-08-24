@@ -28,9 +28,78 @@ const limiter = rateLimit({
 })
 app.use('/api/', limiter)
 
-// Health check
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() })
+// Health check endpoints
+app.get('/api/health', async (req, res) => {
+  try {
+    const health = {
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      version: process.env.npm_package_version || '1.0.0',
+      environment: process.env.NODE_ENV || 'development'
+    }
+    res.json(health)
+  } catch (error) {
+    res.status(503).json({
+      status: 'error',
+      timestamp: new Date().toISOString(),
+      error: error instanceof Error ? error.message : 'Unknown error'
+    })
+  }
+})
+
+// Detailed health check with dependencies
+app.get('/api/health/detailed', async (req, res) => {
+  const healthCheck = {
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    version: process.env.npm_package_version || '1.0.0',
+    environment: process.env.NODE_ENV || 'development',
+    services: {
+      database: 'checking',
+      redis: 'checking',
+      api: 'ok'
+    }
+  }
+
+  try {
+    // Check database connectivity (implement when db is set up)
+    // const dbCheck = await checkDatabase()
+    healthCheck.services.database = 'ok' // placeholder
+    
+    // Check Redis connectivity (implement when redis is set up)  
+    // const redisCheck = await checkRedis()
+    healthCheck.services.redis = 'ok' // placeholder
+
+    const allServicesOk = Object.values(healthCheck.services).every(status => status === 'ok')
+    healthCheck.status = allServicesOk ? 'ok' : 'degraded'
+    
+    res.status(allServicesOk ? 200 : 503).json(healthCheck)
+  } catch (error) {
+    healthCheck.status = 'error'
+    res.status(503).json({
+      ...healthCheck,
+      error: error instanceof Error ? error.message : 'Unknown error'
+    })
+  }
+})
+
+// Readiness probe
+app.get('/api/ready', (req, res) => {
+  res.json({ 
+    status: 'ready',
+    timestamp: new Date().toISOString()
+  })
+})
+
+// Liveness probe  
+app.get('/api/live', (req, res) => {
+  res.json({
+    status: 'alive', 
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  })
 })
 
 // API routes will be added here

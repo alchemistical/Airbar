@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/animated-card";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -128,17 +129,17 @@ export default function Wallet() {
             </p>
           </div>
           <div className="flex space-x-3">
-            <Button variant="outline">
+            <AnimatedButton variant="outline">
               <Download className="h-4 w-4 mr-2" />
               Export
-            </Button>
+            </AnimatedButton>
           </div>
         </div>
 
         {/* Financial Summary Cards - Clickable */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Link href="/dashboard/wallet/transactions">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
+            <AnimatedCard className="hover:shadow-md transition-shadow cursor-pointer">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -156,11 +157,11 @@ export default function Wallet() {
                   <ArrowUpRight className="h-4 w-4 ml-1" />
                 </div>
               </CardContent>
-            </Card>
+            </AnimatedCard>
           </Link>
 
           <Link href="/dashboard/wallet/transactions?filter=pending">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
+            <AnimatedCard className="hover:shadow-md transition-shadow cursor-pointer">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -178,11 +179,11 @@ export default function Wallet() {
                   <ArrowUpRight className="h-4 w-4 ml-1" />
                 </div>
               </CardContent>
-            </Card>
+            </AnimatedCard>
           </Link>
 
           <Link href="/dashboard/wallet/escrow">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
+            <AnimatedCard className="hover:shadow-md transition-shadow cursor-pointer">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -198,11 +199,11 @@ export default function Wallet() {
                   <ArrowUpRight className="h-4 w-4 ml-1" />
                 </div>
               </CardContent>
-            </Card>
+            </AnimatedCard>
           </Link>
 
           <Link href="/dashboard/wallet/transactions">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
+            <AnimatedCard className="hover:shadow-md transition-shadow cursor-pointer">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -218,7 +219,7 @@ export default function Wallet() {
                   <ArrowUpRight className="h-4 w-4 ml-1" />
                 </div>
               </CardContent>
-            </Card>
+            </AnimatedCard>
           </Link>
         </div>
 
@@ -369,7 +370,7 @@ export default function Wallet() {
         {/* Financial Pages Navigation */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Link href="/dashboard/wallet/escrow">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
+            <AnimatedCard className="hover:shadow-md transition-shadow cursor-pointer">
               <CardContent className="p-6">
                 <div className="flex items-center space-x-4">
                   <div className="h-12 w-12 rounded-lg bg-yellow-100 text-yellow-600 flex items-center justify-center">
@@ -383,11 +384,11 @@ export default function Wallet() {
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </AnimatedCard>
           </Link>
 
           <Link href="/dashboard/wallet/withdrawals">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
+            <AnimatedCard className="hover:shadow-md transition-shadow cursor-pointer">
               <CardContent className="p-6">
                 <div className="flex items-center space-x-4">
                   <div className="h-12 w-12 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center">
@@ -403,11 +404,11 @@ export default function Wallet() {
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </AnimatedCard>
           </Link>
 
           <Link href="/dashboard/wallet/transactions">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
+            <AnimatedCard className="hover:shadow-md transition-shadow cursor-pointer">
               <CardContent className="p-6">
                 <div className="flex items-center space-x-4">
                   <div className="h-12 w-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
@@ -423,7 +424,7 @@ export default function Wallet() {
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </AnimatedCard>
           </Link>
         </div>
       </div>

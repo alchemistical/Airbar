@@ -18,8 +18,10 @@
       "@/features/*": ["./src/features/*"],
       "@/hooks/*": ["./src/hooks/*"],
       "@/lib/*": ["./src/lib/*"],
+      "@/types/*": ["./src/types/*"],
       "@airbar/shared": ["../../packages/shared/src"],
-      "@airbar/shared/*": ["../../packages/shared/src/*"]
+      "@airbar/shared/*": ["../../packages/shared/src/*"],
+      "@shared/schema": ["../../packages/shared/src/schema"]
     }
   },
   "include": ["src"],

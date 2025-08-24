@@ -590,7 +590,7 @@ export default function SendPackageV2() {
           </p>
         </div>
 
-        <Card>
+        <AnimatedCard>
           <CardHeader className="pb-4">
             <CardTitle className="text-lg">Route Information</CardTitle>
           </CardHeader>
@@ -608,9 +608,9 @@ export default function SendPackageV2() {
               </span>
             </div>
           </CardContent>
-        </Card>
+        </AnimatedCard>
 
-        <Card>
+        <AnimatedCard>
           <CardHeader className="pb-4">
             <CardTitle className="text-lg">Package Details</CardTitle>
           </CardHeader>
@@ -640,9 +640,9 @@ export default function SendPackageV2() {
               </Badge>
             )}
           </CardContent>
-        </Card>
+        </AnimatedCard>
 
-        <Card className="border-primary">
+        <AnimatedCard className="border-primary">
           <CardHeader className="pb-4 bg-primary/5">
             <CardTitle className="text-lg flex items-center gap-2">
               <Calculator className="h-5 w-5" />
@@ -667,7 +667,7 @@ export default function SendPackageV2() {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </AnimatedCard>
 
         <Alert>
           <Info className="h-4 w-4" />

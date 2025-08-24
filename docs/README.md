@@ -1,56 +1,126 @@
-# AirbarDashboard Documentation
+# Airbar Documentation
 
-This directory contains all project documentation organized by purpose and audience.
-
-## 📁 Directory Structure
-
-### 🎯 Product Documentation (`product/`)
-Business-focused documentation for stakeholders, product managers, and decision-makers.
-
-- **[PRD.md](product/PRD.md)** - Product Requirements Document
-- **[EXECUTIVE_SUMMARY.md](product/EXECUTIVE_SUMMARY.md)** - Executive overview
-- **assessments/** - Product analysis and evaluation reports
-- **analysis/** - Gap analysis and market research
-- **sitemap/** - Site architecture and navigation maps
-- **planning/** - Development plans and feature matrices
-
-### 🔧 Technical Documentation (`technical/`)
-Developer-focused documentation for architecture, implementation, and operations.
-
-- **[ARCHITECTURE.md](technical/ARCHITECTURE.md)** - System architecture overview
-- **[DOCUMENTATION.md](technical/DOCUMENTATION.md)** - Documentation guidelines
-- **[TECH_STACK.md](technical/TECH_STACK.md)** - Technology choices and rationale
-- **assessments/** - Technical evaluation reports
-- **architecture/** - System design and schemas
-- **database/** - Database schemas and data models
-- **leadership/** - CTO and technical leadership docs
-- **development/** - Setup guides and development workflows
-
-### 📦 Archive (`archive/`)
-Legacy documentation and deprecated frameworks.
-
-- **bmad-framework/** - Archived BMAD methodology files
-  - Agents, tasks, checklists, and utilities from the BMAD system
-
-## 🚀 Quick Navigation
-
-**New to the project?** Start with:
-1. [Project README](../README.md) - Main project overview
-2. [PRD](product/PRD.md) - Product requirements
-3. [Architecture](technical/ARCHITECTURE.md) - Technical overview
-
-**Looking to contribute?** Check out:
-- [Development Setup](technical/development/README.md)
-- [Tech Stack](technical/TECH_STACK.md)
-- [Docker Setup](technical/development/DOCKER_SETUP.md)
-
-## 📝 Contributing to Documentation
-
-- Place **business/product** docs in `product/`
-- Place **technical/dev** docs in `technical/`  
-- Use descriptive filenames and organize in appropriate subdirectories
-- Update this index when adding major new sections
+*Central navigation hub for all Airbar platform documentation*
 
 ---
 
-*Documentation reorganized on 2025-08-24*
+## 📚 Documentation Overview
+
+This documentation covers the **Airbar crowdshipping platform** - a peer-to-peer delivery network connecting travelers with senders for secure, efficient package delivery worldwide.
+
+**Platform Status**: Active development (Monorepo architecture, Prisma + PostgreSQL, React + Express)
+
+---
+
+## 🗂️ Documentation Structure
+
+### 🔧 Technical Documentation
+> Developer-focused resources for setup, architecture, and API integration
+
+| Category | Description | Key Documents |
+|----------|-------------|--------------|
+| **[API](./technical/api/)** | REST API documentation | [Endpoints](./technical/api/endpoints.md) • [Authentication](./technical/api/authentication.md) |
+| **[Architecture](./technical/architecture/)** | System design & database | [Overview](./technical/architecture/overview.md) • [Database Schema](./technical/architecture/database-schema.md) |
+| **[Development](./technical/development/)** | Setup & contribution guides | [Setup](./technical/development/setup.md) • [Contributing](./technical/development/contributing.md) |
+| **[Runbooks](./technical/runbooks/)** | Operations & deployment | [Deployment](./technical/runbooks/deployment.md) • [Monitoring](./technical/runbooks/monitoring.md) |
+
+### 📊 Product Documentation  
+> Business requirements, planning, and product strategy
+
+| Category | Description | Key Documents |
+|----------|-------------|--------------|
+| **[Requirements](./product/requirements/)** | Product specifications | [PRD](./product/requirements/prd.md) • [Executive Summary](./product/requirements/executive-summary.md) |
+| **[Planning](./product/planning/)** | Development roadmap | [MVP Plan](./product/planning/mvp-plan.md) • [Feature Matrix](./product/planning/feature-matrix.md) |
+| **[Assessments](./product/assessments/)** | Analysis & evaluations | [Gap Analysis](./product/assessments/gap-analysis.md) • [Technical Assessment](./product/assessments/technical-assessment.md) |
+| **[Design](./product/design/)** | UX/UI specifications | [Sitemap](./product/design/sitemap.md) |
+
+### ⚖️ Legal Documentation
+> Legal compliance and policies
+
+| Category | Description | Status |
+|----------|-------------|---------|
+| **[Legal](./legal/)** | Terms, privacy policies | 🚧 *Requires legal review* |
+
+---
+
+## 🚀 Quick Start
+
+### For Developers
+1. **Setup**: [Development Setup Guide](./technical/development/setup.md)
+2. **Architecture**: [System Overview](./technical/architecture/overview.md)  
+3. **API**: [Authentication](./technical/api/authentication.md) → [Endpoints](./technical/api/endpoints.md)
+4. **Database**: [Schema Reference](./technical/architecture/database-schema.md)
+
+### For Product Teams
+1. **Vision**: [Product Requirements](./product/requirements/prd.md)
+2. **Planning**: [MVP Development Plan](./product/planning/mvp-plan.md)
+3. **Progress**: [Feature Matrix](./product/planning/feature-matrix.md)
+4. **Design**: [Application Sitemap](./product/design/sitemap.md)
+
+### For Operations
+1. **Deployment**: [Production Setup](./technical/runbooks/deployment.md)
+2. **Monitoring**: [System Health](./technical/runbooks/monitoring.md)
+
+---
+
+## 🎯 Platform Overview
+
+### Business Model
+**Peer-to-peer crowdshipping** connecting international travelers with package senders through:
+- **Escrow-secured transactions** with Stripe integration
+- **KYC-verified user base** for trust and safety  
+- **Real-time tracking** and communication systems
+- **Dispute resolution** with 48-hour SLA
+
+### Technical Architecture
+- **Frontend**: React 18.3 + TypeScript + Tailwind CSS
+- **Backend**: Express.js + TypeScript + JWT authentication
+- **Database**: PostgreSQL 15 + Prisma ORM (15 entities)
+- **Infrastructure**: Docker + PNPM monorepo + GitHub Actions CI/CD
+- **Payments**: Stripe integration with escrow system
+
+### Key Features
+- Multi-role dashboard (Traveler/Sender)
+- Trip and package management systems
+- Advanced matching algorithm
+- Secure payment processing
+- Real-time notifications
+- Comprehensive dispute resolution
+
+---
+
+## 📋 Documentation Standards
+
+### Maintenance
+- **Review Cycle**: Monthly accuracy review
+- **Update Process**: Code changes trigger doc updates
+- **Approval**: Technical changes require developer review
+
+### Contribution Guidelines
+1. Follow existing structure and naming conventions
+2. Include accurate code references with `file_path:line_number`
+3. Test all setup instructions before publishing
+4. Keep business and technical docs synchronized
+
+### Support
+- **Questions**: Use GitHub issues for documentation feedback
+- **Updates**: Submit pull requests with rationale
+- **Urgent**: Contact development team directly
+
+---
+
+## ⚠️ Important Notes
+
+### Current Development Status
+- **Architecture**: ✅ Modern monorepo structure implemented
+- **Database**: ✅ Comprehensive Prisma schema (15 entities)
+- **Frontend**: ✅ React components with UI library
+- **Backend**: ⚠️ API routes require business logic implementation
+- **Deployment**: ✅ Docker containerization complete
+
+### Documentation Accuracy
+This documentation was restructured **January 24, 2025** to align with actual implementation. Previous architectural mismatches have been corrected.
+
+---
+
+*For technical support or documentation questions, see [Contributing Guidelines](./technical/development/contributing.md) or contact the development team.*

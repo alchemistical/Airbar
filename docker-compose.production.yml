@@ -1,0 +1,241 @@
+version: '3.8'
+
+services:
+  # Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: airbar-prod-db
+    environment:
+      POSTGRES_USER: airbar_prod
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: airbar_production
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+      - ./infra/docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airbar_prod -d airbar_production"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - airbar-prod-network
+    labels:
+      - "com.airbar.service=postgres"
+      - "com.airbar.environment=production"
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 1G
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: airbar-prod-redis
+    volumes:
+      - redis_prod_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - airbar-prod-network
+    labels:
+      - "com.airbar.service=redis"
+      - "com.airbar.environment=production"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # API Service
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      target: production
+    container_name: airbar-prod-api
+    env_file:
+      - .env.production
+    environment:
+      DATABASE_URL: postgresql://airbar_prod:${POSTGRES_PASSWORD}@postgres:5432/airbar_production
+      REDIS_URL: redis://redis:6379
+    ports:
+      - "3001:3001"
+    volumes:
+      - api_prod_uploads:/app/uploads
+      - api_prod_logs:/app/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3001/api/health", "||", "exit", "1"]
+      interval: 60s
+      timeout: 15s
+      retries: 3
+      start_period: 120s
+    networks:
+      - airbar-prod-network
+    labels:
+      - "com.airbar.service=api"
+      - "com.airbar.environment=production"
+      - "traefik.enable=true"
+      - "traefik.http.routers.api-prod.rule=Host(`api.airbar.com`)"
+      - "traefik.http.services.api-prod.loadbalancer.server.port=3001"
+      - "traefik.http.routers.api-prod.tls.certresolver=letsencrypt"
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 1G
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  # Web Service
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      target: production
+    container_name: airbar-prod-web
+    env_file:
+      - .env.production
+    ports:
+      - "3000:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80", "||", "exit", "1"]
+      interval: 60s
+      timeout: 15s
+      retries: 3
+      start_period: 60s
+    networks:
+      - airbar-prod-network
+    labels:
+      - "com.airbar.service=web"
+      - "com.airbar.environment=production"
+      - "traefik.enable=true"
+      - "traefik.http.routers.web-prod.rule=Host(`airbar.com`) || Host(`www.airbar.com`)"
+      - "traefik.http.services.web-prod.loadbalancer.server.port=80"
+      - "traefik.http.routers.web-prod.tls.certresolver=letsencrypt"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.web-prod.middlewares=redirect-to-https"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 256M
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  # Reverse Proxy (Production)
+  traefik:
+    image: traefik:v3.0
+    container_name: airbar-prod-traefik
+    command:
+      - --api.dashboard=false
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --certificatesresolvers.letsencrypt.acme.tlschallenge=true
+      - --certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL}
+      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
+      - --log.level=INFO
+      - --accesslog=true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik_letsencrypt:/letsencrypt
+    restart: unless-stopped
+    networks:
+      - airbar-prod-network
+    labels:
+      - "com.airbar.service=traefik"
+      - "com.airbar.environment=production"
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 128M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  postgres_prod_data:
+    driver: local
+  redis_prod_data:
+    driver: local
+  api_prod_uploads:
+    driver: local
+  api_prod_logs:
+    driver: local
+  traefik_letsencrypt:
+    driver: local
+
+networks:
+  airbar-prod-network:
+    driver: bridge
+    name: airbar-prod-network
+    ipam:
+      config:
+        - subnet: 172.22.0.0/16

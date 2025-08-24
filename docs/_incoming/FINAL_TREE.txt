@@ -1,0 +1,67 @@
+FINAL DOCUMENTATION TREE - Post Reorganization
+==============================================
+
+docs/
+├── README.md (navigation index)
+├── ARCHITECTURE.md (existing, preserved)
+├── _incoming/ (staging area)
+│   ├── all_files.txt
+│   ├── inventory.json
+│   ├── PLAN.md
+│   ├── FINAL_TREE.txt
+│   └── temp_inventory.txt
+├── product/ (business documentation)
+│   ├── PRD.md
+│   ├── EXECUTIVE_SUMMARY.md
+│   ├── assessments/
+│   │   ├── COMPREHENSIVE_PRODUCT_ASSESSMENT.md
+│   │   └── PRODUCT_ASSESSMENT_REPORT.md
+│   ├── analysis/
+│   │   └── GAP_ANALYSIS.md
+│   ├── sitemap/
+│   │   ├── FULL_SITEMAP.md
+│   │   └── SITEMAP.md
+│   └── planning/
+│       ├── FEATURE_COMPLETION_MATRIX.md
+│       └── MVP_DEVELOPMENT_PLAN.md
+├── technical/ (development documentation)
+│   ├── DOCUMENTATION.md
+│   ├── TECH_STACK.md
+│   ├── assessments/
+│   │   └── BACKEND_DEVELOPMENT_ASSESSMENT.md
+│   ├── architecture/
+│   │   └── DIRECTORY_SCHEMA.md
+│   ├── database/
+│   │   └── DATABASE_SCHEMA.md
+│   ├── leadership/
+│   │   └── CTO_PRODUCT_DOCUMENTATION.md
+│   └── development/ (existing, preserved)
+│       ├── README.md
+│       └── DOCKER_SETUP.md
+├── archive/
+│   └── bmad-framework/ (moved from .bmad-core/)
+│       ├── agents/ (10 files)
+│       ├── agent-teams/ (4 files)
+│       ├── checklists/ (6 files) 
+│       ├── tasks/ (17 files)
+│       ├── templates/ (13 files)
+│       ├── workflows/ (6 files)
+│       ├── data/ (4 files)
+│       ├── utils/ (2 files)
+│       ├── user-guide.md
+│       ├── working-in-the-brownfield.md
+│       ├── core-config.yaml
+│       ├── install-manifest.yaml
+│       └── .DS_Store
+└── assets/ (created, ready for future use)
+    ├── images/
+    └── design/
+
+SUMMARY:
+- 57 documentation files reorganized and moved
+- Root directory cleaned of scattered docs
+- Clear separation: product/ vs technical/
+- BMAD framework archived (not deleted)
+- Navigation index created
+- Existing docs/ structure preserved and extended
+- All moves are non-destructive and reversible

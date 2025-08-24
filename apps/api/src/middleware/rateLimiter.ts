@@ -25,7 +25,7 @@ export const createRateLimiter = (options: RateLimitOptions) => {
 
   return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const key = keyGenerator(req);
+      const key = keyGenerator(req) || 'unknown';
       const windowStart = new Date(Date.now() - windowMs);
 
       // Count recent attempts
@@ -76,7 +76,7 @@ export const logLoginAttempt = async (
 ): Promise<void> => {
   try {
     await db.insert(loginAttempts).values({
-      ipAddress: req.ip,
+      ipAddress: req.ip || '127.0.0.1',
       email,
       userAgent: req.get('User-Agent'),
       success,

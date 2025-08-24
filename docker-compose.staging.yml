@@ -1,0 +1,156 @@
+version: '3.8'
+
+services:
+  # Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: airbar-staging-db
+    environment:
+      POSTGRES_USER: airbar_staging
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: airbar_staging
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    volumes:
+      - postgres_staging_data:/var/lib/postgresql/data
+      - ./infra/docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airbar_staging -d airbar_staging"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - airbar-staging-network
+    labels:
+      - "com.airbar.service=postgres"
+      - "com.airbar.environment=staging"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: airbar-staging-redis
+    volumes:
+      - redis_staging_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - airbar-staging-network
+    labels:
+      - "com.airbar.service=redis"
+      - "com.airbar.environment=staging"
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 128M
+
+  # API Service
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      target: production
+    container_name: airbar-staging-api
+    env_file:
+      - .env.staging
+    environment:
+      DATABASE_URL: postgresql://airbar_staging:${POSTGRES_PASSWORD}@postgres:5432/airbar_staging
+      REDIS_URL: redis://redis:6379
+    ports:
+      - "3001:3001"
+    volumes:
+      - api_staging_uploads:/app/uploads
+      - api_staging_logs:/app/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3001/api/health", "||", "exit", "1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - airbar-staging-network
+    labels:
+      - "com.airbar.service=api"
+      - "com.airbar.environment=staging"
+      - "traefik.enable=true"
+      - "traefik.http.routers.api-staging.rule=Host(`api-staging.airbar.com`)"
+      - "traefik.http.services.api-staging.loadbalancer.server.port=3001"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+  # Web Service
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      target: production
+    container_name: airbar-staging-web
+    env_file:
+      - .env.staging
+    ports:
+      - "3000:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80", "||", "exit", "1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - airbar-staging-network
+    labels:
+      - "com.airbar.service=web"
+      - "com.airbar.environment=staging"
+      - "traefik.enable=true"
+      - "traefik.http.routers.web-staging.rule=Host(`staging.airbar.com`)"
+      - "traefik.http.services.web-staging.loadbalancer.server.port=80"
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 128M
+
+volumes:
+  postgres_staging_data:
+    driver: local
+  redis_staging_data:
+    driver: local
+  api_staging_uploads:
+    driver: local
+  api_staging_logs:
+    driver: local
+
+networks:
+  airbar-staging-network:
+    driver: bridge
+    name: airbar-staging-network
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16

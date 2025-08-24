@@ -1,0 +1,176 @@
+version: '3.8'
+
+services:
+  # Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: airbar-db
+    environment:
+      POSTGRES_USER: airbar_user
+      POSTGRES_PASSWORD: airbar_password
+      POSTGRES_DB: airbar_dev
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infra/docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airbar_user -d airbar_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - airbar-network
+    labels:
+      - "com.airbar.service=postgres"
+      - "com.airbar.environment=development"
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: airbar-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./infra/docker/redis-dev.conf:/usr/local/etc/redis/redis.conf:ro
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - airbar-network
+    labels:
+      - "com.airbar.service=redis"
+      - "com.airbar.environment=development"
+
+  # API Service
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      target: development
+    container_name: airbar-api
+    env_file:
+      - .env.docker
+    environment:
+      # Override specific values for container networking
+      DATABASE_URL: postgresql://airbar_user:airbar_password@postgres:5432/airbar_dev
+      REDIS_URL: redis://redis:6379
+    ports:
+      - "3001:3001"
+    volumes:
+      # Hot reloading - mount source code
+      - ./apps/api/src:/app/apps/api/src
+      - ./packages:/app/packages
+      - ./shared:/app/shared
+      # Upload directory
+      - api_uploads:/app/uploads
+      # Exclude node_modules to use container's version
+      - /app/node_modules
+      - /app/apps/api/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3001/api/health", "||", "exit", "1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - airbar-network
+    labels:
+      - "com.airbar.service=api"
+      - "com.airbar.environment=development"
+
+  # Web Service
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      target: development
+    container_name: airbar-web
+    env_file:
+      - .env.docker
+    environment:
+      # Override for development
+      VITE_API_URL: http://localhost:3001
+    ports:
+      - "3000:5173"
+    volumes:
+      # Hot reloading - mount source code
+      - ./apps/web/src:/app/apps/web/src
+      - ./apps/web/public:/app/apps/web/public
+      - ./packages:/app/packages
+      # Exclude node_modules to use container's version
+      - /app/node_modules
+      - /app/apps/web/node_modules
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:5173", "||", "exit", "1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - airbar-network
+    labels:
+      - "com.airbar.service=web"
+      - "com.airbar.environment=development"
+    stdin_open: true
+    tty: true
+
+  # Database Admin (optional)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: airbar-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@airbar.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - airbar-network
+    labels:
+      - "com.airbar.service=pgadmin"
+      - "com.airbar.environment=development"
+    profiles: ["admin"]
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+  api_uploads:
+    driver: local
+
+networks:
+  airbar-network:
+    driver: bridge
+    name: airbar-dev-network
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

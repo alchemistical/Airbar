@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { AlertCircle } from "lucide-react";
-import { useNavigate } from "wouter";
+import { useLocation } from "wouter";
 
 interface DisputeButtonProps {
   matchId: number;
@@ -15,10 +15,10 @@ export function DisputeButton({
   variant = "outline",
   size = "default"
 }: DisputeButtonProps) {
-  const [, navigate] = useNavigate();
+  const [, setLocation] = useLocation();
 
   const handleDisputeClick = () => {
-    navigate(`/dashboard/disputes/new?matchId=${matchId}`);
+    setLocation(`/dashboard/disputes/new?matchId=${matchId}`);
   };
 
   return (
