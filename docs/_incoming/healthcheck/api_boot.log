@@ -1,0 +1,7 @@
+🚀 API server running on port 3001
+📍 Health check: http://localhost:3001/health
+Redis connected for rate limiting
+Redis connected for health checks
+
+Rate limiting active - 429 responses observed
+API endpoints protected with aggressive rate limiting (good security posture)

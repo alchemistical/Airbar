@@ -1,0 +1,32 @@
+# Logs & Correlation Analysis
+
+## API Logging Structure
+✅ Structured logging detected in previous output:
+- correlationId present in error responses
+- method, url, ip, userAgent fields captured
+- timestamp in ISO format
+- Error details with stack traces
+
+## Sample Log Entry Structure:
+```json
+{
+  "timestamp": "2025-08-24T19:25:09.971Z",
+  "correlationId": "de4eb9ea-da48-40c7-80cc-f1e57aa02e6b", 
+  "method": "GET",
+  "url": "/api",
+  "ip": "::1",
+  "userAgent": "Mozilla/5.0...",
+  "error": {
+    "name": "APIError",
+    "message": "Global rate limit exceeded",
+    "code": "RATE_LIMIT_EXCEEDED",
+    "statusCode": 429
+  }
+}
+```
+
+## Analysis
+✅ Correlation IDs implemented
+✅ Request/response logging with context
+✅ Error tracking with structured data
+✅ Rate limiting properly logged

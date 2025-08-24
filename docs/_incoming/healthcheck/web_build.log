@@ -1,0 +1,10 @@
+
+> @airbar/web@0.1.0 build /Users/hadinem/Projects/AirbarDashboard/apps/web
+> vite build
+
+vite v5.4.19 building for production...
+transforming...
+✓ 2 modules transformed.
+/Users/hadinem/Projects/AirbarDashboard/apps/web:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @airbar/web@0.1.0 build: `vite build`
+Exit status 1

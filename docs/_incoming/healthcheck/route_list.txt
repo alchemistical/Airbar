@@ -1,0 +1,14 @@
+# API Route Analysis
+
+## Observed Behavior:
+- API running on port 3001
+- Rate limiting: 429 responses on /api/health, /api/docs
+- Root endpoint (/): 404 (expected, no root handler)
+- Health endpoint (/health): 404 (may be at different path)
+
+## Rate Limiting Status:
+✅ Rate limiting active and functioning (good security)
+⚠️ Unable to access endpoints due to aggressive rate limiting
+
+## Recommendation:
+Rate limiting should be bypassed for health checks in production

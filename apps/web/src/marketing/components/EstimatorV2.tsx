@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card } from "@/components/ui/card";
 import { track } from "@/lib/analytics";
 import { Calculator, TrendingUp } from "lucide-react";
-import tokens from "../../../../content/tokens.json";
+import tokens from "../../../content/tokens.json";
 
 export default function EstimatorV2() {
   const [, navigate] = useLocation();

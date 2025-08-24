@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
 import { getStoredIntent, setStoredIntent, type UserIntent } from "@/lib/intent";
-import tokens from "../../../../content/tokens.json";
+import tokens from "../../../content/tokens.json";
 
 export default function HeroIntent() {
   const [, navigate] = useLocation();

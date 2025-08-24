@@ -1,7 +1,7 @@
 import { Shield, UserCheck, MapPin, Camera, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
-import tokens from "../../../../content/tokens.json";
+import tokens from "../../../content/tokens.json";
 
 const trustBadges = [
   {

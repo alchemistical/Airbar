@@ -1,0 +1,1 @@
+{"success":false,"error":{"code":"RATE_LIMIT_EXCEEDED","message":"Global rate limit exceeded","correlationId":"768d1413-2a86-4fb5-98b7-070588cca8eb","details":{"retryAfter":810},"retryAfter":810}}

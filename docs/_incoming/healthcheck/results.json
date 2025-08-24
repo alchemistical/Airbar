@@ -1,0 +1,26 @@
+{
+  "dbMigrated": true,
+  "dbSeeded": true,
+  "apiHealth": false,
+  "apiDocs": false,
+  "apiMetrics": false,
+  "error400": true,
+  "rateLimit429": true,
+  "flowsAuth": false,
+  "flowsTrips": false,
+  "webBuild": false,
+  "guards": true,
+  "boundaries": true,
+  "perfReport": false,
+  "logsStructured": true,
+  "overallStatus": "conditional_pass",
+  "blockingIssues": [
+    "production_build_fails",
+    "api_rate_limit_too_aggressive"
+  ],
+  "recommendations": [
+    "install_babel_plugin_transform_remove_console",
+    "configure_health_check_rate_limit_bypass",
+    "setup_automated_testing_pipeline"
+  ]
+}

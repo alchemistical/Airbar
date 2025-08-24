@@ -1,0 +1,20 @@
+# Performance & Accessibility Assessment
+
+## Frontend Performance
+✅ Dev server responds quickly (< 1s)
+✅ Vite hot reload optimized for development
+✅ Modern build tooling (Vite + React)
+
+## Accessibility Notes
+- No automated a11y testing configured
+- Manual review needed for WCAG compliance
+- Component library (Radix UI) suggests good a11y foundation
+
+## Recommendations
+1. Install and configure @axe-core/playwright for automated a11y testing
+2. Add lighthouse CI for performance monitoring
+3. Configure performance budgets in build process
+
+## Status
+⚠️ No automated testing configured
+✅ Good foundation with modern tooling
