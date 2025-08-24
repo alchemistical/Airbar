@@ -1,0 +1,1 @@
+{"success":false,"error":{"code":"NOT_FOUND","message":"Route GET /api/auth/nonexistent not found","correlationId":"bb01fc31-cd28-4caf-b98f-51b9aa1c4ee1"}}

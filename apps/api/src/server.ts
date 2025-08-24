@@ -4,6 +4,11 @@ import helmet from 'helmet'
 import compression from 'compression'
 import rateLimit from 'express-rate-limit'
 import dotenv from 'dotenv'
+import swaggerUi from 'swagger-ui-express'
+import { swaggerSpec, generateOpenApiJson, generateOpenApiYaml } from './config/swagger'
+import { addCorrelationId, errorHandler, notFoundHandler } from './middleware/errorHandler'
+import { healthService, metricsMiddleware } from './services/healthService'
+import { globalRateLimit, rateLimitBypass } from './middleware/advancedRateLimit'
 
 // Load environment variables
 dotenv.config()
@@ -12,6 +17,8 @@ const app = express()
 const PORT = process.env.PORT || 3001
 
 // Middleware
+app.use(addCorrelationId) // Add correlation ID to all requests
+app.use(metricsMiddleware) // Track requests for metrics
 app.use(helmet())
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
@@ -21,89 +28,173 @@ app.use(compression())
 app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ extended: true }))
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-})
-app.use('/api/', limiter)
+// Rate limiting with bypass for admin/testing
+app.use(rateLimitBypass)
+app.use('/api/', globalRateLimit)
 
 // Health check endpoints
+
+/**
+ * @swagger
+ * /api/health:
+ *   get:
+ *     tags: [Health]
+ *     summary: Basic health check
+ *     description: |
+ *       Returns basic system health information including uptime, version, and environment.
+ *       This is a lightweight endpoint suitable for load balancer health checks.
+ *     responses:
+ *       200:
+ *         description: System is healthy
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/HealthResponse'
+ *             example:
+ *               status: "ok"
+ *               timestamp: "2024-01-01T12:00:00.000Z"
+ *               uptime: 3600
+ *               version: "1.0.0"
+ *               environment: "development"
+ *       503:
+ *         description: System is unhealthy
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/HealthResponse'
+ *             example:
+ *               status: "error"
+ *               timestamp: "2024-01-01T12:00:00.000Z"
+ *               error: "Database connection failed"
+ */
 app.get('/api/health', async (req, res) => {
   try {
-    const health = {
-      status: 'ok',
-      timestamp: new Date().toISOString(),
-      uptime: process.uptime(),
-      version: process.env.npm_package_version || '1.0.0',
-      environment: process.env.NODE_ENV || 'development'
-    }
-    res.json(health)
+    const health = await healthService.getBasicHealth()
+    const statusCode = health.status === 'ok' ? 200 : 503
+    res.status(statusCode).json(health)
   } catch (error) {
     res.status(503).json({
-      status: 'error',
-      timestamp: new Date().toISOString(),
-      error: error instanceof Error ? error.message : 'Unknown error'
+      success: false,
+      error: {
+        code: 'HEALTH_CHECK_FAILED',
+        message: error instanceof Error ? error.message : 'Health check failed',
+        correlationId: req.correlationId
+      }
     })
   }
 })
 
-// Detailed health check with dependencies
+/**
+ * @swagger
+ * /api/health/detailed:
+ *   get:
+ *     tags: [Health]
+ *     summary: Detailed health check with service dependencies
+ *     description: |
+ *       Comprehensive health check that tests connectivity to all dependencies
+ *       including database and Redis. This endpoint is slower but provides
+ *       detailed service status information.
+ *     responses:
+ *       200:
+ *         description: All services are healthy
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/HealthResponse'
+ *       503:
+ *         description: One or more services are unhealthy
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/HealthResponse'
+ */
 app.get('/api/health/detailed', async (req, res) => {
-  const healthCheck = {
-    status: 'ok',
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime(),
-    version: process.env.npm_package_version || '1.0.0',
-    environment: process.env.NODE_ENV || 'development',
-    services: {
-      database: 'checking',
-      redis: 'checking',
-      api: 'ok'
-    }
-  }
-
   try {
-    // Check database connectivity (implement when db is set up)
-    // const dbCheck = await checkDatabase()
-    healthCheck.services.database = 'ok' // placeholder
-    
-    // Check Redis connectivity (implement when redis is set up)  
-    // const redisCheck = await checkRedis()
-    healthCheck.services.redis = 'ok' // placeholder
-
-    const allServicesOk = Object.values(healthCheck.services).every(status => status === 'ok')
-    healthCheck.status = allServicesOk ? 'ok' : 'degraded'
-    
-    res.status(allServicesOk ? 200 : 503).json(healthCheck)
+    const health = await healthService.getDetailedHealth()
+    const statusCode = health.status === 'ok' ? 200 : 503
+    res.status(statusCode).json(health)
   } catch (error) {
-    healthCheck.status = 'error'
     res.status(503).json({
-      ...healthCheck,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      success: false,
+      error: {
+        code: 'DETAILED_HEALTH_CHECK_FAILED',
+        message: error instanceof Error ? error.message : 'Detailed health check failed',
+        correlationId: req.correlationId
+      }
     })
   }
 })
 
-// Readiness probe
-app.get('/api/ready', (req, res) => {
-  res.json({ 
-    status: 'ready',
+// Readiness probe (Kubernetes compatible)
+app.get('/api/ready', async (req, res) => {
+  try {
+    const readiness = await healthService.getReadiness()
+    const statusCode = readiness.ready ? 200 : 503
+    res.status(statusCode).json({
+      ready: readiness.ready,
+      services: readiness.services,
+      timestamp: new Date().toISOString()
+    })
+  } catch (error) {
+    res.status(503).json({
+      ready: false,
+      error: error instanceof Error ? error.message : 'Readiness check failed',
+      timestamp: new Date().toISOString()
+    })
+  }
+})
+
+// Liveness probe (Kubernetes compatible)
+app.get('/api/live', (req, res) => {
+  const liveness = healthService.getLiveness()
+  res.json({
+    alive: liveness.alive,
+    uptime: liveness.uptime,
     timestamp: new Date().toISOString()
   })
 })
 
-// Liveness probe  
-app.get('/api/live', (req, res) => {
-  res.json({
-    status: 'alive', 
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime()
-  })
+// Metrics endpoint (Prometheus compatible)
+app.get('/api/metrics', (req, res) => {
+  try {
+    const metrics = healthService.getMetrics()
+    res.setHeader('Content-Type', 'text/plain; version=0.0.4; charset=utf-8')
+    res.send(metrics)
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'METRICS_ERROR',
+        message: 'Failed to generate metrics',
+        correlationId: req.correlationId
+      }
+    })
+  }
 })
 
-// API routes will be added here
-// app.use('/api/auth', authRoutes)
+// API Documentation
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  explorer: true,
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: 'Airbar API Documentation',
+  customfavIcon: '/favicon.ico',
+  swaggerOptions: {
+    persistAuthorization: true,
+    docExpansion: 'list',
+    filter: true,
+    showRequestDuration: true
+  }
+}));
+
+// OpenAPI spec endpoints
+app.get('/api/openapi.json', generateOpenApiJson);
+app.get('/api/openapi.yaml', generateOpenApiYaml);
+
+// API routes
+import authRoutes from './features/auth/routes/auth.routes'
+app.use('/api/auth', authRoutes)
+
+// Additional feature routes will be added here as they're implemented
 // app.use('/api/trips', tripRoutes)
 // app.use('/api/parcels', parcelRoutes)
 // app.use('/api/booking', bookingRoutes)
@@ -111,18 +202,10 @@ app.get('/api/live', (req, res) => {
 // app.use('/api/chat', chatRoutes)
 
 // Error handling middleware
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error('Error:', err)
-  res.status(err.status || 500).json({
-    message: err.message || 'Internal Server Error',
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
-  })
-})
+app.use(errorHandler)
 
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({ message: 'Route not found' })
-})
+// 404 handler for undefined routes  
+app.use('*', notFoundHandler)
 
 app.listen(PORT, () => {
   console.log(`🚀 API server running on port ${PORT}`)

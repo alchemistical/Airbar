@@ -1,3 +1,13 @@
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     BearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ */
+
 import { Router } from 'express';
 import { AuthController } from '../controllers/auth.controller';
 import { authenticateToken } from '../middleware/auth';
@@ -93,6 +103,91 @@ const otpValidation = [
 ];
 
 // Public routes
+
+/**
+ * @swagger
+ * /api/auth/register:
+ *   post:
+ *     tags: [Authentication]
+ *     summary: Register a new user account
+ *     description: |
+ *       Creates a new user account with email, password, and username.
+ *       
+ *       **Rate Limiting:** 3 requests per hour per IP address
+ *       
+ *       **Password Requirements:**
+ *       - Minimum 8 characters
+ *       - At least one uppercase letter
+ *       - At least one lowercase letter  
+ *       - At least one number
+ *       
+ *       **Username Requirements:**
+ *       - 3-30 characters
+ *       - Letters, numbers, underscores, and hyphens only
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/RegisterRequest'
+ *           examples:
+ *             example1:
+ *               summary: Complete registration
+ *               value:
+ *                 email: "john.doe@example.com"
+ *                 password: "SecurePass123"
+ *                 username: "johndoe"
+ *                 firstName: "John"
+ *                 lastName: "Doe"
+ *             example2:
+ *               summary: Minimal registration
+ *               value:
+ *                 email: "jane@example.com"
+ *                 password: "MyPassword1"
+ *                 username: "jane_smith"
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AuthResponse'
+ *             example:
+ *               success: true
+ *               data:
+ *                 user:
+ *                   id: "123e4567-e89b-12d3-a456-426614174000"
+ *                   email: "john.doe@example.com"
+ *                   username: "johndoe"
+ *                   firstName: "John"
+ *                   lastName: "Doe"
+ *                   emailVerified: false
+ *                   phoneVerified: false
+ *                   kycStatus: "PENDING"
+ *                   isActive: true
+ *                   createdAt: "2024-01-01T12:00:00.000Z"
+ *                   updatedAt: "2024-01-01T12:00:00.000Z"
+ *                 token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ *                 refreshToken: "refresh_token_here"
+ *                 expiresIn: 3600
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       409:
+ *         description: Email or username already exists
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *             example:
+ *               success: false
+ *               error:
+ *                 code: "USER_ALREADY_EXISTS"
+ *                 message: "Email or username already exists"
+ *       429:
+ *         $ref: '#/components/responses/RateLimitError'
+ *       500:
+ *         $ref: '#/components/responses/InternalServerError'
+ */
 router.post(
   '/register',
   registrationRateLimit,
@@ -101,6 +196,75 @@ router.post(
   AuthController.register
 );
 
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     tags: [Authentication]
+ *     summary: Authenticate user and obtain JWT token
+ *     description: |
+ *       Authenticates a user with email and password, returning JWT tokens for API access.
+ *       
+ *       **Rate Limiting:** 5 failed attempts per 10 minutes per IP address
+ *       **Brute Force Protection:** Account locked after 10 failed attempts per hour
+ *       
+ *       The returned JWT token should be included in subsequent API requests:
+ *       `Authorization: Bearer <token>`
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/LoginRequest'
+ *           example:
+ *             email: "john.doe@example.com"
+ *             password: "SecurePass123"
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AuthResponse'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         description: Invalid credentials
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *             example:
+ *               success: false
+ *               error:
+ *                 code: "INVALID_CREDENTIALS"
+ *                 message: "Invalid email or password"
+ *       429:
+ *         description: Rate limit exceeded or account locked
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *             examples:
+ *               rate_limit:
+ *                 summary: Rate limit exceeded
+ *                 value:
+ *                   success: false
+ *                   error:
+ *                     code: "RATE_LIMIT_EXCEEDED"
+ *                     message: "Too many login attempts, please try again in 10 minutes"
+ *                     retryAfter: 600
+ *               account_locked:
+ *                 summary: Account temporarily locked
+ *                 value:
+ *                   success: false
+ *                   error:
+ *                     code: "ACCOUNT_TEMPORARILY_LOCKED"
+ *                     message: "Account temporarily locked due to too many failed attempts"
+ *                     retryAfter: 3600
+ *       500:
+ *         $ref: '#/components/responses/InternalServerError'
+ */
 router.post(
   '/login',
   loginRateLimit,
