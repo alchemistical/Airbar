@@ -1,0 +1,575 @@
+// AugAirBar Production Database Schema
+// Prisma ORM for type-safe database access
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =============================================================================
+// CORE USER MANAGEMENT
+// =============================================================================
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  username          String    @unique
+  passwordHash      String    @map("password_hash")
+  emailVerified     Boolean   @default(false) @map("email_verified")
+  phoneVerified     Boolean   @default(false) @map("phone_verified")
+  kycStatus         KYCStatus @default(PENDING) @map("kyc_status")
+  isActive          Boolean   @default(true) @map("is_active")
+  lastLoginAt       DateTime? @map("last_login_at")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  // Relationships
+  profile           Profile?
+  sessions          Session[]
+  trips             Trip[]
+  packages          Package[]
+  senderMatches     Match[]   @relation("SenderMatches")
+  travelerMatches   Match[]   @relation("TravelerMatches") 
+  transactions      Transaction[]
+  notifications     Notification[]
+  reviews           Review[]  @relation("ReviewsGiven")
+  receivedReviews   Review[]  @relation("ReviewsReceived")
+  disputes          Dispute[]
+  messages          Message[]
+
+  @@map("users")
+}
+
+model Profile {
+  id               String    @id @default(cuid())
+  userId           String    @unique @map("user_id")
+  firstName        String    @map("first_name")
+  lastName         String    @map("last_name")
+  bio              String?
+  avatarUrl        String?   @map("avatar_url")
+  phoneNumber      String?   @map("phone_number")
+  dateOfBirth      DateTime? @map("date_of_birth")
+  nationality      String?
+  address          String?
+  city             String?
+  country          String?
+  languages        String[]  @default([])
+  emergencyContact Json?     @map("emergency_contact")
+  
+  // Trust & Safety
+  idDocumentUrl    String?   @map("id_document_url")
+  idDocumentType   String?   @map("id_document_type")
+  kycDocuments     Json[]    @default([]) @map("kyc_documents")
+  
+  // Statistics
+  totalTrips       Int       @default(0) @map("total_trips")
+  totalDeliveries  Int       @default(0) @map("total_deliveries")
+  rating           Float     @default(0.0)
+  reviewCount      Int       @default(0) @map("review_count")
+  reliabilityScore Float     @default(100.0) @map("reliability_score")
+  
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  // Relationships
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("profiles")
+}
+
+model Session {
+  id            String   @id @default(cuid())
+  userId        String   @map("user_id")
+  sessionToken  String   @unique @map("session_token")
+  refreshToken  String?  @map("refresh_token")
+  deviceInfo    Json?    @map("device_info")
+  ipAddress     String?  @map("ip_address")
+  isActive      Boolean  @default(true) @map("is_active")
+  expiresAt     DateTime @map("expires_at")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  // Relationships
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+// =============================================================================
+// LOCATION & GEOSPATIAL DATA
+// =============================================================================
+
+model Location {
+  id            String   @id @default(cuid())
+  name          String
+  city          String
+  country       String
+  countryCode   String   @map("country_code")
+  airportCode   String?  @map("airport_code")
+  type          LocationType
+  latitude      Float
+  longitude     Float
+  timezone      String?
+  isActive      Boolean  @default(true) @map("is_active")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  // Relationships
+  originTrips       Trip[]    @relation("OriginTrips")
+  destinationTrips  Trip[]    @relation("DestinationTrips")
+  originPackages    Package[] @relation("OriginPackages")  
+  destinationPackages Package[] @relation("DestinationPackages")
+  originRestrictions RouteRestriction[] @relation("OriginRestrictions")
+  destinationRestrictions RouteRestriction[] @relation("DestinationRestrictions")
+
+  @@unique([latitude, longitude])
+  @@index([city, country])
+  @@index([airportCode])
+  @@map("locations")
+}
+
+model RouteRestriction {
+  id              String   @id @default(cuid())
+  originId        String   @map("origin_id")
+  destinationId   String   @map("destination_id")
+  restrictedItems String[] @map("restricted_items")
+  description     String?
+  isActive        Boolean  @default(true) @map("is_active")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relationships
+  origin          Location @relation("OriginRestrictions", fields: [originId], references: [id])
+  destination     Location @relation("DestinationRestrictions", fields: [destinationId], references: [id])
+
+  @@unique([originId, destinationId])
+  @@map("route_restrictions")
+}
+
+// =============================================================================
+// TRIPS & PACKAGES
+// =============================================================================
+
+model Trip {
+  id                String     @id @default(cuid())
+  travelerId        String     @map("traveler_id")
+  originId          String     @map("origin_id")
+  destinationId     String     @map("destination_id")
+  departureDate     DateTime   @map("departure_date")
+  arrivalDate       DateTime?  @map("arrival_date")
+  returnDate        DateTime?  @map("return_date")
+  airline           String?
+  flightNumber      String?    @map("flight_number")
+  
+  // Capacity
+  spaceAvailable    Float      @map("space_available") // in kg
+  bagTypes          BagType[]  @map("bag_types")
+  numberOfBags      Int        @default(1) @map("number_of_bags")
+  
+  // Pricing & Preferences  
+  pricePerKg        Float?     @map("price_per_kg")
+  acceptableItems   String[]   @map("acceptable_items")
+  restrictions      String[]   @default([])
+  additionalNotes   String?    @map("additional_notes")
+  
+  // Schedule Flexibility
+  flexibilityLevel  Int        @default(1) @map("flexibility_level") // 1-5 scale
+  flexibilityWindow Json?      @map("flexibility_window")
+  
+  // Status & Metadata
+  status            TripStatus @default(ACTIVE)
+  isPublic          Boolean    @default(true) @map("is_public")
+  views             Int        @default(0)
+  createdAt         DateTime   @default(now()) @map("created_at")
+  updatedAt         DateTime   @updatedAt @map("updated_at")
+
+  // Relationships
+  traveler          User       @relation(fields: [travelerId], references: [id])
+  origin            Location   @relation("OriginTrips", fields: [originId], references: [id])
+  destination       Location   @relation("DestinationTrips", fields: [destinationId], references: [id])
+  matches           Match[]
+  
+  @@index([travelerId])
+  @@index([originId, destinationId])
+  @@index([departureDate])
+  @@index([status])
+  @@map("trips")
+}
+
+model Package {
+  id                String      @id @default(cuid())
+  senderId          String      @map("sender_id")
+  originId          String      @map("origin_id")
+  destinationId     String      @map("destination_id")
+  
+  // Package Details
+  description       String
+  weight            Float       // in kg
+  dimensions        Json?       // {length, width, height}
+  declaredValue     Float       @map("declared_value")
+  category          PackageCategory
+  fragile           Boolean     @default(false)
+  urgent            Boolean     @default(false)
+  
+  // Pickup & Delivery
+  pickupAddress     String      @map("pickup_address")
+  deliveryAddress   String      @map("delivery_address")
+  pickupWindow      Json        @map("pickup_window") // {start, end}
+  deliveryWindow    Json?       @map("delivery_window")
+  
+  // Receiver Info
+  receiverName      String      @map("receiver_name")
+  receiverPhone     String      @map("receiver_phone")
+  receiverEmail     String?     @map("receiver_email")
+  
+  // Pricing
+  maxReward         Float       @map("max_reward")
+  estimatedReward   Float?      @map("estimated_reward")
+  traditionalCost   Float?      @map("traditional_cost")
+  savings           Float?      // percentage
+  
+  // Status & Metadata
+  status            PackageStatus @default(PENDING)
+  expiresAt         DateTime?   @map("expires_at")
+  views             Int         @default(0)
+  createdAt         DateTime    @default(now()) @map("created_at")
+  updatedAt         DateTime    @updatedAt @map("updated_at")
+
+  // Relationships
+  sender            User        @relation(fields: [senderId], references: [id])
+  origin            Location    @relation("OriginPackages", fields: [originId], references: [id])
+  destination       Location    @relation("DestinationPackages", fields: [destinationId], references: [id])
+  matches           Match[]
+  
+  @@index([senderId])
+  @@index([originId, destinationId])
+  @@index([status])
+  @@index([category])
+  @@map("packages")
+}
+
+// =============================================================================
+// MATCHING & ESCROW SYSTEM
+// =============================================================================
+
+model Match {
+  id                String      @id @default(cuid())
+  packageId         String      @map("package_id")
+  tripId            String      @map("trip_id")
+  senderId          String      @map("sender_id")
+  travelerId        String      @map("traveler_id")
+  
+  // Financial
+  agreedReward      Float       @map("agreed_reward")
+  escrowAmount      Float       @map("escrow_amount")
+  platformFee       Float       @map("platform_fee")
+  
+  // Status & Timeline
+  status            MatchStatus @default(PROPOSED)
+  proposedAt        DateTime    @default(now()) @map("proposed_at")
+  acceptedAt        DateTime?   @map("accepted_at")
+  pickedUpAt        DateTime?   @map("picked_up_at")
+  deliveredAt       DateTime?   @map("delivered_at")
+  completedAt       DateTime?   @map("completed_at")
+  
+  // Tracking
+  trackingCode      String?     @unique @map("tracking_code")
+  currentLocation   Json?       @map("current_location")
+  estimatedDelivery DateTime?   @map("estimated_delivery")
+  
+  // Communication
+  chatRoomId        String?     @unique @map("chat_room_id")
+  
+  createdAt         DateTime    @default(now()) @map("created_at")
+  updatedAt         DateTime    @updatedAt @map("updated_at")
+
+  // Relationships
+  package           Package     @relation(fields: [packageId], references: [id])
+  trip              Trip        @relation(fields: [tripId], references: [id])
+  sender            User        @relation("SenderMatches", fields: [senderId], references: [id])
+  traveler          User        @relation("TravelerMatches", fields: [travelerId], references: [id])
+  transactions      Transaction[]
+  messages          Message[]
+  disputes          Dispute[]
+  
+  @@unique([packageId, tripId])
+  @@index([senderId])
+  @@index([travelerId])
+  @@index([status])
+  @@map("matches")
+}
+
+// =============================================================================
+// FINANCIAL SYSTEM
+// =============================================================================
+
+model Transaction {
+  id              String            @id @default(cuid())
+  userId          String            @map("user_id")
+  matchId         String?           @map("match_id")
+  type            TransactionType
+  amount          Float
+  currency        String            @default("USD")
+  status          TransactionStatus @default(PENDING)
+  
+  // Payment Details
+  paymentMethod   String?           @map("payment_method")
+  paymentId       String?           @map("payment_id") // Stripe/external ID
+  description     String?
+  metadata        Json?
+  
+  // Timestamps
+  processedAt     DateTime?         @map("processed_at")
+  failedAt        DateTime?         @map("failed_at")
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+
+  // Relationships
+  user            User              @relation(fields: [userId], references: [id])
+  match           Match?            @relation(fields: [matchId], references: [id])
+  
+  @@index([userId])
+  @@index([matchId])
+  @@index([type])
+  @@index([status])
+  @@map("transactions")
+}
+
+// =============================================================================
+// COMMUNICATION & REVIEWS
+// =============================================================================
+
+model Message {
+  id          String      @id @default(cuid())
+  matchId     String      @map("match_id")
+  senderId    String      @map("sender_id")
+  content     String
+  messageType MessageType @default(TEXT) @map("message_type")
+  attachments Json[]      @default([])
+  readAt      DateTime?   @map("read_at")
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  // Relationships
+  match       Match       @relation(fields: [matchId], references: [id])
+  sender      User        @relation(fields: [senderId], references: [id])
+  
+  @@index([matchId])
+  @@index([senderId])
+  @@map("messages")
+}
+
+model Review {
+  id            String     @id @default(cuid())
+  reviewerId    String     @map("reviewer_id")
+  reviewedId    String     @map("reviewed_id")
+  matchId       String?    @map("match_id")
+  rating        Int        // 1-5 stars
+  title         String?
+  comment       String?
+  categories    Json       // {communication: 5, reliability: 4, etc}
+  isPublic      Boolean    @default(true) @map("is_public")
+  createdAt     DateTime   @default(now()) @map("created_at")
+  updatedAt     DateTime   @updatedAt @map("updated_at")
+
+  // Relationships
+  reviewer      User       @relation("ReviewsGiven", fields: [reviewerId], references: [id])
+  reviewed      User       @relation("ReviewsReceived", fields: [reviewedId], references: [id])
+  
+  @@unique([reviewerId, reviewedId, matchId])
+  @@index([reviewedId])
+  @@index([rating])
+  @@map("reviews")
+}
+
+// =============================================================================
+// NOTIFICATIONS & DISPUTES
+// =============================================================================
+
+model Notification {
+  id            String             @id @default(cuid())
+  userId        String             @map("user_id")
+  type          NotificationType
+  title         String
+  message       String
+  data          Json?              // Additional context
+  readAt        DateTime?          @map("read_at")
+  actionUrl     String?            @map("action_url")
+  priority      NotificationPriority @default(NORMAL)
+  createdAt     DateTime           @default(now()) @map("created_at")
+  updatedAt     DateTime           @updatedAt @map("updated_at")
+
+  // Relationships
+  user          User               @relation(fields: [userId], references: [id])
+  
+  @@index([userId])
+  @@index([readAt])
+  @@index([type])
+  @@map("notifications")
+}
+
+model Dispute {
+  id            String        @id @default(cuid())
+  matchId       String        @map("match_id")
+  reporterId    String        @map("reporter_id")
+  type          DisputeType
+  reason        String
+  description   String
+  evidence      Json[]        @default([])
+  status        DisputeStatus @default(OPEN)
+  resolution    String?
+  resolvedAt    DateTime?     @map("resolved_at")
+  resolvedBy    String?       @map("resolved_by") // Admin user ID
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+
+  // Relationships
+  match         Match         @relation(fields: [matchId], references: [id])
+  reporter      User          @relation(fields: [reporterId], references: [id])
+  
+  @@index([matchId])
+  @@index([reporterId])
+  @@index([status])
+  @@map("disputes")
+}
+
+// =============================================================================
+// ENUMS
+// =============================================================================
+
+enum KYCStatus {
+  PENDING
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  EXPIRED
+}
+
+enum LocationType {
+  CITY
+  AIRPORT
+  PORT
+  STATION
+}
+
+enum BagType {
+  CARRY_ON
+  CHECKED
+  PERSONAL_ITEM
+  BACKPACK
+  SUITCASE
+}
+
+enum TripStatus {
+  DRAFT
+  ACTIVE
+  BOOKED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  EXPIRED
+}
+
+enum PackageStatus {
+  DRAFT
+  PENDING
+  MATCHED
+  PICKED_UP
+  IN_TRANSIT
+  DELIVERED
+  COMPLETED
+  CANCELLED
+  EXPIRED
+}
+
+enum PackageCategory {
+  DOCUMENTS
+  ELECTRONICS
+  CLOTHING
+  GIFTS
+  FOOD
+  MEDICINE
+  BOOKS
+  PERSONAL_ITEMS
+  BUSINESS_ITEMS
+  OTHER
+}
+
+enum MatchStatus {
+  PROPOSED
+  ACCEPTED
+  CONFIRMED
+  PICKED_UP
+  IN_TRANSIT
+  DELIVERED
+  COMPLETED
+  CANCELLED
+  DISPUTED
+}
+
+enum TransactionType {
+  ESCROW_DEPOSIT
+  ESCROW_RELEASE
+  REWARD_PAYMENT
+  PLATFORM_FEE
+  REFUND
+  WITHDRAWAL
+  DEPOSIT
+}
+
+enum TransactionStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  LOCATION
+  SYSTEM
+  STATUS_UPDATE
+}
+
+enum NotificationType {
+  MATCH_FOUND
+  MATCH_ACCEPTED
+  PICKUP_REMINDER
+  DELIVERY_UPDATE
+  PAYMENT_RECEIVED
+  REVIEW_REQUEST
+  SYSTEM_ALERT
+  MARKETING
+}
+
+enum NotificationPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum DisputeType {
+  NON_DELIVERY
+  DAMAGED_PACKAGE
+  WRONG_ITEM
+  PAYMENT_ISSUE
+  COMMUNICATION_ISSUE
+  SAFETY_CONCERN
+  OTHER
+}
+
+enum DisputeStatus {
+  OPEN
+  INVESTIGATING
+  RESOLVED
+  CLOSED
+}

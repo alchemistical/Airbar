@@ -1,0 +1,24 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "outDir": "dist",
+    "rootDir": "src",
+    "noEmit": false,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@airbar/shared": ["../../packages/shared/src"],
+      "@airbar/shared/*": ["../../packages/shared/src/*"],
+      "@airbar/db": ["../../packages/db/src"],
+      "@airbar/db/*": ["../../packages/db/src/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["dist", "node_modules", "src/backup"],
+  "references": [
+    { "path": "../../packages/shared" },
+    { "path": "../../packages/db" }
+  ]
+}

@@ -1,0 +1,362 @@
+[
+  {
+    "path": "./PRD.md",
+    "category": "product",
+    "type": "product_requirements",
+    "status": "current"
+  },
+  {
+    "path": "./COMPREHENSIVE_PRODUCT_ASSESSMENT.md",
+    "category": "product",
+    "type": "assessment",
+    "status": "current"
+  },
+  {
+    "path": "./BACKEND_DEVELOPMENT_ASSESSMENT.md",
+    "category": "technical",
+    "type": "assessment",
+    "status": "current"
+  },
+  {
+    "path": "./DIRECTORY_SCHEMA.md",
+    "category": "technical",
+    "type": "architecture",
+    "status": "current"
+  },
+  {
+    "path": "./DATABASE_SCHEMA.md",
+    "category": "technical",
+    "type": "database",
+    "status": "current"
+  },
+  {
+    "path": "./CTO_PRODUCT_DOCUMENTATION.md",
+    "category": "technical",
+    "type": "leadership_docs",
+    "status": "current"
+  },
+  {
+    "path": "./GAP_ANALYSIS.md",
+    "category": "product",
+    "type": "analysis",
+    "status": "current"
+  },
+  {
+    "path": "./docs/ARCHITECTURE.md",
+    "category": "technical",
+    "type": "architecture",
+    "status": "current"
+  },
+  {
+    "path": "./docs/development/DOCKER_SETUP.md",
+    "category": "technical",
+    "type": "setup",
+    "status": "current"
+  },
+  {
+    "path": "./docs/development/README.md",
+    "category": "technical",
+    "type": "setup",
+    "status": "current"
+  },
+  {
+    "path": "./README.md",
+    "category": "technical",
+    "type": "main_readme",
+    "status": "current"
+  },
+  {
+    "path": "./PRODUCT_ASSESSMENT_REPORT.md",
+    "category": "product",
+    "type": "assessment",
+    "status": "current"
+  },
+  {
+    "path": "./EXECUTIVE_SUMMARY.md",
+    "category": "product",
+    "type": "executive",
+    "status": "current"
+  },
+  {
+    "path": "./FULL_SITEMAP.md",
+    "category": "product",
+    "type": "sitemap",
+    "status": "current"
+  },
+  {
+    "path": "./FEATURE_COMPLETION_MATRIX.md",
+    "category": "product",
+    "type": "planning",
+    "status": "current"
+  },
+  {
+    "path": "./.bmad-core/tasks/advanced-elicitation.md",
+    "category": "bmad_system",
+    "type": "task_template",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/tasks/create-doc.md",
+    "category": "bmad_system",
+    "type": "task_template",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/tasks/shard-doc.md",
+    "category": "bmad_system",
+    "type": "task_template",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/tasks/facilitate-brainstorming-session.md",
+    "category": "bmad_system",
+    "type": "task_template",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/tasks/brownfield-create-epic.md",
+    "category": "bmad_system",
+    "type": "task_template",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/tasks/create-next-story.md",
+    "category": "bmad_system",
+    "type": "task_template",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/tasks/review-story.md",
+    "category": "bmad_system",
+    "type": "task_template",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/tasks/create-deep-research-prompt.md",
+    "category": "bmad_system",
+    "type": "task_template",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/tasks/create-brownfield-story.md",
+    "category": "bmad_system",
+    "type": "task_template",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/tasks/kb-mode-interaction.md",
+    "category": "bmad_system",
+    "type": "task_template",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/tasks/document-project.md",
+    "category": "bmad_system",
+    "type": "task_template",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/tasks/validate-next-story.md",
+    "category": "bmad_system",
+    "type": "task_template",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/tasks/generate-ai-frontend-prompt.md",
+    "category": "bmad_system",
+    "type": "task_template",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/tasks/correct-course.md",
+    "category": "bmad_system",
+    "type": "task_template",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/tasks/execute-checklist.md",
+    "category": "bmad_system",
+    "type": "task_template",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/tasks/index-docs.md",
+    "category": "bmad_system",
+    "type": "task_template",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/tasks/brownfield-create-story.md",
+    "category": "bmad_system",
+    "type": "task_template",
+    "status": "duplicate"
+  },
+  {
+    "path": "./.bmad-core/checklists/architect-checklist.md",
+    "category": "bmad_system",
+    "type": "checklist",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/checklists/change-checklist.md",
+    "category": "bmad_system",
+    "type": "checklist",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/checklists/story-dod-checklist.md",
+    "category": "bmad_system",
+    "type": "checklist",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/checklists/po-master-checklist.md",
+    "category": "bmad_system",
+    "type": "checklist",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/checklists/story-draft-checklist.md",
+    "category": "bmad_system",
+    "type": "checklist",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/checklists/pm-checklist.md",
+    "category": "bmad_system",
+    "type": "checklist",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/agents/po.md",
+    "category": "bmad_system",
+    "type": "agent_profile",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/agents/architect.md",
+    "category": "bmad_system",
+    "type": "agent_profile",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/agents/analyst.md",
+    "category": "bmad_system",
+    "type": "agent_profile",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/agents/bmad-orchestrator.md",
+    "category": "bmad_system",
+    "type": "agent_profile",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/agents/qa.md",
+    "category": "bmad_system",
+    "type": "agent_profile",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/agents/dev.md",
+    "category": "bmad_system",
+    "type": "agent_profile",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/agents/pm.md",
+    "category": "bmad_system",
+    "type": "agent_profile",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/agents/bmad-master.md",
+    "category": "bmad_system",
+    "type": "agent_profile",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/agents/sm.md",
+    "category": "bmad_system",
+    "type": "agent_profile",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/agents/ux-expert.md",
+    "category": "bmad_system",
+    "type": "agent_profile",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/utils/workflow-management.md",
+    "category": "bmad_system",
+    "type": "utility",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/utils/bmad-doc-template.md",
+    "category": "bmad_system",
+    "type": "utility",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/user-guide.md",
+    "category": "bmad_system",
+    "type": "guide",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/working-in-the-brownfield.md",
+    "category": "bmad_system",
+    "type": "guide",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/data/brainstorming-techniques.md",
+    "category": "bmad_system",
+    "type": "reference_data",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/data/bmad-kb.md",
+    "category": "bmad_system",
+    "type": "reference_data",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/data/elicitation-methods.md",
+    "category": "bmad_system",
+    "type": "reference_data",
+    "status": "framework"
+  },
+  {
+    "path": "./.bmad-core/data/technical-preferences.md",
+    "category": "bmad_system",
+    "type": "reference_data",
+    "status": "framework"
+  },
+  {
+    "path": "./DOCUMENTATION.md",
+    "category": "technical",
+    "type": "overview",
+    "status": "current"
+  },
+  {
+    "path": "./TECH_STACK.md",
+    "category": "technical",
+    "type": "tech_stack",
+    "status": "current"
+  },
+  {
+    "path": "./SITEMAP.md",
+    "category": "product",
+    "type": "sitemap",
+    "status": "current"
+  },
+  {
+    "path": "./MVP_DEVELOPMENT_PLAN.md",
+    "category": "product",
+    "type": "planning",
+    "status": "current"
+  }
+]
