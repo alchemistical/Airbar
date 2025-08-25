@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react'
 import { Router, Route, useLocation, Link } from 'wouter'
 import ErrorBoundary from './components/ui/error-boundary'
 import { ToastProvider } from './components/ui/toast-provider'
+import { AuthRoutes } from './routes/authRoutes'
 
 // Lazy load components for better performance
 const Dashboard = lazy(() => import('./pages/Dashboard'))
@@ -47,11 +48,7 @@ const Wallet = lazy(() => import('./pages/Wallet'))
 const History = lazy(() => import('./pages/History'))
 const Notifications = lazy(() => import('./pages/Notifications'))
 
-// Auth pages - lazy loaded
-const LoginPage = lazy(() => import('./pages/auth/LoginPage'))
-const RegisterPage = lazy(() => import('./pages/auth/RegisterPage'))
-const ForgotPasswordPage = lazy(() => import('./pages/auth/ForgotPasswordPage'))
-const ResetPasswordPage = lazy(() => import('./pages/auth/ResetPasswordPage'))
+// Auth pages now handled by AuthRoutes module
 
 // Loading component
 const LoadingSpinner = () => (
@@ -149,15 +146,8 @@ function App() {
         <Route path="/notifications" component={Notifications} />
         <Route path="/dashboard/notifications" component={Notifications} />
         
-        {/* Auth */}
-        <Route path="/login" component={LoginPage} />
-        <Route path="/register" component={RegisterPage} />
-        <Route path="/forgot-password" component={ForgotPasswordPage} />
-        <Route path="/reset-password" component={ResetPasswordPage} />
-        <Route path="/auth/login" component={LoginPage} />
-        <Route path="/auth/register" component={RegisterPage} />
-        <Route path="/auth/forgot-password" component={ForgotPasswordPage} />
-        <Route path="/auth/reset-password" component={ResetPasswordPage} />
+        {/* Auth Routes - Modularized */}
+        <AuthRoutes />
         
         {/* 404 fallback */}
         <Route>

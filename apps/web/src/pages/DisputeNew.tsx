@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useAuth } from "@/context/AuthContext";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -126,11 +127,17 @@ export default function DisputeNew() {
   >([]);
   const [location, navigate] = useLocation();
   const { toast } = useToast();
+  const { user, isAuthenticated } = useAuth();
 
   // Get match ID from query params
   const searchParams = new URLSearchParams(location.search || "");
   const matchId = parseInt(searchParams.get("match") || "0");
-  const userId = 1; // TODO: Get from auth context
+  
+  // Redirect if not authenticated
+  if (!isAuthenticated || !user) {
+    navigate("/login");
+    return null;
+  }
 
   const form = useForm<FormData>({
     resolver: zodResolver(
@@ -146,8 +153,8 @@ export default function DisputeNew() {
       preferredOutcome: undefined,
       evidence: [],
       matchId: matchId,
-      senderId: userId,
-      travelerId: 2, // TODO: Get from match data
+      senderId: user.id,
+      travelerId: 0, // TODO: Get from match data via API
     },
   });
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
+import { useAuth } from "@/context/AuthContext";
 import {
   Card,
   CardContent,
@@ -66,11 +67,24 @@ export default function DisputeList() {
     "all"
   );
   const [searchQuery, setSearchQuery] = useState("");
-  const userId = 1; // TODO: Get from auth context
+  const { user, isAuthenticated } = useAuth();
 
   const { data: disputes = [], isLoading } = useQuery<Dispute[]>({
-    queryKey: [`/api/disputes/user/${userId}`],
+    queryKey: [`/api/disputes/user/${user?.id}`],
+    enabled: isAuthenticated && !!user?.id,
   });
+
+  // Redirect if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Please log in</h1>
+          <Link href="/login" className="text-blue-600 hover:underline">Go to Login</Link>
+        </div>
+      </div>
+    );
+  }
 
   const getStatusColor = (status: DisputeStatus) => {
     const colors = {

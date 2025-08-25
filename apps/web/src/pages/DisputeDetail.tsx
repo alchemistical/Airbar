@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
+import { useAuth } from "@/context/AuthContext";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import {
   Card,
@@ -83,7 +84,13 @@ export default function DisputeDetail() {
     "accept" | "decline" | null
   >(null);
   const { toast } = useToast();
-  const userId = 1; // TODO: Get from auth context
+  const { user, isAuthenticated } = useAuth();
+  
+  // Redirect if not authenticated
+  if (!isAuthenticated || !user) {
+    navigate("/login");
+    return null;
+  }
 
   const { data: dispute, isLoading } = useQuery<Dispute>({
     queryKey: [`/api/disputes/${id}`],
@@ -110,8 +117,8 @@ export default function DisputeDetail() {
     if (!replyText.trim()) return;
 
     addTimelineMutation.mutate({
-      actor: `User ${userId}`,
-      actorRole: userId === dispute?.senderId ? "sender" : "traveler",
+      actor: `User ${user.id}`,
+      actorRole: user.id === dispute?.senderId ? "sender" : "traveler",
       type: "reply",
       message: replyText,
     });
@@ -124,8 +131,8 @@ export default function DisputeDetail() {
 
   const confirmResolution = () => {
     addTimelineMutation.mutate({
-      actor: `User ${userId}`,
-      actorRole: userId === dispute?.senderId ? "sender" : "traveler",
+      actor: `User ${user.id}`,
+      actorRole: user.id === dispute?.senderId ? "sender" : "traveler",
       type:
         resolutionAction === "accept"
           ? "resolution_accepted"
