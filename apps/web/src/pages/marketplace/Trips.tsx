@@ -1,17 +1,18 @@
 import { useState } from "react";
-import DashboardLayout from "@/components/layout/DashboardLayout";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import DashboardLayout from "../../components/layout/DashboardLayout";
+import { useAuth } from "../../context/AuthContext";
+import { Card, CardContent, CardHeader } from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { DateRangePicker } from "@/components/ui/date-range-picker";
-import { Checkbox } from "@/components/ui/checkbox";
+} from "../../components/ui/select";
+import { DateRangePicker } from "../../components/ui/date-range-picker";
+import { Checkbox } from "../../components/ui/checkbox";
 import {
   Search,
   MapPin,
@@ -23,7 +24,7 @@ import {
   Package,
 } from "lucide-react";
 import { format } from "date-fns";
-import { MatchRequestModal } from "@/components/MatchRequestModal";
+import { MatchRequestModal } from "../../components/MatchRequestModal";
 
 interface Trip {
   id: number;
@@ -43,6 +44,7 @@ interface Trip {
 }
 
 export default function MarketplaceTrips() {
+  const { user, isAuthenticated } = useAuth();
   const [searchFrom, setSearchFrom] = useState("");
   const [searchTo, setSearchTo] = useState("");
   const [startDate, setStartDate] = useState<Date | undefined>();
@@ -53,11 +55,22 @@ export default function MarketplaceTrips() {
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
   const [showMatchModal, setShowMatchModal] = useState(false);
 
+  // Authentication guard
+  if (!isAuthenticated || !user) {
+    return (
+      <DashboardLayout>
+        <div className="text-center py-8">
+          <p>Please log in to view trips</p>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
   // Mock data - would come from API
   const trips: Trip[] = [
     {
       id: 1,
-      userId: 2,
+      userId: 201, // Mock traveler ID
       userName: "Sarah Chen",
       userRating: 4.9,
       userVerified: true,
@@ -73,7 +86,7 @@ export default function MarketplaceTrips() {
     },
     {
       id: 2,
-      userId: 3,
+      userId: 202, // Mock traveler ID
       userName: "Mike Johnson",
       userRating: 4.7,
       userVerified: true,
@@ -89,7 +102,7 @@ export default function MarketplaceTrips() {
     },
     {
       id: 3,
-      userId: 4,
+      userId: 203, // Mock traveler ID
       userName: "Emma Davis",
       userRating: 5.0,
       userVerified: false,

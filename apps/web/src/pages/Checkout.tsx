@@ -3,19 +3,20 @@ import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useStripe, useElements, PaymentElement, Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { apiRequest } from "@/lib/queryClient";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+import { apiRequest } from "../lib/queryClient";
+import { useAuth } from "../context/AuthContext";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Alert, AlertDescription } from "../components/ui/alert";
+import { Badge } from "../components/ui/badge";
+import { Separator } from "../components/ui/separator";
 import { MapPin, Package, DollarSign, Shield, AlertCircle, Loader2, CheckCircle } from "lucide-react";
 import { format } from "date-fns";
-import { useToast } from "@/hooks/use-toast";
-import DashboardLayout from "@/components/layout/DashboardLayout";
+import { useToast } from "../hooks/use-toast";
+import DashboardLayout from "../components/layout/DashboardLayout";
 
 // Initialize Stripe
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY || "pk_test_placeholder");
+const stripePromise = loadStripe((import.meta.env as any)?.VITE_STRIPE_PUBLIC_KEY || "pk_test_placeholder");
 
 type MatchRequestDetail = {
   id: number;
@@ -118,18 +119,25 @@ const CheckoutForm = ({ matchId, onSuccess }: { matchId: string; onSuccess: () =
 };
 
 export default function Checkout() {
-  const { matchId } = useParams();
+  const { matchId } = useParams<{ matchId: string }>();
   const [, navigate] = useLocation();
   const { toast } = useToast();
+  const { user, isAuthenticated } = useAuth();
   const [clientSecret, setClientSecret] = useState("");
   const [paymentComplete, setPaymentComplete] = useState(false);
+
+  // Authentication guard
+  if (!isAuthenticated || !user) {
+    navigate("/login");
+    return null;
+  }
 
   // Mock match request data
   const mockMatchRequest: MatchRequestDetail = {
     id: parseInt(matchId || "1"),
     tripId: 1,
-    senderId: 1,
-    travelerId: 2,
+    senderId: parseInt(user.id.toString()), // Use authenticated user as sender
+    travelerId: 456, // Mock traveler ID for this match
     senderName: "Alex Kim",
     travelerName: "Sarah Chen",
     fromCity: "New York",

@@ -1,11 +1,12 @@
 import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import DashboardLayout from "@/components/layout/DashboardLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { TrackingStepper } from "@/components/TrackingStepper";
-import { EscrowBanner } from "@/components/EscrowBanner";
+import { useAuth } from "../context/AuthContext";
+import DashboardLayout from "../components/layout/DashboardLayout";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Badge } from "../components/ui/badge";
+import { TrackingStepper } from "../components/TrackingStepper";
+import { EscrowBanner } from "../components/EscrowBanner";
 import {
   MapPin,
   Package,
@@ -21,7 +22,7 @@ import {
   Shield,
 } from "lucide-react";
 import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+import { cn } from "../lib/utils";
 
 interface MatchDetails {
   id: number;
@@ -85,8 +86,16 @@ const statusColors = {
 export default function MatchDetail() {
   const params = useParams();
   const [, navigate] = useLocation();
+  const { user, isAuthenticated } = useAuth();
   const matchId = params.id;
-  const currentUserId = 1; // Would come from auth context
+
+  // Authentication guard
+  if (!isAuthenticated || !user) {
+    navigate("/login");
+    return null;
+  }
+
+  const currentUserId = parseInt(user.id);
 
   // Fetch match details
   const { data: match } = useQuery<MatchDetails>({
@@ -98,8 +107,8 @@ export default function MatchDetail() {
     id: Number(matchId),
     tripId: 1,
     parcelId: 1,
-    senderId: 1,
-    travelerId: 2,
+    senderId: currentUserId, // Use authenticated user
+    travelerId: 789, // Mock traveler ID
     senderName: "Alex Kim",
     travelerName: "Sarah Johnson",
     senderPhone: "+1 (555) 123-4567",

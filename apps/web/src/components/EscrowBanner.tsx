@@ -15,14 +15,14 @@ export function EscrowBanner({ amount, status, releaseDate, className }: EscrowB
       case "held":
         return {
           icon: Shield,
-          variant: "info" as const,
+          variant: "default" as const,
           title: "Funds Secured",
           description: `$${amount.toFixed(2)} is held in escrow until delivery confirmation`
         };
       case "pending_release":
         return {
           icon: Clock,
-          variant: "warning" as const,
+          variant: "default" as const,
           title: "Pending Release",
           description: releaseDate 
             ? `$${amount.toFixed(2)} will be released ${formatDistanceToNow(releaseDate, { addSuffix: true })}`
@@ -31,7 +31,7 @@ export function EscrowBanner({ amount, status, releaseDate, className }: EscrowB
       case "released":
         return {
           icon: Shield,
-          variant: "success" as const,
+          variant: "default" as const,
           title: "Funds Released",
           description: `$${amount.toFixed(2)} has been released to the traveler`
         };

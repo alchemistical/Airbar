@@ -68,7 +68,10 @@ describe('Hard-coded ID Regression Tests', () => {
       'pages/Dashboard.tsx',
       'pages/DisputeList.tsx', 
       'pages/DisputeNew.tsx',
-      'pages/DisputeDetail.tsx'
+      'pages/DisputeDetail.tsx',
+      'pages/TravelerTrips.tsx',
+      'pages/MatchRequests.tsx',
+      'pages/DashboardMatches.tsx'
     ];
 
     criticalComponents.forEach(componentPath => {

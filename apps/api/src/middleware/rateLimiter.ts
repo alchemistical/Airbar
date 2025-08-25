@@ -58,6 +58,24 @@ export const apiRateLimit = createRateLimiter({
   message: 'Too many API requests, please try again later',
 });
 
+export const passwordResetRateLimit = createRateLimiter({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  maxAttempts: 3,
+  message: 'Too many password reset attempts, please try again in 1 hour',
+});
+
+export const registrationRateLimit = createRateLimiter({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  maxAttempts: 3,
+  message: 'Too many registration attempts, please try again in 1 hour',
+});
+
+export const otpRateLimit = createRateLimiter({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  maxAttempts: 5,
+  message: 'Too many OTP requests, please try again in 15 minutes',
+});
+
 // Simplified logging function
 export const logLoginAttempt = async (
   req: Request,

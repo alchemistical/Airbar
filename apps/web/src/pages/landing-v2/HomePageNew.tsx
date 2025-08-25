@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { TooltipProvider } from "../../components/ui/tooltip";
 import { Header } from "../../components/landing/Header";
 import { Hero } from "../../components/landing/Hero";
 import { TrustRow } from "../../components/landing/TrustRow";

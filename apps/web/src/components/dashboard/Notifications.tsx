@@ -69,7 +69,7 @@ export default function Notifications({ userId }: NotificationsProps) {
             <div
               className={`mt-2 h-2 w-2 flex-shrink-0 rounded-full ${getNotificationColor(
                 notification.type,
-                notification.isRead
+                !!notification.readAt
               )}`}
             />
             <div className="flex-1">

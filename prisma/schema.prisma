@@ -30,6 +30,9 @@ model User {
   // Relationships
   profile           Profile?
   sessions          Session[]
+  userSessions      UserSession[]
+  analytics         UserAnalytics[]
+  passwordResetTokens PasswordResetToken[]
   trips             Trip[]
   packages          Package[]
   senderMatches     Match[]   @relation("SenderMatches")
@@ -97,6 +100,21 @@ model Session {
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
+}
+
+model PasswordResetToken {
+  id         String   @id @default(cuid())
+  userId     String   @map("user_id")
+  tokenHash  String   @unique @map("token_hash")
+  expiresAt  DateTime @map("expires_at")
+  usedAt     DateTime? @map("used_at")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  // Relationships
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("password_reset_tokens")
 }
 
 // =============================================================================
@@ -572,4 +590,82 @@ enum DisputeStatus {
   INVESTIGATING
   RESOLVED
   CLOSED
+}
+
+// =============================================================================
+// ANALYTICS & SESSION MANAGEMENT
+// =============================================================================
+
+model UserSession {
+  id                String    @id @default(cuid())
+  userId            String    @map("user_id")
+  sessionToken      String    @unique @map("session_token")
+  deviceFingerprint String?   @map("device_fingerprint")
+  ipAddress         String?   @map("ip_address")
+  userAgent         String?   @map("user_agent")
+  isRemembered      Boolean   @default(false) @map("is_remembered")
+  expiresAt         DateTime  @map("expires_at")
+  lastActivityAt    DateTime  @default(now()) @map("last_activity_at")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  revokedAt         DateTime? @map("revoked_at")
+
+  // Relationships
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([sessionToken])
+  @@index([deviceFingerprint])
+  @@map("user_sessions")
+}
+
+model UserAnalytics {
+  id                   String   @id @default(cuid())
+  userId               String   @map("user_id")
+  eventName            String   @map("event_name")
+  eventData            Json?    @map("event_data")
+  sessionId            String?  @map("session_id")
+  pageUrl              String?  @map("page_url")
+  referrer             String?
+  userAgent            String?  @map("user_agent")
+  ipAddress            String?  @map("ip_address")
+  timestamp            DateTime @default(now())
+
+  // Relationships
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([eventName])
+  @@index([timestamp])
+  @@map("user_analytics")
+}
+
+model FeatureFlag {
+  id              String   @id @default(cuid())
+  name            String   @unique
+  isEnabled       Boolean  @default(false) @map("is_enabled")
+  description     String?
+  rolloutPercent  Int      @default(0) @map("rollout_percent")
+  userSegments    String[] @map("user_segments")
+  metadata        Json?
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@index([name])
+  @@index([isEnabled])
+  @@map("feature_flags")
+}
+
+model SystemHealth {
+  id                String   @id @default(cuid())
+  service           String
+  status            String   // UP, DOWN, DEGRADED
+  responseTime      Int?     @map("response_time") // in milliseconds
+  errorRate         Float?   @map("error_rate")    // percentage
+  metadata          Json?
+  timestamp         DateTime @default(now())
+
+  @@index([service])
+  @@index([timestamp])
+  @@index([status])
+  @@map("system_health")
 }

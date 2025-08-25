@@ -9,7 +9,7 @@
  */
 
 import { Router } from 'express';
-import { AuthController } from '../controllers/auth.controller';
+import { AuthPrismaController as AuthController } from '../controllers/auth-prisma.controller';
 import { authenticateToken } from '../middleware/auth';
 import {
   loginRateLimit,
@@ -276,7 +276,7 @@ router.post(
 
 router.post(
   '/refresh',
-  AuthController.refreshToken
+  AuthController.refresh
 );
 
 router.post(
@@ -311,7 +311,7 @@ router.post(
 router.get(
   '/me',
   authenticateToken,
-  AuthController.getCurrentUser
+  AuthController.me
 );
 
 router.get(

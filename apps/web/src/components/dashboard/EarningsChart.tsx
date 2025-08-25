@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from "recharts";
-import { Skeleton } from "@/components/ui/skeleton";
-import type { Earning } from "@shared/schema";
+import { Skeleton } from "../ui/skeleton";
+import type { Earning } from "@airbar/shared/schemas";
 
 interface EarningsChartProps {
   userId: number;
@@ -27,8 +27,8 @@ export default function EarningsChart({ userId }: EarningsChartProps) {
   // Transform earnings data for chart
   const chartData = earnings?.map((earning, index) => ({
     name: `Point ${index + 1}`,
-    value: parseFloat(earning.amount),
-    date: new Date(earning.createdAt!).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+    value: earning.amount,
+    date: earning.date.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
   })) || [];
 
   return (

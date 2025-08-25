@@ -1,15 +1,16 @@
 import { useParams, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "../context/AuthContext";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+} from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Badge } from "../components/ui/badge";
+import { Separator } from "../components/ui/separator";
 import {
   CalendarIcon,
   MapPin,
@@ -21,7 +22,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { format } from "date-fns";
-import DashboardLayout from "@/components/layout/DashboardLayout";
+import DashboardLayout from "../components/layout/DashboardLayout";
 
 type MatchRequestDetail = {
   id: number;
@@ -48,13 +49,20 @@ type MatchRequestDetail = {
 export default function MatchRequestDetail() {
   const { id } = useParams();
   const [, navigate] = useLocation();
+  const { user, isAuthenticated } = useAuth();
+
+  // Authentication guard
+  if (!isAuthenticated || !user) {
+    navigate("/login");
+    return null;
+  }
 
   // Mock data
   const mockRequest: MatchRequestDetail = {
     id: parseInt(id || "1"),
     tripId: 1,
-    senderId: 1,
-    travelerId: 2,
+    senderId: parseInt(user.id), // Use authenticated user
+    travelerId: 456, // Mock traveler ID
     senderName: "Alex Kim",
     travelerName: "Sarah Chen",
     fromCity: "New York",

@@ -2,32 +2,29 @@ import React, { Suspense, lazy } from 'react'
 import { Router, Route, useLocation, Link } from 'wouter'
 import ErrorBoundary from './components/ui/error-boundary'
 import { ToastProvider } from './components/ui/toast-provider'
+import { AuthProvider } from './context/AuthContext'
 import { AuthRoutes } from './routes/authRoutes'
+import { TripRoutes } from './routes/tripRoutes'
+import { MarketplaceRoutes } from './routes/marketplaceRoutes'
+import { DashboardRoutes } from './routes/dashboardRoutes'
+import { SessionTimeoutModal, useSessionTimeout } from './components/auth/SessionTimeoutModal'
 
-// Lazy load components for better performance
-const Dashboard = lazy(() => import('./pages/Dashboard'))
-const AddTripV2 = lazy(() => import('./pages/AddTripV2'))
+// Core pages not handled by route modules  
 const SendPackageV2 = lazy(() => import('./pages/SendPackageV2'))
 const HomePageNew = lazy(() => import('./pages/landing-v2/HomePageNew'))
 const LandingV2 = lazy(() => import('./pages/landing-v2/LandingV2'))
 
 // Main user journeys - lazy loaded
 const Matches = lazy(() => import('./pages/Matches'))
-const DashboardMatches = lazy(() => import('./pages/DashboardMatches'))
 const MatchesDiscovery = lazy(() => import('./pages/MatchesDiscovery'))
 const MatchRequests = lazy(() => import('./pages/MatchRequests'))
 const ParcelRequests = lazy(() => import('./pages/ParcelRequests'))
 const ParcelRequestDetail = lazy(() => import('./pages/ParcelRequestDetail'))
 const Tracking = lazy(() => import('./pages/Tracking'))
-const BrowsePackages = lazy(() => import('./pages/BrowsePackages'))
-const MyTrips = lazy(() => import('./pages/MyTrips'))
 const MyParcels = lazy(() => import('./pages/MyParcels'))
 const SenderParcels = lazy(() => import('./pages/SenderParcels'))
-const TravelerTrips = lazy(() => import('./pages/TravelerTrips'))
-const Support = lazy(() => import('./pages/Support'))
 
 // Additional key pages - lazy loaded
-const Referrals = lazy(() => import('./pages/Referrals'))
 const Checkout = lazy(() => import('./pages/Checkout'))
 const PaymentCheckout = lazy(() => import('./pages/PaymentCheckout'))
 const MatchesHub = lazy(() => import('./pages/MatchesHub'))
@@ -35,20 +32,8 @@ const MatchDetail = lazy(() => import('./pages/MatchDetail'))
 const MatchRequestDetail = lazy(() => import('./pages/MatchRequestDetail'))
 const DisputeList = lazy(() => import('./pages/DisputeList'))
 const DisputeDetail = lazy(() => import('./pages/DisputeDetail'))
-const WalletTransactions = lazy(() => import('./pages/WalletTransactions'))
-const WalletEscrow = lazy(() => import('./pages/WalletEscrow'))
 
-// Marketplace - lazy loaded
-const MarketplaceTrips = lazy(() => import('./pages/marketplace/Trips'))
-const MarketplaceTripDetail = lazy(() => import('./pages/MarketplaceTripDetail'))
-
-// User management - lazy loaded
-const Profile = lazy(() => import('./pages/Profile'))
-const Wallet = lazy(() => import('./pages/Wallet'))
-const History = lazy(() => import('./pages/History'))
-const Notifications = lazy(() => import('./pages/Notifications'))
-
-// Auth pages now handled by AuthRoutes module
+// Route modules handle: Auth, Trips, Marketplace, Dashboard components
 
 // Loading component
 const LoadingSpinner = () => (
@@ -57,9 +42,12 @@ const LoadingSpinner = () => (
   </div>
 )
 
-function App() {
+// Inner app component that uses session timeout hook
+const AppContent = () => {
+  const { showWarning, extendSession, handleLogout } = useSessionTimeout();
+
   return (
-    <ToastProvider>
+    <>
       <ErrorBoundary showReload={true}>
         <Suspense fallback={<LoadingSpinner />}>
           <Router>
@@ -82,31 +70,27 @@ function App() {
           </div>
         </nav>
 
-        {/* Routes - All lazy loaded for better performance */}
+        {/* Core Routes */}
         <Route path="/" component={HomePageNew} />
         <Route path="/landing" component={LandingV2} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/add-trip" component={AddTripV2} />
-        <Route path="/dashboard/add-trip" component={AddTripV2} />
-        <Route path="/dashboard/traveler/trips/addtrip" component={AddTripV2} />
         <Route path="/send-package" component={SendPackageV2} />
         
-        {/* Main User Journeys */}
+        {/* Feature Route Modules */}
+        <DashboardRoutes />
+        <TripRoutes />
+        <MarketplaceRoutes />
+        <AuthRoutes />
+        
+        {/* Remaining Routes Not Yet Modularized */}
         <Route path="/matches" component={Matches} />
-        <Route path="/dashboard/matches" component={DashboardMatches} />
         <Route path="/matches/discovery" component={MatchesDiscovery} />
         <Route path="/match-requests" component={MatchRequests} />
         <Route path="/parcel-requests" component={ParcelRequests} />
         <Route path="/dashboard/parcel-requests" component={ParcelRequests} />
         <Route path="/parcel-request/:id" component={ParcelRequestDetail} />
         <Route path="/tracking" component={Tracking} />
-        <Route path="/browse-packages" component={BrowsePackages} />
-        <Route path="/my-trips" component={MyTrips} />
-        <Route path="/dashboard/traveler/trips" component={TravelerTrips} />
         <Route path="/my-parcels" component={MyParcels} />
         <Route path="/dashboard/sender/parcels" component={SenderParcels} />
-        <Route path="/support" component={Support} />
-        <Route path="/dashboard/support" component={Support} />
         
         {/* Match Details */}
         <Route path="/matches/hub" component={MatchesHub} />
@@ -123,32 +107,6 @@ function App() {
         <Route path="/dashboard/disputes" component={DisputeList} />
         <Route path="/dispute/:id" component={DisputeDetail} />
         
-        {/* Wallet Details */}
-        <Route path="/dashboard/wallet/transactions" component={WalletTransactions} />
-        <Route path="/dashboard/wallet/escrow" component={WalletEscrow} />
-        
-        {/* Referrals */}
-        <Route path="/referrals" component={Referrals} />
-        <Route path="/dashboard/referrals" component={Referrals} />
-        
-        {/* Marketplace */}
-        <Route path="/marketplace/trips" component={MarketplaceTrips} />
-        <Route path="/browse-trips" component={MarketplaceTrips} />
-        <Route path="/marketplace/trips/:id" component={MarketplaceTripDetail} />
-        
-        {/* User Management */}
-        <Route path="/profile" component={Profile} />
-        <Route path="/dashboard/profile" component={Profile} />
-        <Route path="/wallet" component={Wallet} />
-        <Route path="/dashboard/wallet" component={Wallet} />
-        <Route path="/history" component={History} />
-        <Route path="/dashboard/history" component={History} />
-        <Route path="/notifications" component={Notifications} />
-        <Route path="/dashboard/notifications" component={Notifications} />
-        
-        {/* Auth Routes - Modularized */}
-        <AuthRoutes />
-        
         {/* 404 fallback */}
         <Route>
           {() => (
@@ -162,7 +120,25 @@ function App() {
           </Router>
         </Suspense>
       </ErrorBoundary>
-    </ToastProvider>
+
+      {/* Session Timeout Modal */}
+      <SessionTimeoutModal
+        isOpen={showWarning}
+        onExtendSession={extendSession}
+        onLogout={handleLogout}
+        warningTimeSeconds={120}
+      />
+    </>
+  );
+};
+
+function App() {
+  return (
+    <AuthProvider>
+      <ToastProvider>
+        <AppContent />
+      </ToastProvider>
+    </AuthProvider>
   )
 }
 

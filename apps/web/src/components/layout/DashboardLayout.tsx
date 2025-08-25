@@ -159,7 +159,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     <div className="mt-4 pt-4 border-t border-gray-200">
                       <div className="flex items-center space-x-3 mb-4">
                         <Avatar className="h-8 w-8">
-                          <AvatarImage src={user?.avatar || undefined} alt={user?.username} />
+                          <AvatarImage src={user?.profile?.avatarUrl || undefined} alt={user?.username} />
                           <AvatarFallback className="bg-airbar-blue text-white text-sm font-medium">
                             {user?.username?.charAt(0).toUpperCase() || "U"}
                           </AvatarFallback>
@@ -224,7 +224,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     }`}
                   >
                     <Avatar className="h-8 w-8">
-                      <AvatarImage src={user?.avatar || undefined} alt={user?.username} />
+                      <AvatarImage src={user?.profile?.avatarUrl || undefined} alt={user?.username} />
                       <AvatarFallback className="bg-airbar-blue text-white text-sm font-medium">
                         {user?.username?.charAt(0).toUpperCase() || "U"}
                       </AvatarFallback>

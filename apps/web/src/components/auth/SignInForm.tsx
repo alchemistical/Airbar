@@ -11,6 +11,7 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Alert, AlertDescription } from '../ui/alert';
 import { SocialButton } from './SocialButton';
+import { RememberMeCheckbox } from './RememberMeCheckbox';
 
 export function SignInForm() {
   const [, navigate] = useLocation();
@@ -20,6 +21,7 @@ export function SignInForm() {
   const [error, setError] = useState<string | null>(null);
   const [needsOTP, setNeedsOTP] = useState(false);
   const [userEmail, setUserEmail] = useState<string>('');
+  const [rememberMe, setRememberMe] = useState(false);
 
   const {
     register,
@@ -42,7 +44,7 @@ export function SignInForm() {
     setUserEmail(data.email);
 
     try {
-      const result = await login(data);
+      const result = await login(data, rememberMe);
       
       if (result.success) {
         if (result.needsOTP) {
@@ -175,8 +177,13 @@ export function SignInForm() {
           </div>
         </div>
 
-        {/* Forgot password link */}
-        <div className="text-right">
+        {/* Remember me and forgot password */}
+        <div className="flex items-center justify-between">
+          <RememberMeCheckbox
+            checked={rememberMe}
+            onCheckedChange={setRememberMe}
+            disabled={isLoading}
+          />
           <Link
             href="/auth/forgot-password"
             className="text-sm text-brand-600 hover:text-brand-700"

@@ -1,27 +1,41 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { registerSchema, loginSchema } from '@airbar/shared/schemas';
 import type { RegisterSchema, LoginSchema } from '@airbar/shared/schemas';
+import {
+  generateDeviceFingerprint,
+  setRememberMeEnabled,
+  isRememberMeEnabled,
+  isDeviceTrustExpired,
+  clearDeviceTrust,
+} from '../utils/deviceFingerprint';
 
 interface User {
-  id: number;
+  id: string;
   email: string;
   username: string;
-  firstName: string | null;
-  lastName: string | null;
-  avatar: string | null;
-  role: string;
-  isKYCVerified: boolean;
+  firstName?: string;
+  lastName?: string;
+  isActive: boolean;
   emailVerified: boolean;
-  twoFactorEnabled: boolean;
-  createdAt: string;
+  phoneVerified: boolean;
+  kycStatus: string;
   lastLoginAt?: string;
+  createdAt: string;
+  updatedAt: string;
+  profile?: {
+    firstName: string;
+    lastName: string;
+    avatarUrl?: string;
+    bio?: string;
+    phoneNumber?: string;
+  } | null;
 }
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (data: LoginSchema) => Promise<{ success: boolean; needsOTP?: boolean; error?: string }>;
+  login: (data: LoginSchema, rememberMe?: boolean) => Promise<{ success: boolean; needsOTP?: boolean; error?: string }>;
   register: (data: RegisterSchema) => Promise<{ success: boolean; needsEmailVerification?: boolean; error?: string }>;
   logout: () => Promise<void>;
   forgotPassword: (data: { email: string }) => Promise<{ success: boolean; error?: string }>;
@@ -29,6 +43,7 @@ interface AuthContextType {
   verifyOTP: (code: string, email?: string) => Promise<{ success: boolean; error?: string }>;
   refreshToken: () => Promise<boolean>;
   checkAuth: () => Promise<void>;
+  isRememberMeEnabled: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -42,8 +57,18 @@ const API_BASE_URL = '/api/auth';
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [rememberMeEnabled, setRememberMeEnabledState] = useState(false);
 
   const isAuthenticated = !!user;
+
+  // Initialize remember me state
+  useEffect(() => {
+    const enabled = isRememberMeEnabled() && !isDeviceTrustExpired();
+    setRememberMeEnabledState(enabled);
+    if (isDeviceTrustExpired()) {
+      clearDeviceTrust();
+    }
+  }, []);
 
   // API helper function
   const apiCall = async (endpoint: string, options: RequestInit = {}) => {
@@ -124,7 +149,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   // Login function
-  const login = async (data: LoginSchema) => {
+  const login = async (data: LoginSchema, rememberMe = false) => {
     try {
       const validation = loginSchema.safeParse(data);
       if (!validation.success) {
@@ -134,9 +159,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
         };
       }
 
+      // Include device fingerprint if remember me is enabled
+      const requestBody = {
+        ...validation.data,
+        ...(rememberMe && { deviceFingerprint: generateDeviceFingerprint() }),
+        rememberMe,
+      };
+
       const response = await apiCall('/login', {
         method: 'POST',
-        body: JSON.stringify(validation.data),
+        body: JSON.stringify(requestBody),
       });
 
       if (response.success) {
@@ -151,6 +183,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
         if (response.data.accessToken) {
           localStorage.setItem('accessToken', response.data.accessToken);
         }
+        
+        // Handle remember me functionality
+        if (rememberMe) {
+          setRememberMeEnabled(true);
+          setRememberMeEnabledState(true);
+        }
+        
         return { success: true };
       }
 
@@ -178,6 +217,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } finally {
       setUser(null);
       localStorage.removeItem('accessToken');
+      clearDeviceTrust();
+      setRememberMeEnabledState(false);
     }
   };
 
@@ -330,6 +371,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     verifyOTP,
     refreshToken,
     checkAuth,
+    isRememberMeEnabled: rememberMeEnabled,
   };
 
   return (

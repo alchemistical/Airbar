@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams, Link, useLocation } from "wouter";
+import { useAuth } from "@/context/AuthContext";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -65,8 +66,14 @@ export default function MatchRequests() {
   const params = useParams();
   const matchId = params.id;
   const [activeTab, setActiveTab] = useState<"sender" | "traveler">("sender");
-  const currentUserId = 1; // Would come from auth context
+  const { user, isAuthenticated } = useAuth();
   const [, navigate] = useLocation();
+
+  // Redirect if not authenticated
+  if (!isAuthenticated || !user) {
+    navigate("/login");
+    return null;
+  }
 
   // Fetch match requests from API
   const { data: matchRequests = [] } = useQuery<MatchRequest[]>({
@@ -80,7 +87,7 @@ export default function MatchRequests() {
       tripId: 1,
       parcelId: 1,
       senderId: 1,
-      travelerId: 2,
+      travelerId: 502, // Mock traveler ID
       senderName: "Alex Kim",
       travelerName: "Sarah Chen",
       fromCity: "New York, NY",
@@ -100,7 +107,7 @@ export default function MatchRequests() {
       tripId: 2,
       parcelId: 2,
       senderId: 3,
-      travelerId: 1,
+      travelerId: 501, // Mock traveler ID
       senderName: "Emily Johnson",
       travelerName: "Alex Kim",
       fromCity: "Los Angeles, CA",
@@ -118,7 +125,7 @@ export default function MatchRequests() {
       tripId: 3,
       parcelId: 3,
       senderId: 1,
-      travelerId: 4,
+      travelerId: 504, // Mock traveler ID
       senderName: "Alex Kim",
       travelerName: "Emma Davis",
       fromCity: "Boston, MA",
@@ -180,9 +187,8 @@ export default function MatchRequests() {
   });
 
   // Filter requests based on active tab
-  const userId = 1; // Current user ID
   const filteredRequests = mockMatchRequests.filter(req =>
-    activeTab === "sender" ? req.senderId === userId : req.travelerId === userId
+    activeTab === "sender" ? req.senderId === parseInt(user.id) : req.travelerId === parseInt(user.id)
   );
 
   if (matchId) {

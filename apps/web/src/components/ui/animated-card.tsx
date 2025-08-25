@@ -31,7 +31,15 @@ const AnimatedCard = React.forwardRef<HTMLDivElement, AnimatedCardProps>(
       : {};
 
     // Filter out HTML event handlers that conflict with framer-motion
-    const { onDrag, onDragStart, onDragEnd, ...motionProps } = props;
+    const { 
+      onDrag, 
+      onDragStart, 
+      onDragEnd, 
+      onAnimationStart,
+      onAnimationEnd,
+      onAnimationIteration,
+      ...motionProps 
+    } = props;
 
     return (
       <motion.div

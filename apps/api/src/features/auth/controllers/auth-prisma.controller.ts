@@ -361,7 +361,7 @@ export class AuthPrismaController {
   }
 
   /**
-   * Forgot password - send reset email
+   * Forgot password - send reset email with proper token storage
    */
   static async forgotPassword(req: Request, res: Response): Promise<void> {
     try {
@@ -388,20 +388,33 @@ export class AuthPrismaController {
       if (user) {
         // Generate reset token (expires in 1 hour)
         const resetToken = crypto.randomBytes(32).toString('hex');
+        const tokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
         const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 
-        // Store reset token in database (you might want a separate table for this)
-        await prisma.user.update({
-          where: { id: user.id },
+        // Clean up any existing expired tokens for this user
+        await prisma.passwordResetToken.deleteMany({
+          where: {
+            userId: user.id,
+            expiresAt: { lt: new Date() }
+          }
+        });
+
+        // Store reset token hash in database
+        await prisma.passwordResetToken.create({
           data: {
-            // In a real app, you'd have a separate passwordReset table
-            // For now, we'll simulate this functionality
-            updatedAt: new Date(),
+            userId: user.id,
+            tokenHash,
+            expiresAt,
           },
         });
 
-        console.log(`Password reset token for ${email}: ${resetToken}`);
-        console.log(`Reset URL: ${process.env.CLIENT_URL}/reset-password?token=${resetToken}`);
+        // In development: log the reset URL
+        const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+        console.log(`🔐 Password reset requested for: ${email}`);
+        console.log(`🔗 Reset URL: ${clientUrl}/reset-password?token=${resetToken}`);
+        
+        // TODO: In production, send actual email via email service
+        // await emailService.sendPasswordReset(email, resetToken);
       }
 
       res.json({
@@ -421,7 +434,7 @@ export class AuthPrismaController {
   }
 
   /**
-   * Reset password with token
+   * Reset password with token validation
    */
   static async resetPassword(req: Request, res: Response): Promise<void> {
     try {
@@ -438,10 +451,6 @@ export class AuthPrismaController {
         return;
       }
 
-      // In a real app, you'd validate the token from a password reset table
-      // For now, we'll simulate the validation
-      // This is a simplified implementation - in production, implement proper token storage
-
       if (password.length < 8) {
         res.status(400).json({
           success: false,
@@ -453,12 +462,74 @@ export class AuthPrismaController {
         return;
       }
 
+      // Hash the provided token and look it up
+      const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+
+      const passwordResetToken = await prisma.passwordResetToken.findUnique({
+        where: { tokenHash },
+        include: { user: true }
+      });
+
+      if (!passwordResetToken) {
+        res.status(400).json({
+          success: false,
+          error: {
+            code: 'INVALID_TOKEN',
+            message: 'Invalid or expired reset token',
+          },
+        });
+        return;
+      }
+
+      // Check if token has expired
+      if (passwordResetToken.expiresAt < new Date()) {
+        res.status(400).json({
+          success: false,
+          error: {
+            code: 'TOKEN_EXPIRED',
+            message: 'Reset token has expired',
+          },
+        });
+        return;
+      }
+
+      // Check if token has already been used
+      if (passwordResetToken.usedAt) {
+        res.status(400).json({
+          success: false,
+          error: {
+            code: 'TOKEN_USED',
+            message: 'Reset token has already been used',
+          },
+        });
+        return;
+      }
+
       // Hash the new password
       const saltRounds = 12;
       const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-      // In production, you'd look up the user by the reset token
-      // For demo purposes, this is simplified
+      // Update user password and mark token as used
+      await prisma.$transaction([
+        prisma.user.update({
+          where: { id: passwordResetToken.userId },
+          data: { passwordHash: hashedPassword }
+        }),
+        prisma.passwordResetToken.update({
+          where: { id: passwordResetToken.id },
+          data: { usedAt: new Date() }
+        }),
+        // Clean up all other reset tokens for this user
+        prisma.passwordResetToken.deleteMany({
+          where: { 
+            userId: passwordResetToken.userId,
+            id: { not: passwordResetToken.id }
+          }
+        })
+      ]);
+
+      console.log(`🔐 Password successfully reset for user: ${passwordResetToken.user.email}`);
+
       res.json({
         success: true,
         message: 'Password reset successfully. Please log in with your new password.',
@@ -530,5 +601,36 @@ export class AuthPrismaController {
         },
       });
     }
+  }
+
+  // Placeholder methods for missing functionality
+  static async verifyOTP(req: Request, res: Response): Promise<void> {
+    res.status(501).json({
+      success: false,
+      error: {
+        code: 'NOT_IMPLEMENTED',
+        message: 'OTP verification not yet implemented'
+      }
+    });
+  }
+
+  static async getUserSessions(req: AuthRequest, res: Response): Promise<void> {
+    res.status(501).json({
+      success: false,
+      error: {
+        code: 'NOT_IMPLEMENTED',
+        message: 'Session management not yet implemented'
+      }
+    });
+  }
+
+  static async revokeSession(req: AuthRequest, res: Response): Promise<void> {
+    res.status(501).json({
+      success: false,
+      error: {
+        code: 'NOT_IMPLEMENTED',
+        message: 'Session revocation not yet implemented'
+      }
+    });
   }
 }

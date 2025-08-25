@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff, Loader2, Lock, Check, X } from 'lucide-react';
 import { resetPasswordSchema } from '@airbar/shared/schemas';
-import type { ResetPasswordInput } from '@airbar/shared/schemas';
+import type { ResetPasswordSchema } from '@airbar/shared/schemas';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -25,14 +25,14 @@ export function ResetPassword() {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm<{ newPassword: string }>({
-    resolver: zodResolver(resetPasswordSchema.pick({ newPassword: true })),
+  } = useForm<{ password: string }>({
+    resolver: zodResolver(resetPasswordSchema.pick({ password: true })),
     defaultValues: {
-      newPassword: '',
+      password: '',
     },
   });
 
-  const password = watch('newPassword');
+  const password = watch('password');
 
   // Extract token from URL parameters
   useEffect(() => {
@@ -45,7 +45,7 @@ export function ResetPassword() {
     }
   }, []);
 
-  const onSubmit = async (data: { newPassword: string }) => {
+  const onSubmit = async (data: { password: string }) => {
     if (!token) {
       setError('Invalid reset token');
       return;
@@ -57,7 +57,7 @@ export function ResetPassword() {
     try {
       const result = await resetPassword({
         token,
-        newPassword: data.newPassword,
+        password: data.password,
       });
       
       if (result.success) {
@@ -143,7 +143,7 @@ export function ResetPassword() {
               type={showPassword ? 'text' : 'password'}
               placeholder="Enter your new password"
               className="pl-10 pr-10"
-              {...register('newPassword')}
+              {...register('password')}
               autoComplete="new-password"
               autoFocus
             />
@@ -159,8 +159,8 @@ export function ResetPassword() {
               )}
             </button>
           </div>
-          {errors.newPassword && (
-            <p className="mt-1 text-sm text-red-600">{errors.newPassword.message}</p>
+          {errors.password && (
+            <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
           )}
 
           {/* Password strength indicator */}

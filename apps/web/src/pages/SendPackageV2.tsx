@@ -27,6 +27,7 @@ import {
 } from "@/components/form/ParcelTypeSelector";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Textarea } from "@/components/ui/textarea";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import {
   Package,

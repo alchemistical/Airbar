@@ -273,7 +273,7 @@ export default function Profile() {
             </AnimatedCard>
 
             {/* Emergency Contact */}
-            <Card>
+            <AnimatedCard>
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Phone className="h-5 w-5 mr-2" />
@@ -284,37 +284,37 @@ export default function Profile() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <Label htmlFor="emergencyName">Name</Label>
-                    <Input
+                    <AnimatedInput
                       id="emergencyName"
                       defaultValue={mockUser.emergencyContact.name}
                     />
                   </div>
                   <div>
                     <Label htmlFor="emergencyPhone">Phone</Label>
-                    <Input
+                    <AnimatedInput
                       id="emergencyPhone"
                       defaultValue={mockUser.emergencyContact.phone}
                     />
                   </div>
                   <div>
                     <Label htmlFor="emergencyRelationship">Relationship</Label>
-                    <Input
+                    <AnimatedInput
                       id="emergencyRelationship"
                       defaultValue={mockUser.emergencyContact.relationship}
                     />
                   </div>
                 </div>
-                <Button variant="outline">
+                <AnimatedButton variant="outline">
                   <Save className="h-4 w-4 mr-2" />
                   Update Emergency Contact
-                </Button>
+                </AnimatedButton>
               </CardContent>
-            </Card>
+            </AnimatedCard>
           </TabsContent>
 
           {/* Security */}
           <TabsContent value="security" className="space-y-6">
-            <Card>
+            <AnimatedCard>
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Shield className="h-5 w-5 mr-2" />
@@ -326,12 +326,12 @@ export default function Profile() {
                   <div>
                     <Label htmlFor="currentPassword">Current Password</Label>
                     <div className="relative">
-                      <Input
+                      <AnimatedInput
                         id="currentPassword"
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter current password"
                       />
-                      <Button
+                      <AnimatedButton
                         variant="ghost"
                         size="sm"
                         className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0"
@@ -342,13 +342,13 @@ export default function Profile() {
                         ) : (
                           <Eye className="h-4 w-4" />
                         )}
-                      </Button>
+                      </AnimatedButton>
                     </div>
                   </div>
 
                   <div>
                     <Label htmlFor="newPassword">New Password</Label>
-                    <Input
+                    <AnimatedInput
                       id="newPassword"
                       type="password"
                       placeholder="Enter new password"
@@ -359,7 +359,7 @@ export default function Profile() {
                     <Label htmlFor="confirmPassword">
                       Confirm New Password
                     </Label>
-                    <Input
+                    <AnimatedInput
                       id="confirmPassword"
                       type="password"
                       placeholder="Confirm new password"
@@ -367,15 +367,15 @@ export default function Profile() {
                   </div>
                 </div>
 
-                <Button>
+                <AnimatedButton>
                   <Lock className="h-4 w-4 mr-2" />
                   Update Password
-                </Button>
+                </AnimatedButton>
               </CardContent>
-            </Card>
+            </AnimatedCard>
 
             {/* KYC Verification */}
-            <Card>
+            <AnimatedCard>
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <FileText className="h-5 w-5 mr-2" />
@@ -401,12 +401,12 @@ export default function Profile() {
                   </Badge>
                 </div>
               </CardContent>
-            </Card>
+            </AnimatedCard>
           </TabsContent>
 
           {/* Notifications */}
           <TabsContent value="notifications" className="space-y-6">
-            <Card>
+            <AnimatedCard>
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Bell className="h-5 w-5 mr-2" />
@@ -456,12 +456,12 @@ export default function Profile() {
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </AnimatedCard>
           </TabsContent>
 
           {/* Privacy */}
           <TabsContent value="privacy" className="space-y-6">
-            <Card>
+            <AnimatedCard>
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Eye className="h-5 w-5 mr-2" />
@@ -513,7 +513,7 @@ export default function Profile() {
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </AnimatedCard>
           </TabsContent>
         </Tabs>
       </div>

@@ -30,7 +30,7 @@ export function track<T extends keyof AnalyticsEvent>(
     }
     
     // Console log in development
-    if (import.meta.env.DEV) {
+    if ((import.meta.env as any).DEV) {
       console.log(`[Analytics] ${eventName}`, payload);
     }
   } catch (error) {

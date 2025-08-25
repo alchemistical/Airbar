@@ -1,19 +1,20 @@
 import { useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { apiRequest, queryClient } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "../lib/queryClient";
+import { useAuth } from "../context/AuthContext";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+} from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Badge } from "../components/ui/badge";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Textarea } from "../components/ui/textarea";
 import {
   Dialog,
   DialogContent,
@@ -21,10 +22,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+} from "../components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
+import { Separator } from "../components/ui/separator";
+import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import {
   MapPin,
   DollarSign,
@@ -36,8 +37,8 @@ import {
   Plane,
 } from "lucide-react";
 import { format } from "date-fns";
-import { useToast } from "@/hooks/use-toast";
-import DashboardLayout from "@/components/layout/DashboardLayout";
+import { useToast } from "../hooks/use-toast";
+import DashboardLayout from "../components/layout/DashboardLayout";
 
 type TripDetail = {
   id: number;
@@ -68,18 +69,25 @@ type TripDetail = {
 };
 
 export default function MarketplaceTripDetail() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [, navigate] = useLocation();
   const { toast } = useToast();
+  const { user, isAuthenticated } = useAuth();
   const [showRequestModal, setShowRequestModal] = useState(false);
   const [requestWeight, setRequestWeight] = useState("1");
   const [requestMessage, setRequestMessage] = useState("");
   const [calculatedPrice, setCalculatedPrice] = useState(0);
 
+  // Authentication guard
+  if (!isAuthenticated || !user) {
+    navigate("/login");
+    return null;
+  }
+
   // Mock data for demonstration
   const mockTrip: TripDetail = {
     id: parseInt(id || "1"),
-    userId: 2,
+    userId: 123, // Mock traveler ID for this trip
     travelerName: "Sarah Chen",
     travelerRating: 4.9,
     travelerVerified: true,

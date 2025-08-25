@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "wouter";
+import { useAuth } from "@/context/AuthContext";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -83,6 +84,19 @@ export default function DashboardMatches() {
   const [deliveryNotes, setDeliveryNotes] = useState("");
   const [showPickupModal, setShowPickupModal] = useState(false);
   const [showDeliveryModal, setShowDeliveryModal] = useState(false);
+  const { user, isAuthenticated } = useAuth();
+
+  // Redirect if not authenticated
+  if (!isAuthenticated || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Please log in</h1>
+          <Link href="/login" className="text-blue-600 hover:underline">Go to Login</Link>
+        </div>
+      </div>
+    );
+  }
 
   // Mock data - would come from API
   const mockMatches: Match[] = [
@@ -92,7 +106,7 @@ export default function DashboardMatches() {
       tripId: 3,
       parcelId: 3,
       senderId: 1,
-      travelerId: 4,
+      travelerId: 404, // Mock traveler ID
       senderName: "Alex Kim",
       travelerName: "Emma Davis",
       senderRating: 4.8,
@@ -124,7 +138,7 @@ export default function DashboardMatches() {
       tripId: 5,
       parcelId: 5,
       senderId: 2,
-      travelerId: 1,
+      travelerId: 401, // Mock traveler ID
       senderName: "Sarah Chen",
       travelerName: "Alex Kim",
       senderRating: 4.9,
@@ -191,11 +205,10 @@ export default function DashboardMatches() {
   });
 
   // Filter matches based on active tab
-  const userId = 1; // Current user ID
   const filteredMatches = mockMatches.filter(match =>
     activeTab === "sender"
-      ? match.senderId === userId
-      : match.travelerId === userId
+      ? match.senderId === parseInt(user.id)
+      : match.travelerId === parseInt(user.id)
   );
 
   if (matchId) {
@@ -203,7 +216,7 @@ export default function DashboardMatches() {
     const match = mockMatches.find(m => m.id === parseInt(matchId));
     if (!match) return <div>Match not found</div>;
 
-    const isUserSender = match.senderId === userId;
+    const isUserSender = match.senderId === parseInt(user.id);
     const canConfirmPickup =
       !isUserSender && match.trackingStep === "picked_up" && !match.pickedUpAt;
     const canConfirmDelivery =
