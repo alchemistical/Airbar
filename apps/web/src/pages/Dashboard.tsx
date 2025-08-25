@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
   AnimatedCard,
@@ -41,88 +42,50 @@ import {
   Send,
 } from "lucide-react";
 import { Link } from "wouter";
-import type { DashboardMetrics } from "@shared/schema";
+import type { DashboardData } from "../../../api/src/shared/schema";
+import { dashboardApi } from "@/lib/api";
 import { useUserRole } from "@/hooks/useUserRole";
+import { DashboardErrorBoundary } from "@/components/ui/error-boundary";
+import { QueryStateWrapper, ErrorState, EmptyState } from "@/components/ui/loading-states";
 
 export default function Dashboard() {
   const [walletView, setWalletView] = useState<"summary" | "graph">("summary");
-  const userId = 1;
+  const { user, isAuthenticated } = useAuth();
   const { role, toggleRole } = useUserRole();
 
-  const { data: metrics, isLoading } = useQuery<DashboardMetrics>({
-    queryKey: [`/api/dashboard/metrics/${userId}`],
+  const { data: dashboardData, isLoading, error } = useQuery<DashboardData>({
+    queryKey: ['dashboard', 'data', user?.id],
+    queryFn: () => dashboardApi.getDashboardData(user?.id || ''),
+    retry: 3,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    enabled: isAuthenticated && !!user?.id,
   });
 
-  // Mock data for widgets - in real app would come from API
-  const recentActivity = [
-    {
-      id: 1,
-      type: "delivery",
-      message: "Package delivered to Miami",
-      time: "2 hours ago",
-      icon: CheckCircle2,
-      color: "text-green-600",
-    },
-    {
-      id: 2,
-      type: "payment",
-      message: "Funds released - $85.00",
-      time: "3 hours ago",
-      icon: DollarSign,
-      color: "text-blue-600",
-    },
-    {
-      id: 3,
-      type: "review",
-      message: "New 5-star review received",
-      time: "1 day ago",
-      icon: Star,
-      color: "text-yellow-600",
-    },
-    {
-      id: 4,
-      type: "trip",
-      message: "Trip to Chicago confirmed",
-      time: "2 days ago",
-      icon: Plane,
-      color: "text-purple-600",
-    },
-    {
-      id: 5,
-      type: "request",
-      message: "New parcel request received",
-      time: "3 days ago",
-      icon: Package,
-      color: "text-orange-600",
-    },
-  ];
+  // Redirect to login if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Please log in</h1>
+          <Link href="/login" className="text-blue-600 hover:underline">Go to Login</Link>
+        </div>
+      </div>
+    );
+  }
 
-  const upcomingTrips = [
-    {
-      id: 1,
-      from: "New York",
-      to: "Miami",
-      date: "Dec 30",
-      status: "confirmed",
-      matches: 2,
-    },
-    {
-      id: 2,
-      from: "Los Angeles",
-      to: "Chicago",
-      date: "Jan 5",
-      status: "pending",
-      matches: 0,
-    },
-    {
-      id: 3,
-      from: "Boston",
-      to: "Seattle",
-      date: "Jan 12",
-      status: "confirmed",
-      matches: 1,
-    },
-  ];
+  // Extract data parts for easier use
+  const metrics = dashboardData;
+  const recentActivity = dashboardData?.recentActivity || [];
+  const upcomingTrips = dashboardData?.upcomingTrips || [];
+
+  // Icon mapping for activity items
+  const iconMap: Record<string, React.ComponentType<any>> = {
+    CheckCircle2,
+    DollarSign,
+    Star,
+    Plane,
+    Package,
+  };
 
   const renderTopStats = () => {
     if (isLoading) {
@@ -316,8 +279,15 @@ export default function Dashboard() {
   ].filter(item => item.count > 0);
 
   return (
-    <DashboardLayout>
-      <div className="space-y-8">
+    <DashboardErrorBoundary>
+      <DashboardLayout>
+        <QueryStateWrapper
+          isLoading={isLoading}
+          error={error}
+          data={dashboardData}
+          onRetry={() => window.location.reload()}
+        >
+          <div className="space-y-8">
         {/* Role Toggle */}
         <AnimatedCard variant="interactive" className="mb-8">
           <CardContent className="py-6">
@@ -586,9 +556,10 @@ export default function Dashboard() {
                       className="flex items-start space-x-3"
                     >
                       <div className="p-2 rounded-full bg-gray-100">
-                        <activity.icon
-                          className={`h-4 w-4 ${activity.color}`}
-                        />
+                        {(() => {
+                          const IconComponent = iconMap[activity.icon] || Package;
+                          return <IconComponent className={`h-4 w-4 ${activity.color}`} />;
+                        })()}
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-gray-900">
@@ -695,7 +666,9 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-      </div>
-    </DashboardLayout>
+          </div>
+        </QueryStateWrapper>
+      </DashboardLayout>
+    </DashboardErrorBoundary>
   );
 }

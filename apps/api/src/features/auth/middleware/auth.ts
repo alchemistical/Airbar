@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { JWTService } from '../../../utils/jwt';
-import { db } from '../../../db';
-import { users } from '../../../shared/schema';
-import { eq } from 'drizzle-orm';
+import { verifyToken } from '../../../utils/jwt';
+import { prisma } from '../../../lib/prisma';
 
 // Extend Request interface to include user
 declare global {
@@ -49,16 +47,26 @@ export const authenticateToken = async (
     }
 
     // Verify token
-    const payload = JWTService.verifyAccessToken(token);
+    const payload = verifyToken(token) as any;
+    
+    if (!payload) {
+      res.status(401).json({
+        success: false,
+        error: {
+          code: 'INVALID_TOKEN',
+          message: 'Invalid or expired token',
+        },
+      });
+      return;
+    }
 
     // Get user from database
-    const user = await db
-      .select()
-      .from(users)
-      .where(eq(users.id, payload.userId))
-      .limit(1);
+    const user = await prisma.user.findUnique({
+      where: { id: payload.userId },
+      include: { profile: true }
+    });
 
-    if (!user.length) {
+    if (!user) {
       res.status(401).json({
         success: false,
         error: {
@@ -69,13 +77,13 @@ export const authenticateToken = async (
       return;
     }
 
-    // Check if user account is locked
-    if (user[0].accountLocked) {
+    // Check if user account is active
+    if (!user.isActive) {
       res.status(401).json({
         success: false,
         error: {
-          code: 'ACCOUNT_LOCKED',
-          message: 'Account is locked',
+          code: 'ACCOUNT_INACTIVE',
+          message: 'Account is inactive',
         },
       });
       return;
@@ -83,17 +91,17 @@ export const authenticateToken = async (
 
     // Attach user to request
     req.user = {
-      id: user[0].id,
-      email: user[0].email,
-      username: user[0].username,
-      firstName: user[0].firstName,
-      lastName: user[0].lastName,
-      avatar: user[0].avatar,
-      role: user[0].role,
-      isKYCVerified: user[0].isKYCVerified,
-      emailVerified: user[0].emailVerified,
-      twoFactorEnabled: user[0].twoFactorEnabled,
-      sessionId: payload.sessionId,
+      id: user.id,
+      email: user.email,
+      username: user.username,
+      firstName: user.profile?.firstName || '',
+      lastName: user.profile?.lastName || '',
+      avatar: user.profile?.avatarUrl || '',
+      role: 'user', // Default role
+      isKYCVerified: user.kycStatus === 'APPROVED',
+      emailVerified: user.emailVerified,
+      twoFactorEnabled: false, // TODO: implement 2FA
+      sessionId: payload.sessionId || '',
     };
 
     next();
@@ -224,28 +232,31 @@ export const optionalAuth = async (
     }
 
     // Verify token
-    const payload = JWTService.verifyAccessToken(token);
+    const payload = verifyToken(token) as any;
+    
+    if (!payload) {
+      return next();
+    }
 
     // Get user from database
-    const user = await db
-      .select()
-      .from(users)
-      .where(eq(users.id, payload.userId))
-      .limit(1);
+    const user = await prisma.user.findUnique({
+      where: { id: payload.userId },
+      include: { profile: true }
+    });
 
-    if (user.length && !user[0].accountLocked) {
+    if (user && user.isActive) {
       req.user = {
-        id: user[0].id,
-        email: user[0].email,
-        username: user[0].username,
-        firstName: user[0].firstName,
-        lastName: user[0].lastName,
-        avatar: user[0].avatar,
-        role: user[0].role,
-        isKYCVerified: user[0].isKYCVerified,
-        emailVerified: user[0].emailVerified,
-        twoFactorEnabled: user[0].twoFactorEnabled,
-        sessionId: payload.sessionId,
+        id: user.id,
+        email: user.email,
+        username: user.username,
+        firstName: user.profile?.firstName || '',
+        lastName: user.profile?.lastName || '',
+        avatar: user.profile?.avatarUrl || '',
+        role: 'user', // Default role
+        isKYCVerified: user.kycStatus === 'APPROVED',
+        emailVerified: user.emailVerified,
+        twoFactorEnabled: false, // TODO: implement 2FA
+        sessionId: payload.sessionId || '',
       };
     }
 

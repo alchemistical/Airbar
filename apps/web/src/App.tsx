@@ -1,59 +1,71 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import { Router, Route, useLocation, Link } from 'wouter'
+import ErrorBoundary from './components/ui/error-boundary'
+import { ToastProvider } from './components/ui/toast-provider'
 
-// Import your existing pages
-import Dashboard from './pages/Dashboard'
-import AddTrip from './pages/AddTrip'
-import AddTripV2 from './pages/AddTripV2'
-import SendPackage from './pages/SendPackage'
-import HomePage from './marketing/HomePage'
+// Lazy load components for better performance
+const Dashboard = lazy(() => import('./pages/Dashboard'))
+const AddTripV2 = lazy(() => import('./pages/AddTripV2'))
+const SendPackageV2 = lazy(() => import('./pages/SendPackageV2'))
+const HomePageNew = lazy(() => import('./pages/landing-v2/HomePageNew'))
+const LandingV2 = lazy(() => import('./pages/landing-v2/LandingV2'))
 
-// Main user journeys
-import Matches from './pages/Matches'
-import DashboardMatches from './pages/DashboardMatches'
-import MatchesDiscovery from './pages/MatchesDiscovery'
-import MatchRequests from './pages/MatchRequests'
-import ParcelRequests from './pages/ParcelRequests'
-import ParcelRequestDetail from './pages/ParcelRequestDetail'
-import Tracking from './pages/Tracking'
-import BrowsePackages from './pages/BrowsePackages'
-import MyTrips from './pages/MyTrips'
-import MyParcels from './pages/MyParcels'
-import SenderParcels from './pages/SenderParcels'
-import TravelerTrips from './pages/TravelerTrips'
-import Support from './pages/Support'
+// Main user journeys - lazy loaded
+const Matches = lazy(() => import('./pages/Matches'))
+const DashboardMatches = lazy(() => import('./pages/DashboardMatches'))
+const MatchesDiscovery = lazy(() => import('./pages/MatchesDiscovery'))
+const MatchRequests = lazy(() => import('./pages/MatchRequests'))
+const ParcelRequests = lazy(() => import('./pages/ParcelRequests'))
+const ParcelRequestDetail = lazy(() => import('./pages/ParcelRequestDetail'))
+const Tracking = lazy(() => import('./pages/Tracking'))
+const BrowsePackages = lazy(() => import('./pages/BrowsePackages'))
+const MyTrips = lazy(() => import('./pages/MyTrips'))
+const MyParcels = lazy(() => import('./pages/MyParcels'))
+const SenderParcels = lazy(() => import('./pages/SenderParcels'))
+const TravelerTrips = lazy(() => import('./pages/TravelerTrips'))
+const Support = lazy(() => import('./pages/Support'))
 
-// Additional key pages
-import Referrals from './pages/Referrals'
-import Checkout from './pages/Checkout'
-import PaymentCheckout from './pages/PaymentCheckout'
-import MatchesHub from './pages/MatchesHub'
-import MatchDetail from './pages/MatchDetail'
-import MatchRequestDetail from './pages/MatchRequestDetail'
-import DisputeList from './pages/DisputeList'
-import DisputeDetail from './pages/DisputeDetail'
-import WalletTransactions from './pages/WalletTransactions'
-import WalletEscrow from './pages/WalletEscrow'
+// Additional key pages - lazy loaded
+const Referrals = lazy(() => import('./pages/Referrals'))
+const Checkout = lazy(() => import('./pages/Checkout'))
+const PaymentCheckout = lazy(() => import('./pages/PaymentCheckout'))
+const MatchesHub = lazy(() => import('./pages/MatchesHub'))
+const MatchDetail = lazy(() => import('./pages/MatchDetail'))
+const MatchRequestDetail = lazy(() => import('./pages/MatchRequestDetail'))
+const DisputeList = lazy(() => import('./pages/DisputeList'))
+const DisputeDetail = lazy(() => import('./pages/DisputeDetail'))
+const WalletTransactions = lazy(() => import('./pages/WalletTransactions'))
+const WalletEscrow = lazy(() => import('./pages/WalletEscrow'))
 
-// Marketplace
-import MarketplaceTrips from './pages/marketplace/Trips'
-import MarketplaceTripDetail from './pages/MarketplaceTripDetail'
+// Marketplace - lazy loaded
+const MarketplaceTrips = lazy(() => import('./pages/marketplace/Trips'))
+const MarketplaceTripDetail = lazy(() => import('./pages/MarketplaceTripDetail'))
 
-// User management
-import Profile from './pages/Profile'
-import Wallet from './pages/Wallet'
-import History from './pages/History'
-import Notifications from './pages/Notifications'
+// User management - lazy loaded
+const Profile = lazy(() => import('./pages/Profile'))
+const Wallet = lazy(() => import('./pages/Wallet'))
+const History = lazy(() => import('./pages/History'))
+const Notifications = lazy(() => import('./pages/Notifications'))
 
-// Auth pages
-import LoginPage from './pages/auth/LoginPage'
-import RegisterPage from './pages/auth/RegisterPage'
-import ForgotPasswordPage from './pages/auth/ForgotPasswordPage'
-import ResetPasswordPage from './pages/auth/ResetPasswordPage'
+// Auth pages - lazy loaded
+const LoginPage = lazy(() => import('./pages/auth/LoginPage'))
+const RegisterPage = lazy(() => import('./pages/auth/RegisterPage'))
+const ForgotPasswordPage = lazy(() => import('./pages/auth/ForgotPasswordPage'))
+const ResetPasswordPage = lazy(() => import('./pages/auth/ResetPasswordPage'))
+
+// Loading component
+const LoadingSpinner = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+  </div>
+)
 
 function App() {
   return (
-    <Router>
+    <ToastProvider>
+      <ErrorBoundary showReload={true}>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Router>
       <div className="min-h-screen bg-gray-50">
         {/* Navigation Header */}
         <nav className="bg-white shadow-sm border-b">
@@ -73,15 +85,14 @@ function App() {
           </div>
         </nav>
 
-        {/* Routes */}
-        <Route path="/" component={HomePage} />
-        <Route path="/landing" component={LandingPage} />
+        {/* Routes - All lazy loaded for better performance */}
+        <Route path="/" component={HomePageNew} />
+        <Route path="/landing" component={LandingV2} />
         <Route path="/dashboard" component={Dashboard} />
-        <Route path="/add-trip" component={AddTrip} />
-        <Route path="/add-trip-v2" component={AddTripV2} />
+        <Route path="/add-trip" component={AddTripV2} />
         <Route path="/dashboard/add-trip" component={AddTripV2} />
         <Route path="/dashboard/traveler/trips/addtrip" component={AddTripV2} />
-        <Route path="/send-package" component={SendPackage} />
+        <Route path="/send-package" component={SendPackageV2} />
         
         {/* Main User Journeys */}
         <Route path="/matches" component={Matches} />
@@ -158,61 +169,12 @@ function App() {
           )}
         </Route>
       </div>
-    </Router>
+          </Router>
+        </Suspense>
+      </ErrorBoundary>
+    </ToastProvider>
   )
 }
 
-// Landing page component
-function LandingPage() {
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          🚀 Welcome to Airbar
-        </h1>
-        <p className="text-lg text-gray-600">
-          Your crowdshipping platform is ready!
-        </p>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-          <h3 className="text-xl font-semibold mb-2">📊 Dashboard</h3>
-          <p className="text-gray-600 mb-4">View your trips, packages, and earnings</p>
-          <Link href="/dashboard" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors inline-block">
-            Go to Dashboard
-          </Link>
-        </div>
-        
-        <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-          <h3 className="text-xl font-semibold mb-2">✈️ Add Trip</h3>
-          <p className="text-gray-600 mb-4">Post your travel plans to carry packages</p>
-          <Link href="/add-trip" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors inline-block">
-            Add Trip
-          </Link>
-        </div>
-        
-        <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-          <h3 className="text-xl font-semibold mb-2">📦 Send Package</h3>
-          <p className="text-gray-600 mb-4">Find travelers to deliver your packages</p>
-          <Link href="/send-package" className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition-colors inline-block">
-            Send Package
-          </Link>
-        </div>
-      </div>
-      
-      <div className="mt-12 text-center">
-        <p className="text-gray-500">
-          Status: Frontend ✅ | Backend ✅ | Database ✅
-        </p>
-        <div className="mt-4">
-          <Link href="/home" className="text-blue-600 hover:underline">
-            View Full Marketing Homepage
-          </Link>
-        </div>
-      </div>
-    </div>
-  )
-}
 
 export default App

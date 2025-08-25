@@ -1,9 +1,6 @@
-import { Pool, neonConfig } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-serverless";
-import ws from "ws";
-import * as schema from "@airbar/shared/schema";
-
-neonConfig.webSocketConstructor = ws;
+// Re-export Prisma client for legacy compatibility
+// TODO: Migrate all imports to use prisma.ts directly
+import { prisma, connectToDatabase, checkDatabaseHealth } from './prisma';
 
 if (!process.env.DATABASE_URL) {
   if (process.env.NODE_ENV !== "development") {
@@ -15,5 +12,6 @@ if (!process.env.DATABASE_URL) {
   process.env.DATABASE_URL = "postgresql://localhost:5432/airbar_dev";
 }
 
-export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-export const db = drizzle({ client: pool, schema });
+// Legacy export for backward compatibility
+export const db = prisma;
+export { prisma, connectToDatabase, checkDatabaseHealth };
