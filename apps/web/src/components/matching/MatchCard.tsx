@@ -7,7 +7,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { AnimatedAnimatedButton } from "@/components/ui/animated-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Dialog,
@@ -161,9 +161,9 @@ export function MatchCard({
       <CardFooter>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="w-full bg-blue-600 hover:bg-blue-700">
+            <AnimatedButton className="w-full bg-blue-600 hover:bg-blue-700">
               {getActionLabel()}
-            </Button>
+            </AnimatedButton>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
@@ -207,19 +207,19 @@ export function MatchCard({
             </div>
 
             <DialogFooter className="flex space-x-2">
-              <Button
+              <AnimatedButton
                 variant="outline"
                 onClick={() => setIsDialogOpen(false)}
                 disabled={createMatchRequest.isPending}
               >
                 Cancel
-              </Button>
-              <Button
+              </AnimatedButton>
+              <AnimatedButton
                 onClick={handleRequestMatch}
                 disabled={createMatchRequest.isPending}
               >
                 {createMatchRequest.isPending ? "Sending..." : "Send Request"}
-              </Button>
+              </AnimatedButton>
             </DialogFooter>
           </DialogContent>
         </Dialog>

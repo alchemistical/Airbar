@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Package, Plane, Check } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
 import { getStoredIntent, setStoredIntent, type UserIntent } from "@/lib/intent";
@@ -27,7 +27,7 @@ const personaData = {
       "Choose packages that fit your route"
     ],
     cta: "Start Earning",
-    route: "/dashboard/traveler/trips/addtrip?intent=travel"
+    route: "/add-trip?intent=travel"
   }
 };
 
@@ -93,13 +93,13 @@ export default function PersonaTabs() {
               ))}
             </div>
 
-            <Button
+            <AnimatedButton
               size="lg"
               onClick={handleCTA}
               className="w-full sm:w-auto"
             >
               {personaData[activeTab].cta}
-            </Button>
+            </AnimatedButton>
           </div>
         </div>
       </div>

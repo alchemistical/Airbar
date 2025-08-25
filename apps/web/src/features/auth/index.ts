@@ -1,4 +1,2 @@
-export * from './components'
-export * from './hooks'
-export * from './api'
-export * from './types'
+// Auth feature module exports
+// TODO: Add components, hooks, api, and types when auth feature is implemented

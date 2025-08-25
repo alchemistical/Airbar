@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -149,22 +149,22 @@ export default function MyTrips() {
           {trip.status === "upcoming" && (
             <>
               <Link href={`/match-requests?trip=${trip.id}`} className="flex-1">
-                <Button size="sm" variant="outline" className="w-full">
+                <AnimatedButton size="sm" variant="outline" className="w-full">
                   <Eye className="h-4 w-4 mr-1" />
                   View Requests
-                </Button>
+                </AnimatedButton>
               </Link>
-              <Button size="sm" variant="outline" className="flex-1">
+              <AnimatedButton size="sm" variant="outline" className="flex-1">
                 <Edit className="h-4 w-4 mr-1" />
                 Edit Trip
-              </Button>
-              <Button
+              </AnimatedButton>
+              <AnimatedButton
                 size="sm"
                 variant="outline"
                 className="text-red-600 hover:text-red-700"
               >
                 <Trash2 className="h-4 w-4" />
-              </Button>
+              </AnimatedButton>
             </>
           )}
 
@@ -174,23 +174,23 @@ export default function MyTrips() {
                 href={`/dashboard/my-parcels?trip=${trip.id}`}
                 className="flex-1"
               >
-                <Button size="sm" className="w-full">
+                <AnimatedButton size="sm" className="w-full">
                   <Package className="h-4 w-4 mr-1" />
                   Manage Parcels
-                </Button>
+                </AnimatedButton>
               </Link>
-              <Button size="sm" variant="outline" className="flex-1">
+              <AnimatedButton size="sm" variant="outline" className="flex-1">
                 <Eye className="h-4 w-4 mr-1" />
                 Trip Details
-              </Button>
+              </AnimatedButton>
             </>
           )}
 
           {trip.status === "completed" && (
-            <Button size="sm" variant="outline" className="w-full">
+            <AnimatedButton size="sm" variant="outline" className="w-full">
               <Eye className="h-4 w-4 mr-1" />
               View Summary
-            </Button>
+            </AnimatedButton>
           )}
         </div>
       </CardContent>
@@ -211,9 +211,9 @@ export default function MyTrips() {
               <p className="text-gray-500 mb-4">
                 Switch to traveler mode to manage your trips
               </p>
-              <Button onClick={() => window.location.reload()}>
+              <AnimatedButton onClick={() => window.location.reload()}>
                 Switch to Traveler Mode
-              </Button>
+              </AnimatedButton>
             </CardContent>
           </Card>
         </div>
@@ -232,11 +232,11 @@ export default function MyTrips() {
             </p>
           </div>
 
-          <Link href="/dashboard/traveler/trips/addtrip">
-            <Button>
+          <Link href="/add-trip">
+            <AnimatedButton>
               <Plus className="h-4 w-4 mr-2" />
               Add New Trip
-            </Button>
+            </AnimatedButton>
           </Link>
         </div>
 
@@ -340,11 +340,11 @@ export default function MyTrips() {
                   <p className="text-gray-500 mb-4">
                     Add a new trip to start earning
                   </p>
-                  <Link href="/dashboard/traveler/trips/addtrip">
-                    <Button>
+                  <Link href="/add-trip">
+                    <AnimatedButton>
                       <Plus className="h-4 w-4 mr-2" />
                       Add Trip
-                    </Button>
+                    </AnimatedButton>
                   </Link>
                 </CardContent>
               </Card>

@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
@@ -147,9 +147,9 @@ export default function PaymentCheckout() {
             <h3 className="text-lg font-medium mb-2">
               Match request not found
             </h3>
-            <Button onClick={() => navigate("/dashboard/match-requests")}>
+            <AnimatedButton onClick={() => navigate("/dashboard/match-requests")}>
               Back to Requests
-            </Button>
+            </AnimatedButton>
           </CardContent>
         </Card>
       </DashboardLayout>
@@ -282,14 +282,14 @@ export default function PaymentCheckout() {
         </Card>
 
         <div className="flex gap-3">
-          <Button
+          <AnimatedButton
             variant="outline"
             onClick={() => navigate("/dashboard/match-requests")}
             disabled={isProcessing || createPaymentSessionMutation.isPending}
           >
             Cancel
-          </Button>
-          <Button
+          </AnimatedButton>
+          <AnimatedButton
             className="flex-1"
             onClick={() => createPaymentSessionMutation.mutate()}
             disabled={
@@ -306,7 +306,7 @@ export default function PaymentCheckout() {
                 Pay ${(parseFloat(matchRequest.reward) * 1.05).toFixed(2)}
               </>
             )}
-          </Button>
+          </AnimatedButton>
         </div>
       </div>
     </DashboardLayout>

@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react'
+import React, { Suspense, lazy, useEffect } from 'react'
 import { Router, Route, useLocation, Link } from 'wouter'
 import ErrorBoundary from './components/ui/error-boundary'
 import { ToastProvider } from './components/ui/toast-provider'
@@ -8,9 +8,10 @@ import { TripRoutes } from './routes/tripRoutes'
 import { MarketplaceRoutes } from './routes/marketplaceRoutes'
 import { DashboardRoutes } from './routes/dashboardRoutes'
 import { SessionTimeoutModal, useSessionTimeout } from './components/auth/SessionTimeoutModal'
+import { SuspenseWrapper, RoutePreloader, BundleTracker } from './utils/bundle-optimization'
 
 // Core pages not handled by route modules  
-const SendPackageV2 = lazy(() => import('./pages/SendPackageV2'))
+const SendPackage = lazy(() => import('./pages/SendPackage'))
 const HomePageNew = lazy(() => import('./pages/landing-v2/HomePageNew'))
 const LandingV2 = lazy(() => import('./pages/landing-v2/LandingV2'))
 
@@ -27,6 +28,7 @@ const SenderParcels = lazy(() => import('./pages/SenderParcels'))
 // Additional key pages - lazy loaded
 const Checkout = lazy(() => import('./pages/Checkout'))
 const PaymentCheckout = lazy(() => import('./pages/PaymentCheckout'))
+const ComponentShowcase = lazy(() => import('./pages/ComponentShowcase'))
 const MatchesHub = lazy(() => import('./pages/MatchesHub'))
 const MatchDetail = lazy(() => import('./pages/MatchDetail'))
 const MatchRequestDetail = lazy(() => import('./pages/MatchRequestDetail'))
@@ -46,34 +48,33 @@ const LoadingSpinner = () => (
 const AppContent = () => {
   const { showWarning, extendSession, handleLogout } = useSessionTimeout();
 
+  // Initialize intelligent preloading
+  useEffect(() => {
+    RoutePreloader.intelligentPreload();
+    
+    // Track initial bundle load
+    BundleTracker.trackChunk('main', 0); // Size would be provided by build tool
+    
+    // Setup route change preloading
+    const handleRouteChange = () => {
+      RoutePreloader.intelligentPreload();
+    };
+    
+    window.addEventListener('popstate', handleRouteChange);
+    return () => window.removeEventListener('popstate', handleRouteChange);
+  }, []);
+
   return (
     <>
       <ErrorBoundary showReload={true}>
-        <Suspense fallback={<LoadingSpinner />}>
+        <SuspenseWrapper fallback={LoadingSpinner}>
           <Router>
       <div className="min-h-screen bg-gray-50">
-        {/* Navigation Header */}
-        <nav className="bg-white shadow-sm border-b">
-          <div className="container mx-auto px-4 py-3">
-            <div className="flex items-center justify-between">
-              <Link href="/" className="text-2xl font-bold text-blue-600">
-                Airbar
-              </Link>
-              <div className="flex space-x-4">
-                <Link href="/" className="text-gray-600 hover:text-blue-600">Home</Link>
-                <Link href="/dashboard" className="text-gray-600 hover:text-blue-600">Dashboard</Link>
-                <Link href="/add-trip" className="text-gray-600 hover:text-blue-600">Add Trip</Link>
-                <Link href="/send-package" className="text-gray-600 hover:text-blue-600">Send Package</Link>
-                <Link href="/landing" className="text-gray-600 hover:text-blue-600">Quick Start</Link>
-              </div>
-            </div>
-          </div>
-        </nav>
 
         {/* Core Routes */}
         <Route path="/" component={HomePageNew} />
         <Route path="/landing" component={LandingV2} />
-        <Route path="/send-package" component={SendPackageV2} />
+        <Route path="/send-package" component={SendPackage} />
         
         {/* Feature Route Modules */}
         <DashboardRoutes />
@@ -89,6 +90,7 @@ const AppContent = () => {
         <Route path="/dashboard/parcel-requests" component={ParcelRequests} />
         <Route path="/parcel-request/:id" component={ParcelRequestDetail} />
         <Route path="/tracking" component={Tracking} />
+        <Route path="/dashboard/tracking" component={Tracking} />
         <Route path="/my-parcels" component={MyParcels} />
         <Route path="/dashboard/sender/parcels" component={SenderParcels} />
         
@@ -102,23 +104,35 @@ const AppContent = () => {
         <Route path="/checkout" component={Checkout} />
         <Route path="/payment/checkout/:id" component={PaymentCheckout} />
         
+        {/* Component Showcase */}
+        <Route path="/showcase" component={ComponentShowcase} />
+        <Route path="/components" component={ComponentShowcase} />
+        <Route path="/demo" component={ComponentShowcase} />
+        
         {/* Disputes */}
         <Route path="/disputes" component={DisputeList} />
         <Route path="/dashboard/disputes" component={DisputeList} />
         <Route path="/dispute/:id" component={DisputeDetail} />
         
-        {/* 404 fallback */}
-        <Route>
-          {() => (
-            <div className="container mx-auto px-4 py-8 text-center">
-              <h1 className="text-2xl font-bold text-gray-900 mb-4">Page Not Found</h1>
-              <Link href="/" className="text-blue-600 hover:underline">Go Home</Link>
-            </div>
-          )}
+        {/* 404 fallback - only for unmatched routes */}
+        <Route path="*">
+          {(params) => {
+            const path = params?.location || '';
+            // Don't show 404 on landing pages or known routes
+            if (path === '/' || path === '/landing' || path.startsWith('/api/') || path.startsWith('/dashboard/')) {
+              return null;
+            }
+            return (
+              <div className="container mx-auto px-4 py-8 text-center">
+                <h1 className="text-2xl font-bold text-gray-900 mb-4">Page Not Found</h1>
+                <Link href="/" className="text-blue-600 hover:underline">Go Home</Link>
+              </div>
+            );
+          }}
         </Route>
       </div>
           </Router>
-        </Suspense>
+        </SuspenseWrapper>
       </ErrorBoundary>
 
       {/* Session Timeout Modal */}

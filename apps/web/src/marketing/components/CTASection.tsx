@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { ArrowRight, Package, Plane } from "lucide-react";
 
 export default function CTASection() {
@@ -14,20 +14,20 @@ export default function CTASection() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link href="/send-package">
             <a>
-              <Button size="lg" className="group">
+              <AnimatedButton size="lg" className="group">
                 <Package className="h-5 w-5 mr-2" />
                 Send a Package
                 <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              </AnimatedButton>
             </a>
           </Link>
-          <Link href="/dashboard/traveler/trips/addtrip">
+          <Link href="/add-trip">
             <a>
-              <Button size="lg" variant="outline" className="group">
+              <AnimatedButton size="lg" variant="outline" className="group">
                 <Plane className="h-5 w-5 mr-2" />
                 Start Earning
                 <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              </AnimatedButton>
             </a>
           </Link>
         </div>

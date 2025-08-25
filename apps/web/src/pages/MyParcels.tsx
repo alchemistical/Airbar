@@ -3,7 +3,7 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Input } from "@/components/ui/input";
 import {
   Package,
@@ -193,26 +193,26 @@ export default function MyParcels() {
         <div className="flex gap-2 mt-4">
           {parcel.status === "pending" && (
             <>
-              <Button size="sm" variant="outline" className="flex-1">
+              <AnimatedButton size="sm" variant="outline" className="flex-1">
                 <MessageCircle className="h-4 w-4 mr-1" />
                 View Offers
-              </Button>
-              <Button size="sm" variant="outline" className="flex-1">
+              </AnimatedButton>
+              <AnimatedButton size="sm" variant="outline" className="flex-1">
                 Edit Request
-              </Button>
+              </AnimatedButton>
             </>
           )}
 
           {parcel.status === "matched" && (
             <>
-              <Button size="sm" className="flex-1">
+              <AnimatedButton size="sm" className="flex-1">
                 <Eye className="h-4 w-4 mr-1" />
                 View Details
-              </Button>
-              <Button size="sm" variant="outline" className="flex-1">
+              </AnimatedButton>
+              <AnimatedButton size="sm" variant="outline" className="flex-1">
                 <MessageCircle className="h-4 w-4 mr-1" />
                 Message
-              </Button>
+              </AnimatedButton>
             </>
           )}
 
@@ -222,10 +222,10 @@ export default function MyParcels() {
               href={`/dashboard/tracking/${parcel.trackingId}`}
               className="flex-1"
             >
-              <Button size="sm" className="w-full">
+              <AnimatedButton size="sm" className="w-full">
                 <MapPin className="h-4 w-4 mr-1" />
                 Track Package
-              </Button>
+              </AnimatedButton>
             </Link>
           )}
         </div>
@@ -256,10 +256,10 @@ export default function MyParcels() {
               className="pl-10"
             />
           </div>
-          <Button variant="outline">
+          <AnimatedButton variant="outline">
             <Filter className="h-4 w-4 mr-2" />
             Filters
-          </Button>
+          </AnimatedButton>
         </div>
 
         {/* Tabs */}
@@ -310,10 +310,10 @@ export default function MyParcels() {
                     You don't have any active parcel requests
                   </p>
                   <Link href="/send-package">
-                    <Button>
+                    <AnimatedButton>
                       <Package className="h-4 w-4 mr-2" />
                       Send a Package
-                    </Button>
+                    </AnimatedButton>
                   </Link>
                 </CardContent>
               </Card>

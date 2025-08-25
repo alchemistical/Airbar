@@ -76,7 +76,7 @@ class ErrorBoundary extends Component<Props, State> {
                   </summary>
                   <div className="mt-2 text-xs">
                     <strong>Error:</strong> {this.state.error?.message}
-                    {import.meta.env.MODE === 'development' && (
+                    {import.meta.env.DEV && (
                       <>
                         <br />
                         <strong>Stack:</strong>

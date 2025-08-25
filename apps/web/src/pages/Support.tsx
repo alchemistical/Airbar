@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -434,20 +434,20 @@ export default function Support() {
           {/* Quick Actions */}
           <div className="flex justify-center space-x-4">
             <Link href="/support/disputes">
-              <Button className="bg-amber-600 hover:bg-amber-700 text-white rounded-xl">
+              <AnimatedButton className="bg-amber-600 hover:bg-amber-700 text-white rounded-xl">
                 <Shield className="h-5 w-5 mr-2" />
                 View Disputes
-              </Button>
+              </AnimatedButton>
             </Link>
             <Dialog
               open={isContactModalOpen}
               onOpenChange={setIsContactModalOpen}
             >
               <DialogTrigger asChild>
-                <Button className="bg-airbar-blue hover:bg-blue-700 text-white rounded-xl">
+                <AnimatedButton className="bg-airbar-blue hover:bg-blue-700 text-white rounded-xl">
                   <MessageCircle className="h-5 w-5 mr-2" />
                   Contact Support
-                </Button>
+                </AnimatedButton>
               </DialogTrigger>
               <DialogContent className="max-w-2xl">
                 <DialogHeader>
@@ -559,7 +559,7 @@ export default function Support() {
                   </div>
 
                   <div className="flex space-x-3">
-                    <Button
+                    <AnimatedButton
                       onClick={handleSubmitTicket}
                       className="flex-1"
                       disabled={
@@ -577,25 +577,25 @@ export default function Support() {
                       ) : (
                         "Submit Request"
                       )}
-                    </Button>
-                    <Button
+                    </AnimatedButton>
+                    <AnimatedButton
                       variant="outline"
                       onClick={() => setIsContactModalOpen(false)}
                       disabled={isSubmitting}
                     >
                       Cancel
-                    </Button>
+                    </AnimatedButton>
                   </div>
                 </div>
               </DialogContent>
             </Dialog>
 
-            <Button variant="outline" className="rounded-xl" asChild>
+            <AnimatedButton variant="outline" className="rounded-xl" asChild>
               <a href="mailto:support@airbar.app">
                 <Mail className="h-5 w-5 mr-2" />
                 Email Support
               </a>
-            </Button>
+            </AnimatedButton>
           </div>
         </div>
 
@@ -622,7 +622,7 @@ export default function Support() {
                           ).length;
 
                     return (
-                      <Button
+                      <AnimatedButton
                         key={category.value}
                         variant={
                           selectedCategory === category.value
@@ -637,7 +637,7 @@ export default function Support() {
                         <Badge variant="secondary" className="ml-auto">
                           {count}
                         </Badge>
-                      </Button>
+                      </AnimatedButton>
                     );
                   })}
                 </div>
@@ -814,7 +814,7 @@ export default function Support() {
                                       Was this helpful?
                                     </span>
                                     <div className="flex items-center space-x-2">
-                                      <Button
+                                      <AnimatedButton
                                         variant="ghost"
                                         size="sm"
                                         onClick={() =>
@@ -823,8 +823,8 @@ export default function Support() {
                                         className="rounded-full hover:bg-green-50"
                                       >
                                         <ThumbsUp className="h-4 w-4 text-green-600" />
-                                      </Button>
-                                      <Button
+                                      </AnimatedButton>
+                                      <AnimatedButton
                                         variant="ghost"
                                         size="sm"
                                         onClick={() =>
@@ -833,7 +833,7 @@ export default function Support() {
                                         className="rounded-full hover:bg-red-50"
                                       >
                                         <ThumbsDown className="h-4 w-4 text-red-600" />
-                                      </Button>
+                                      </AnimatedButton>
                                     </div>
                                   </div>
                                   <span className="text-xs text-gray-400">
@@ -854,13 +854,13 @@ export default function Support() {
               <TabsContent value="tickets" className="space-y-6 mt-6">
                 <div className="flex items-center justify-between">
                   <h2 className="text-2xl font-bold">My Support Requests</h2>
-                  <Button
+                  <AnimatedButton
                     onClick={() => setIsContactModalOpen(true)}
                     className="rounded-lg"
                   >
                     <Plus className="h-4 w-4 mr-2" />
                     New Request
-                  </Button>
+                  </AnimatedButton>
                 </div>
 
                 <Card className="rounded-xl">
@@ -926,13 +926,13 @@ export default function Support() {
                                   </div>
                                 </div>
 
-                                <Button
+                                <AnimatedButton
                                   variant="outline"
                                   size="sm"
                                   className="rounded-lg"
                                 >
                                   View Details
-                                </Button>
+                                </AnimatedButton>
                               </div>
                             </div>
                           );

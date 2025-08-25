@@ -47,7 +47,7 @@ type MatchRequestDetail = {
 };
 
 export default function MatchRequestDetail() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [, navigate] = useLocation();
   const { user, isAuthenticated } = useAuth();
 

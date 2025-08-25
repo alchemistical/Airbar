@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -182,14 +182,14 @@ export default function Notifications() {
             </p>
           </div>
           <div className="flex space-x-3">
-            <Button variant="outline" onClick={markAllAsRead}>
+            <AnimatedButton variant="outline" onClick={markAllAsRead}>
               <Check className="h-4 w-4 mr-2" />
               Mark All Read
-            </Button>
-            <Button variant="outline">
+            </AnimatedButton>
+            <AnimatedButton variant="outline">
               <Settings className="h-4 w-4 mr-2" />
               Settings
-            </Button>
+            </AnimatedButton>
           </div>
         </div>
 
@@ -294,7 +294,7 @@ export default function Notifications() {
                 </SelectContent>
               </Select>
 
-              <Button
+              <AnimatedButton
                 variant="outline"
                 onClick={() => {
                   setSearchTerm("");
@@ -304,7 +304,7 @@ export default function Notifications() {
               >
                 <Filter className="h-4 w-4 mr-2" />
                 Clear
-              </Button>
+              </AnimatedButton>
             </div>
           </CardContent>
         </Card>
@@ -372,9 +372,9 @@ export default function Notifications() {
                                 {notification.timestamp}
                               </span>
                               {notification.actionUrl && (
-                                <Button variant="outline" size="sm">
+                                <AnimatedButton variant="outline" size="sm">
                                   View Details
-                                </Button>
+                                </AnimatedButton>
                               )}
                             </div>
                           </div>

@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -224,10 +224,10 @@ export default function DisputeDetail() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Button variant="ghost" onClick={() => navigate("/support/disputes")}>
+          <AnimatedButton variant="ghost" onClick={() => navigate("/support/disputes")}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Disputes
-          </Button>
+          </AnimatedButton>
           <h1 className="text-h1 text-airbar-black">Dispute #{dispute.id}</h1>
           <Badge className={getStatusColor(dispute.status)}>
             {dispute.status.charAt(0).toUpperCase() + dispute.status.slice(1)}
@@ -365,7 +365,7 @@ export default function DisputeDetail() {
                   className="min-h-[100px]"
                 />
                 <div className="flex justify-end">
-                  <Button
+                  <AnimatedButton
                     onClick={handleReply}
                     disabled={
                       !replyText.trim() || addTimelineMutation.isPending
@@ -374,7 +374,7 @@ export default function DisputeDetail() {
                   >
                     <Send className="h-4 w-4 mr-2" />
                     Send Reply
-                  </Button>
+                  </AnimatedButton>
                 </div>
               </CardContent>
             </Card>
@@ -399,19 +399,19 @@ export default function DisputeDetail() {
                   </AlertDescription>
                 </Alert>
                 <div className="flex gap-3">
-                  <Button
+                  <AnimatedButton
                     onClick={() => handleResolution("accept")}
                     className="flex-1 bg-green-600 hover:bg-green-700 text-white"
                   >
                     Accept Offer
-                  </Button>
-                  <Button
+                  </AnimatedButton>
+                  <AnimatedButton
                     onClick={() => handleResolution("decline")}
                     variant="outline"
                     className="flex-1 border-red-300 text-red-600 hover:bg-red-50"
                   >
                     Decline Offer
-                  </Button>
+                  </AnimatedButton>
                 </div>
               </CardContent>
             </Card>
@@ -509,13 +509,13 @@ export default function DisputeDetail() {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
+            <AnimatedButton
               variant="outline"
               onClick={() => setShowResolutionModal(false)}
             >
               Cancel
-            </Button>
-            <Button
+            </AnimatedButton>
+            <AnimatedButton
               onClick={confirmResolution}
               className={
                 resolutionAction === "accept"
@@ -524,7 +524,7 @@ export default function DisputeDetail() {
               }
             >
               Confirm {resolutionAction === "accept" ? "Accept" : "Decline"}
-            </Button>
+            </AnimatedButton>
           </DialogFooter>
         </DialogContent>
       </Dialog>

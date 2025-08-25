@@ -49,7 +49,7 @@ export default function HeroInteractive() {
       subheadline:
         "Turn your unused luggage space into extra income. Safe, simple, and rewarding.",
       cta: "Post Your Trip",
-      ctaLink: "/dashboard/traveler/trips/addtrip",
+      ctaLink: "/add-trip",
       features: [
         { icon: TrendingUp, text: "Earn $25-150 per trip" },
         { icon: Globe, text: "Travel anywhere" },

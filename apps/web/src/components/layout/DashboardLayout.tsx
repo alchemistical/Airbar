@@ -11,7 +11,7 @@ import {
   SidebarFooter,
   SidebarProvider,
 } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -41,7 +41,14 @@ import {
   HelpCircle,
   Send,
 } from "lucide-react";
-import type { User as UserType } from "@shared/schema";
+// import type { User as UserType } from "@shared/schema";
+interface UserType {
+  id: string;
+  username: string;
+  profile?: {
+    avatarUrl?: string;
+  };
+}
 import { NotificationBell } from "@/components/NotificationBell";
 
 const navigationItems = [
@@ -147,9 +154,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             {/* Mobile menu button */}
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="sm" className="lg:hidden">
+                <AnimatedButton variant="ghost" size="sm" className="lg:hidden">
                   <Menu className="h-6 w-6" />
-                </Button>
+                </AnimatedButton>
               </SheetTrigger>
               <SheetContent side="left" className="w-64 p-0">
                 <Sidebar className="!bg-white h-full">
@@ -197,7 +204,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
             <h1 className="text-h1 text-airbar-black">
               {location === "/dashboard/traveler/trips" ? "My Trips" : 
-               location === "/dashboard/traveler/trips/addtrip" ? "Add New Trip" :
+               location === "/add-trip" ? "Add New Trip" :
                location === "/dashboard/parcel-requests" ? "Parcel Requests" :
                location === "/dashboard/sender/parcels" ? "My Parcels" :
                location === "/send-package" ? "Send Package" :
@@ -217,7 +224,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               <NotificationBell />
               <DropdownMenu open={isUserDropdownOpen} onOpenChange={setIsUserDropdownOpen}>
                 <DropdownMenuTrigger asChild>
-                  <Button 
+                  <AnimatedButton 
                     variant="ghost" 
                     className={`flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 ${
                       isUserDropdownRoute ? "bg-gray-100" : ""
@@ -238,7 +245,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                       </Badge>
                     </div>
                     <ChevronDown className="h-4 w-4 text-gray-400" />
-                  </Button>
+                  </AnimatedButton>
                 </DropdownMenuTrigger>
                 
                 <DropdownMenuContent 

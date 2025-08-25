@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -51,7 +51,7 @@ export default function BusinessCTAV2() {
               Get custom pricing, dedicated support, and SLA guarantees for your business
             </p>
             
-            <Button
+            <AnimatedButton
               size="lg"
               variant="secondary"
               onClick={() => setIsModalOpen(true)}
@@ -59,7 +59,7 @@ export default function BusinessCTAV2() {
             >
               Talk to Sales
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            </AnimatedButton>
           </div>
         </div>
       </section>
@@ -113,9 +113,9 @@ export default function BusinessCTAV2() {
               />
             </div>
             
-            <Button type="submit" className="w-full">
+            <AnimatedButton type="submit" className="w-full">
               Submit Request
-            </Button>
+            </AnimatedButton>
           </form>
         </DialogContent>
       </Dialog>

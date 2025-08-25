@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -287,16 +287,16 @@ export default function Matches() {
           </div>
           <div className="flex items-center space-x-4">
             <Link href="/dashboard/parcel-requests">
-              <Button variant="outline">
+              <AnimatedButton variant="outline">
                 <Package className="h-4 w-4 mr-2" />
                 Parcel Requests
-              </Button>
+              </AnimatedButton>
             </Link>
             <Link href="/send-package">
-              <Button className="bg-airbar-blue hover:bg-blue-600">
+              <AnimatedButton className="bg-airbar-blue hover:bg-blue-600">
                 <Plus className="h-4 w-4 mr-2" />
                 Send Package
-              </Button>
+              </AnimatedButton>
             </Link>
           </div>
         </div>
@@ -419,16 +419,16 @@ export default function Matches() {
               {!searchTerm && statusFilter === "all" && (
                 <div className="flex justify-center space-x-4">
                   <Link href="/dashboard/parcel-requests">
-                    <Button variant="outline">
+                    <AnimatedButton variant="outline">
                       <Package className="h-4 w-4 mr-2" />
                       Parcel Requests
-                    </Button>
+                    </AnimatedButton>
                   </Link>
                   <Link href="/send-package">
-                    <Button>
+                    <AnimatedButton>
                       <Plus className="h-4 w-4 mr-2" />
                       Send Package
-                    </Button>
+                    </AnimatedButton>
                   </Link>
                 </div>
               )}
@@ -570,7 +570,7 @@ export default function Matches() {
 
                     {/* Right side - Actions */}
                     <div className="flex flex-col space-y-2 ml-6">
-                      <Button
+                      <AnimatedButton
                         variant="outline"
                         size="sm"
                         className="w-full"
@@ -581,7 +581,7 @@ export default function Matches() {
                       >
                         <Package className="h-4 w-4 mr-2" />
                         View Details
-                      </Button>
+                      </AnimatedButton>
 
                       {/* Status Action Button */}
                       {(() => {
@@ -591,7 +591,7 @@ export default function Matches() {
                         );
                         if (nextAction) {
                           return (
-                            <Button
+                            <AnimatedButton
                               size="sm"
                               className="bg-blue-600 hover:bg-blue-700 w-full"
                               onClick={() => {
@@ -608,18 +608,18 @@ export default function Matches() {
                             >
                               {getStatusIcon(nextAction.action)}
                               <span className="ml-2">{nextAction.text}</span>
-                            </Button>
+                            </AnimatedButton>
                           );
                         }
                         return null;
                       })()}
 
-                      <Button variant="outline" size="sm" className="w-full">
+                      <AnimatedButton variant="outline" size="sm" className="w-full">
                         <MessageCircle className="h-4 w-4 mr-2" />
                         Open Chat
-                      </Button>
+                      </AnimatedButton>
 
-                      <Button
+                      <AnimatedButton
                         variant="outline"
                         size="sm"
                         className="text-red-600 hover:text-red-700 hover:bg-red-50 w-full"
@@ -630,7 +630,7 @@ export default function Matches() {
                       >
                         <AlertTriangle className="h-4 w-4 mr-2" />
                         Report Issue
-                      </Button>
+                      </AnimatedButton>
                     </div>
                   </div>
                 </CardContent>
@@ -703,7 +703,7 @@ export default function Matches() {
                 </div>
               </div>
               <div className="flex space-x-2">
-                <Button
+                <AnimatedButton
                   onClick={() =>
                     selectedMatch &&
                     handleStatusUpdate(selectedMatch.id, "delivered")
@@ -711,14 +711,14 @@ export default function Matches() {
                   className="flex-1"
                 >
                   Mark as Delivered
-                </Button>
-                <Button
+                </AnimatedButton>
+                <AnimatedButton
                   onClick={() => setShowDeliveryModal(false)}
                   variant="outline"
                   className="flex-1"
                 >
                   Cancel
-                </Button>
+                </AnimatedButton>
               </div>
             </div>
           </DialogContent>
@@ -759,7 +759,7 @@ export default function Matches() {
                 />
               </div>
               <div className="flex space-x-2">
-                <Button
+                <AnimatedButton
                   onClick={() =>
                     selectedMatch && handleReportIssue(selectedMatch.id)
                   }
@@ -767,14 +767,14 @@ export default function Matches() {
                   className="flex-1"
                 >
                   Report Issue
-                </Button>
-                <Button
+                </AnimatedButton>
+                <AnimatedButton
                   onClick={() => setShowIssueModal(false)}
                   variant="outline"
                   className="flex-1"
                 >
                   Cancel
-                </Button>
+                </AnimatedButton>
               </div>
             </div>
           </DialogContent>

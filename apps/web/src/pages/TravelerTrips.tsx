@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { useAuth } from "@/context/AuthContext";
 import DashboardLayout from "@/components/layout/DashboardLayout";
-import { Button } from "@/components/ui/button";
+import { AnimatedAnimatedButton } from "@/components/ui/animated-button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -126,11 +126,11 @@ export default function TravelerTrips() {
               Manage your travel plans and delivery opportunities
             </p>
           </div>
-          <Link href="/dashboard/traveler/trips/addtrip">
-            <Button className="bg-airbar-blue text-white hover:bg-blue-600">
+          <Link href="/add-trip">
+            <AnimatedButton className="bg-airbar-blue text-white hover:bg-blue-600">
               <Plus className="mr-2 h-4 w-4" />
               Add Trip
-            </Button>
+            </AnimatedButton>
           </Link>
         </div>
 
@@ -228,9 +228,9 @@ export default function TravelerTrips() {
                   {/* Actions */}
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm">
+                      <AnimatedButton variant="ghost" size="sm">
                         <MoreVertical className="h-4 w-4" />
-                      </Button>
+                      </AnimatedButton>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48">
                       <DropdownMenuItem>
@@ -269,11 +269,11 @@ export default function TravelerTrips() {
                     : "Get started by adding your first trip"}
                 </p>
                 {!searchTerm && statusFilter === "all" && (
-                  <Link href="/dashboard/traveler/trips/addtrip">
-                    <Button className="bg-airbar-blue text-white hover:bg-blue-600">
+                  <Link href="/add-trip">
+                    <AnimatedButton className="bg-airbar-blue text-white hover:bg-blue-600">
                       <Plus className="mr-2 h-4 w-4" />
                       Add Your First Trip
-                    </Button>
+                    </AnimatedButton>
                   </Link>
                 )}
               </CardContent>

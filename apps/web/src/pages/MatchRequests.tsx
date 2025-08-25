@@ -4,7 +4,7 @@ import { useParams, Link, useLocation } from "wouter";
 import { useAuth } from "@/context/AuthContext";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { MatchStatusBadge } from "@/components/MatchStatusBadge";
@@ -63,7 +63,7 @@ interface MatchRequest {
 export default function MatchRequests() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const params = useParams();
+  const params = useParams<{ id: string }>();
   const matchId = params.id;
   const [activeTab, setActiveTab] = useState<"sender" | "traveler">("sender");
   const { user, isAuthenticated } = useAuth();
@@ -148,7 +148,7 @@ export default function MatchRequests() {
 
   const acceptMutation = useMutation({
     mutationFn: async (matchId: number) => {
-      return apiRequest("POST", `/api/match-requests/${matchId}/accept`);
+      return apiRequest(`/api/match-requests/${matchId}/accept`, { method: "POST" });
     },
     onSuccess: () => {
       toast({
@@ -161,7 +161,7 @@ export default function MatchRequests() {
 
   const declineMutation = useMutation({
     mutationFn: async (matchId: number) => {
-      return apiRequest("POST", `/api/match-requests/${matchId}/decline`);
+      return apiRequest(`/api/match-requests/${matchId}/decline`, { method: "POST" });
     },
     onSuccess: () => {
       toast({
@@ -175,7 +175,7 @@ export default function MatchRequests() {
   const payMutation = useMutation({
     mutationFn: async (matchId: number) => {
       // This would integrate with Stripe
-      return apiRequest("POST", `/api/match-requests/${matchId}/pay`);
+      return apiRequest(`/api/match-requests/${matchId}/pay`, { method: "POST" });
     },
     onSuccess: () => {
       toast({
@@ -196,7 +196,7 @@ export default function MatchRequests() {
     const match = mockMatchRequests.find(m => m.id === parseInt(matchId));
     if (!match) return <div>Match not found</div>;
 
-    const isUserSender = match.senderId === userId;
+    const isUserSender = match.senderId === user?.id;
     const canAccept = !isUserSender && match.status === "pending";
     const canPay =
       isUserSender &&
@@ -216,9 +216,9 @@ export default function MatchRequests() {
           <div className="flex items-center justify-between">
             <div>
               <Link href="/match-requests">
-                <Button variant="ghost" size="sm" className="mb-2">
+                <AnimatedButton variant="ghost" size="sm" className="mb-2">
                   ← Back to Matches
-                </Button>
+                </AnimatedButton>
               </Link>
               <h1 className="text-h1">Match Request Details</h1>
             </div>
@@ -353,15 +353,15 @@ export default function MatchRequests() {
                 <CardContent className="space-y-3">
                   {canAccept && (
                     <>
-                      <Button
+                      <AnimatedButton
                         className="w-full"
                         onClick={() => acceptMutation.mutate(match.id)}
                         disabled={acceptMutation.isPending}
                       >
                         <CheckCircle className="h-4 w-4 mr-2" />
                         Accept Match
-                      </Button>
-                      <Button
+                      </AnimatedButton>
+                      <AnimatedButton
                         variant="outline"
                         className="w-full"
                         onClick={() => declineMutation.mutate(match.id)}
@@ -369,7 +369,7 @@ export default function MatchRequests() {
                       >
                         <XCircle className="h-4 w-4 mr-2" />
                         Decline
-                      </Button>
+                      </AnimatedButton>
                     </>
                   )}
 
@@ -381,7 +381,7 @@ export default function MatchRequests() {
                           Payment required within 1 hour
                         </p>
                       </div>
-                      <Button
+                      <AnimatedButton
                         className="w-full"
                         onClick={() =>
                           navigate(`/payment-checkout/${match.id}`)
@@ -389,25 +389,25 @@ export default function MatchRequests() {
                       >
                         <CreditCard className="h-4 w-4 mr-2" />
                         Pay ${match.reward}
-                      </Button>
+                      </AnimatedButton>
                     </div>
                   )}
 
                   {match.status === "paid" && (
-                    <Button variant="outline" className="w-full">
+                    <AnimatedButton variant="outline" className="w-full">
                       <MessageSquare className="h-4 w-4 mr-2" />
                       Contact {isUserSender ? "Traveler" : "Sender"}
-                    </Button>
+                    </AnimatedButton>
                   )}
 
                   {["delivered", "disputed"].includes(match.status) && (
-                    <Button
+                    <AnimatedButton
                       variant="outline"
                       className="w-full text-destructive hover:bg-destructive hover:text-destructive-foreground"
                     >
                       <AlertCircle className="h-4 w-4 mr-2" />
                       Open Dispute
-                    </Button>
+                    </AnimatedButton>
                   )}
                 </CardContent>
               </Card>
@@ -496,9 +496,9 @@ export default function MatchRequests() {
                     )}
 
                     <Link href={`/match-requests/${match.id}`}>
-                      <Button variant="outline" className="w-full mt-3">
+                      <AnimatedButton variant="outline" className="w-full mt-3">
                         View Details
-                      </Button>
+                      </AnimatedButton>
                     </Link>
                   </CardContent>
                 </Card>
@@ -515,7 +515,7 @@ export default function MatchRequests() {
                     : "Wait for senders to request matches with your trips"}
                 </p>
                 <Link href="/marketplace/trips">
-                  <Button variant="outline">Browse Trips</Button>
+                  <AnimatedButton variant="outline">Browse Trips</AnimatedButton>
                 </Link>
               </Card>
             )}

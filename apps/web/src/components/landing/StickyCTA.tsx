@@ -52,7 +52,7 @@ export default function StickyCTA() {
     traveler: {
       icon: Plane,
       text: "Earn While Traveling",
-      link: "/dashboard/traveler/trips/addtrip",
+      link: "/add-trip",
       bgColor: "bg-green-600",
       hoverColor: "hover:bg-green-700",
     },

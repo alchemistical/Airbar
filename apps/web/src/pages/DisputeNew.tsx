@@ -7,7 +7,7 @@ import { z } from "zod";
 import { useAuth } from "@/context/AuthContext";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Badge } from "@/components/ui/badge";
 import {
   Form,
@@ -411,14 +411,14 @@ export default function DisputeNew() {
                   )}
                   <span className="text-sm">File {index + 1}</span>
                 </div>
-                <Button
+                <AnimatedButton
                   type="button"
                   variant="ghost"
                   size="sm"
                   onClick={() => removeFile(index)}
                 >
                   <X className="h-4 w-4" />
-                </Button>
+                </AnimatedButton>
               </div>
             ))}
           </div>
@@ -600,33 +600,33 @@ export default function DisputeNew() {
               <div className="flex items-center justify-between pt-6 border-t">
                 <div>
                   {currentStep > 1 && (
-                    <Button type="button" variant="outline" onClick={prevStep}>
+                    <AnimatedButton type="button" variant="outline" onClick={prevStep}>
                       <ArrowLeft className="mr-2 h-4 w-4" />
                       Back
-                    </Button>
+                    </AnimatedButton>
                   )}
                 </div>
 
                 <div className="flex space-x-3">
-                  <Button
+                  <AnimatedButton
                     type="button"
                     variant="outline"
                     onClick={() => navigate("/support")}
                   >
                     Cancel
-                  </Button>
+                  </AnimatedButton>
 
                   {currentStep < 3 ? (
-                    <Button
+                    <AnimatedButton
                       type="button"
                       onClick={nextStep}
                       className="bg-airbar-blue text-white hover:bg-blue-600"
                     >
                       Continue
                       <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
+                    </AnimatedButton>
                   ) : (
-                    <Button
+                    <AnimatedButton
                       type="submit"
                       disabled={createDisputeMutation.isPending}
                       className="bg-airbar-green text-white hover:bg-green-600"
@@ -642,7 +642,7 @@ export default function DisputeNew() {
                           Submit Dispute
                         </>
                       )}
-                    </Button>
+                    </AnimatedButton>
                   )}
                 </div>
               </div>

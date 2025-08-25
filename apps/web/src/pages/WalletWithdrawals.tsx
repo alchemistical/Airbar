@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -215,17 +215,17 @@ export default function WalletWithdrawals() {
           </div>
 
           <div className="flex space-x-3">
-            <Button variant="outline" onClick={() => setShowAddMethod(true)}>
+            <AnimatedButton variant="outline" onClick={() => setShowAddMethod(true)}>
               <Plus className="h-4 w-4 mr-2" />
               Add Method
-            </Button>
-            <Button
+            </AnimatedButton>
+            <AnimatedButton
               onClick={() => setShowWithdrawModal(true)}
               className="bg-green-600 hover:bg-green-700"
             >
               <ArrowUpRight className="h-4 w-4 mr-2" />
               Withdraw Funds
-            </Button>
+            </AnimatedButton>
           </div>
         </div>
 
@@ -273,14 +273,14 @@ export default function WalletWithdrawals() {
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               <span>Payout Methods</span>
-              <Button
+              <AnimatedButton
                 variant="outline"
                 size="sm"
                 onClick={() => setShowAddMethod(true)}
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Add New
-              </Button>
+              </AnimatedButton>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -324,21 +324,21 @@ export default function WalletWithdrawals() {
                     </div>
 
                     <div className="flex space-x-2">
-                      <Button
+                      <AnimatedButton
                         variant="ghost"
                         size="sm"
                         onClick={() => setEditingMethod(method)}
                       >
                         <Edit className="h-4 w-4" />
-                      </Button>
+                      </AnimatedButton>
                       {!method.isDefault && (
-                        <Button
+                        <AnimatedButton
                           variant="ghost"
                           size="sm"
                           className="text-red-600 hover:text-red-700"
                         >
                           <Trash2 className="h-4 w-4" />
-                        </Button>
+                        </AnimatedButton>
                       )}
                     </div>
                   </div>
@@ -389,10 +389,10 @@ export default function WalletWithdrawals() {
                   </SelectContent>
                 </Select>
 
-                <Button variant="outline" size="sm">
+                <AnimatedButton variant="outline" size="sm">
                   <Download className="h-4 w-4 mr-2" />
                   Export
-                </Button>
+                </AnimatedButton>
               </div>
             </div>
           </CardHeader>
@@ -460,9 +460,9 @@ export default function WalletWithdrawals() {
                         </p>
                       )}
                       {withdrawal.status === "failed" && (
-                        <Button variant="outline" size="sm" className="mt-2">
+                        <AnimatedButton variant="outline" size="sm" className="mt-2">
                           Retry
-                        </Button>
+                        </AnimatedButton>
                       )}
                     </div>
                   </div>
@@ -512,14 +512,14 @@ export default function WalletWithdrawals() {
               </div>
 
               <div className="flex space-x-3">
-                <Button
+                <AnimatedButton
                   variant="outline"
                   onClick={() => setShowAddMethod(false)}
                   className="flex-1"
                 >
                   Cancel
-                </Button>
-                <Button className="flex-1">Add Method</Button>
+                </AnimatedButton>
+                <AnimatedButton className="flex-1">Add Method</AnimatedButton>
               </div>
             </div>
           </DialogContent>
@@ -560,16 +560,16 @@ export default function WalletWithdrawals() {
               </div>
 
               <div className="flex space-x-3">
-                <Button
+                <AnimatedButton
                   variant="outline"
                   onClick={() => setShowWithdrawModal(false)}
                   className="flex-1"
                 >
                   Cancel
-                </Button>
-                <Button className="flex-1 bg-green-600 hover:bg-green-700">
+                </AnimatedButton>
+                <AnimatedButton className="flex-1 bg-green-600 hover:bg-green-700">
                   Withdraw
-                </Button>
+                </AnimatedButton>
               </div>
             </div>
           </DialogContent>

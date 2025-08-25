@@ -2,7 +2,7 @@ import { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -144,9 +144,9 @@ export default function ContactPage() {
                         />
                       </div>
                       
-                      <Button type="submit" className="w-full" size="lg">
+                      <AnimatedButton type="submit" className="w-full" size="lg">
                         Send Message
-                      </Button>
+                      </AnimatedButton>
                     </form>
                   </CardContent>
                 </Card>

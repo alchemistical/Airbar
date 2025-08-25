@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -442,9 +442,9 @@ export default function WalletEscrow() {
                         </div>
 
                         {item.status === "disputed" && (
-                          <Button variant="outline" size="sm" className="ml-4">
+                          <AnimatedButton variant="outline" size="sm" className="ml-4">
                             Contact Support
-                          </Button>
+                          </AnimatedButton>
                         )}
                       </div>
                     </div>

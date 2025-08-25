@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 
 export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -146,14 +146,14 @@ export default function Testimonials() {
         
         {/* Navigation */}
         <div className="flex justify-center gap-2 mt-6">
-          <Button
+          <AnimatedButton
             variant="outline"
             size="icon"
             onClick={prevTestimonial}
             className="rounded-full"
           >
             <ChevronLeft className="h-4 w-4" />
-          </Button>
+          </AnimatedButton>
           <div className="flex items-center gap-2">
             {testimonials.map((_, index) => (
               <button
@@ -168,14 +168,14 @@ export default function Testimonials() {
               />
             ))}
           </div>
-          <Button
+          <AnimatedButton
             variant="outline"
             size="icon"
             onClick={nextTestimonial}
             className="rounded-full"
           >
             <ChevronRight className="h-4 w-4" />
-          </Button>
+          </AnimatedButton>
         </div>
       </div>
       

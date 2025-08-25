@@ -1,4 +1,17 @@
 import { useState } from "react";
+
+// Define PackageStatus enum locally
+enum PackageStatus {
+  DRAFT = 'DRAFT',
+  PENDING = 'PENDING', 
+  MATCHED = 'MATCHED',
+  PICKED_UP = 'PICKED_UP',
+  IN_TRANSIT = 'IN_TRANSIT',
+  DELIVERED = 'DELIVERED',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+  EXPIRED = 'EXPIRED'
+}
 import {
   Package,
   Search,
@@ -14,7 +27,7 @@ import {
   CheckCircle,
   X,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -55,15 +68,15 @@ export default function SenderParcels() {
   // Mock data for sender parcels (in real app, this would be a different API endpoint)
   const senderParcels: SenderParcelRequest[] = [
     {
-      id: 1,
-      senderId: 1,
-      tripId: 1,
+      id: "1",
+      senderId: "1",
+      tripId: "1",
       description: "Important Documents",
       pickupAddress: "123 Broadway, New York, NY",
       deliveryAddress: "456 Market St, San Francisco, CA",
-      weight: 0.5,
+      weight: "0.5",
       rewardAmount: "50.00",
-      status: "matched",
+      status: PackageStatus.MATCHED,
       deadline: "2024-02-15T00:00:00Z",
       createdAt: "2024-01-15T10:00:00Z",
       specialInstructions: "Handle with care",
@@ -73,29 +86,29 @@ export default function SenderParcels() {
       tripDate: "2024-02-10",
     },
     {
-      id: 2,
-      senderId: 1,
+      id: "2",
+      senderId: "1",
       tripId: null,
       description: "Electronics Package",
       pickupAddress: "789 Pine St, Seattle, WA",
       deliveryAddress: "321 Oak Ave, Portland, OR",
-      weight: 2.0,
+      weight: "2.0",
       rewardAmount: "75.00",
-      status: "waiting",
+      status: PackageStatus.PENDING,
       deadline: "2024-02-20T00:00:00Z",
       createdAt: "2024-01-18T14:30:00Z",
       specialInstructions: "Fragile - contains laptop",
     },
     {
-      id: 3,
-      senderId: 1,
-      tripId: 2,
+      id: "3",
+      senderId: "1",
+      tripId: "2",
       description: "Gift Package",
       pickupAddress: "555 Main St, Chicago, IL",
       deliveryAddress: "777 Elm St, Detroit, MI",
-      weight: 1.2,
+      weight: "1.2",
       rewardAmount: "40.00",
-      status: "delivered",
+      status: PackageStatus.DELIVERED,
       deadline: "2024-01-25T00:00:00Z",
       createdAt: "2024-01-10T09:15:00Z",
       specialInstructions: "Birthday gift - please deliver by evening",
@@ -172,10 +185,10 @@ export default function SenderParcels() {
             </p>
           </div>
           <Link href="/send-package">
-            <Button className="bg-airbar-blue hover:bg-blue-600">
+            <AnimatedButton className="bg-airbar-blue hover:bg-blue-600">
               <Plus className="h-4 w-4 mr-2" />
               Send New Parcel
-            </Button>
+            </AnimatedButton>
           </Link>
         </div>
 
@@ -185,24 +198,24 @@ export default function SenderParcels() {
             { label: "All", count: senderParcels.length, status: "all" },
             {
               label: "Waiting",
-              count: senderParcels.filter(p => p.status === "waiting").length,
-              status: "waiting",
+              count: senderParcels.filter(p => p.status === PackageStatus.PENDING).length,
+              status: PackageStatus.PENDING,
             },
             {
               label: "Matched",
-              count: senderParcels.filter(p => p.status === "matched").length,
-              status: "matched",
+              count: senderParcels.filter(p => p.status === PackageStatus.MATCHED).length,
+              status: PackageStatus.MATCHED,
             },
             {
               label: "In Transit",
-              count: senderParcels.filter(p => p.status === "in-transit")
+              count: senderParcels.filter(p => p.status === PackageStatus.IN_TRANSIT)
                 .length,
               status: "in-transit",
             },
             {
               label: "Delivered",
-              count: senderParcels.filter(p => p.status === "delivered").length,
-              status: "delivered",
+              count: senderParcels.filter(p => p.status === PackageStatus.DELIVERED).length,
+              status: PackageStatus.DELIVERED,
             },
           ].map(stat => (
             <Card
@@ -272,10 +285,10 @@ export default function SenderParcels() {
               </p>
               {!searchTerm && statusFilter === "all" && (
                 <Link href="/send-package">
-                  <Button>
+                  <AnimatedButton>
                     <Plus className="h-4 w-4 mr-2" />
                     Send Your First Parcel
-                  </Button>
+                  </AnimatedButton>
                 </Link>
               )}
             </CardContent>
@@ -386,32 +399,32 @@ export default function SenderParcels() {
                     {/* Right side - Actions */}
                     <div className="flex flex-col space-y-2 ml-6">
                       <Link href={`/parcel-request/${parcel.id}`}>
-                        <Button variant="outline" size="sm" className="w-full">
+                        <AnimatedButton variant="outline" size="sm" className="w-full">
                           <Eye className="h-4 w-4 mr-2" />
                           View Details
-                        </Button>
+                        </AnimatedButton>
                       </Link>
 
-                      {(parcel.status === "matched" ||
-                        parcel.status === "in-transit") && (
-                        <Button
+                      {(parcel.status === PackageStatus.MATCHED ||
+                        parcel.status === PackageStatus.IN_TRANSIT) && (
+                        <AnimatedButton
                           size="sm"
                           className="bg-blue-600 hover:bg-blue-700 w-full"
                         >
                           <Truck className="h-4 w-4 mr-2" />
                           Track Delivery
-                        </Button>
+                        </AnimatedButton>
                       )}
 
-                      {parcel.status === "waiting" && (
-                        <Button
+                      {parcel.status === PackageStatus.PENDING && (
+                        <AnimatedButton
                           variant="outline"
                           size="sm"
                           className="text-red-600 hover:text-red-700 hover:bg-red-50 w-full"
                         >
                           <X className="h-4 w-4 mr-2" />
                           Cancel
-                        </Button>
+                        </AnimatedButton>
                       )}
                     </div>
                   </div>

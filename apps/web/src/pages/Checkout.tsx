@@ -16,7 +16,7 @@ import { useToast } from "../hooks/use-toast";
 import DashboardLayout from "../components/layout/DashboardLayout";
 
 // Initialize Stripe
-const stripePromise = loadStripe((import.meta.env as any)?.VITE_STRIPE_PUBLIC_KEY || "pk_test_placeholder");
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY || "pk_test_placeholder");
 
 type MatchRequestDetail = {
   id: number;

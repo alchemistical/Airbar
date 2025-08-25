@@ -52,7 +52,7 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-const API_BASE_URL = '/api/auth';
+const API_BASE_URL = 'http://localhost:3001/api/auth';
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
@@ -356,7 +356,33 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   // Initialize authentication on mount
   useEffect(() => {
-    checkAuth();
+    // For development: set a mock user to avoid authentication barriers
+    if (import.meta.env.MODE === 'development') {
+      setUser({
+        id: 'dev-user-1',
+        email: 'dev@airbar.com',
+        username: 'devuser',
+        firstName: 'Dev',
+        lastName: 'User',
+        isActive: true,
+        emailVerified: true,
+        phoneVerified: true,
+        kycStatus: 'APPROVED',
+        lastLoginAt: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        profile: {
+          firstName: 'Dev',
+          lastName: 'User',
+          avatarUrl: 'https://via.placeholder.com/150',
+          bio: 'Development user for testing',
+          phoneNumber: '+1234567890',
+        }
+      });
+      setIsLoading(false);
+    } else {
+      checkAuth();
+    }
   }, []);
 
   const value: AuthContextType = {

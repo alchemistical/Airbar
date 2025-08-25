@@ -2,7 +2,7 @@ import { apiRequest } from './queryClient';
 import type { DashboardMetrics, DashboardData, ActivityItem, UpcomingTrip } from '../../../api/src/shared/schema';
 
 // Base API configuration
-const API_BASE = '/api';
+const API_BASE = 'http://localhost:3001/api';
 
 // Response wrapper type to match backend format
 interface ApiResponse<T> {
@@ -24,7 +24,7 @@ interface ApiError {
 export const dashboardApi = {
   async getMetrics(userId: number): Promise<DashboardMetrics> {
     try {
-      const response = await apiRequest('GET', `${API_BASE}/dashboard/metrics/${userId}`);
+      const response = await apiRequest(`${API_BASE}/dashboard/metrics/${userId}`, { method: 'GET' });
       const result: ApiResponse<DashboardMetrics> = await response.json();
       
       if (!result.success) {
@@ -57,7 +57,7 @@ export const dashboardApi = {
 
   async getDashboardData(userId: number): Promise<DashboardData> {
     try {
-      const response = await apiRequest('GET', `${API_BASE}/dashboard/data/${userId}`);
+      const response = await apiRequest(`${API_BASE}/dashboard/data/${userId}`, { method: 'GET' });
       const result: ApiResponse<DashboardData> = await response.json();
       
       if (!result.success) {
@@ -151,20 +151,20 @@ export const dashboardApi = {
 // Auth API (placeholder for future implementation)
 export const authApi = {
   async login(email: string, password: string) {
-    const response = await apiRequest('POST', `${API_BASE}/auth/login`, {
-      email,
-      password
+    const response = await apiRequest(`${API_BASE}/auth/login`, { 
+      method: 'POST',
+      body: JSON.stringify({ email, password })
     });
     return response.json();
   },
 
   async register(userData: any) {
-    const response = await apiRequest('POST', `${API_BASE}/auth/register`, userData);
+    const response = await apiRequest(`${API_BASE}/auth/register`, { method: 'POST', body: JSON.stringify(userData) });
     return response.json();
   },
 
   async logout() {
-    const response = await apiRequest('POST', `${API_BASE}/auth/logout`);
+    const response = await apiRequest(`${API_BASE}/auth/logout`, { method: 'POST' });
     return response.json();
   }
 };
@@ -172,12 +172,12 @@ export const authApi = {
 // Trips API (placeholder for future implementation)
 export const tripsApi = {
   async getTrips(userId: number) {
-    const response = await apiRequest('GET', `${API_BASE}/trips?userId=${userId}`);
+    const response = await apiRequest(`${API_BASE}/trips?userId=${userId}`, { method: 'GET' });
     return response.json();
   },
 
   async createTrip(tripData: any) {
-    const response = await apiRequest('POST', `${API_BASE}/trips`, tripData);
+    const response = await apiRequest(`${API_BASE}/trips`, { method: 'POST', body: JSON.stringify(tripData) });
     return response.json();
   }
 };
@@ -185,12 +185,12 @@ export const tripsApi = {
 // Parcels API (placeholder for future implementation)
 export const parcelsApi = {
   async getParcels(userId: number) {
-    const response = await apiRequest('GET', `${API_BASE}/parcels?userId=${userId}`);
+    const response = await apiRequest(`${API_BASE}/parcels?userId=${userId}`, { method: 'GET' });
     return response.json();
   },
 
   async createParcel(parcelData: any) {
-    const response = await apiRequest('POST', `${API_BASE}/parcels`, parcelData);
+    const response = await apiRequest(`${API_BASE}/parcels`, { method: 'POST', body: JSON.stringify(parcelData) });
     return response.json();
   }
 };

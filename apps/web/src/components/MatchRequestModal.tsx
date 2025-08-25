@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
@@ -257,20 +257,20 @@ export function MatchRequestModal({ open, onOpenChange, trip }: MatchRequestModa
               </Alert>
 
               <div className="flex justify-end gap-3">
-                <Button
+                <AnimatedButton
                   type="button"
                   variant="outline"
                   onClick={() => onOpenChange(false)}
                   disabled={createMatchRequestMutation.isPending}
                 >
                   Cancel
-                </Button>
-                <Button
+                </AnimatedButton>
+                <AnimatedButton
                   type="submit"
                   disabled={createMatchRequestMutation.isPending}
                 >
                   {createMatchRequestMutation.isPending ? "Sending..." : "Send Request"}
-                </Button>
+                </AnimatedButton>
               </div>
             </form>
           </Form>

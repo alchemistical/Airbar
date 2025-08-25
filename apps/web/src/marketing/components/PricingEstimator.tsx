@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -108,13 +108,13 @@ export default function PricingEstimator() {
                   </Select>
                 </div>
                 
-                <Button 
+                <AnimatedButton 
                   onClick={calculateEstimate} 
                   className="w-full"
                   disabled={!from || !to || !weight}
                 >
                   Calculate Price
-                </Button>
+                </AnimatedButton>
               </div>
             </div>
             
@@ -149,9 +149,9 @@ export default function PricingEstimator() {
                     </p>
                   </div>
                   
-                  <Button className="w-full" asChild>
+                  <AnimatedButton className="w-full" asChild>
                     <a href="/send-package">Send This Package</a>
-                  </Button>
+                  </AnimatedButton>
                 </div>
               ) : (
                 <div className="h-full flex items-center justify-center text-center">

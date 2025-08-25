@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { MapPin, Users, TrendingUp } from "lucide-react";
 import { track } from "@/lib/analytics";
 import { getStoredIntent } from "@/lib/intent";
@@ -96,7 +96,7 @@ export default function RoutesGridV2() {
     if (intent === "send") {
       navigate(`/browse-trips?from=${route.from}&to=${route.to}`);
     } else if (intent === "travel") {
-      navigate(`/dashboard/traveler/trips/addtrip?from=${route.from}&to=${route.to}`);
+      navigate(`/add-trip?from=${route.from}&to=${route.to}`);
     } else {
       // Show persona modal if no intent set
       navigate(`/browse-trips?from=${route.from}&to=${route.to}`);
@@ -166,12 +166,12 @@ export default function RoutesGridV2() {
                 </div>
               </div>
 
-              <Button
+              <AnimatedButton
                 variant="outline"
                 className="w-full group-hover:bg-primary group-hover:text-white transition-colors"
               >
                 {intent === "send" ? "View Travelers" : intent === "travel" ? "List Trip" : "Explore Route"}
-              </Button>
+              </AnimatedButton>
             </Card>
           ))}
         </div>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -251,13 +251,13 @@ export default function WalletReferrals() {
             </p>
           </div>
 
-          <Button
+          <AnimatedButton
             onClick={() => setShowInviteModal(true)}
             className="bg-blue-600 hover:bg-blue-700"
           >
             <Users className="h-4 w-4 mr-2" />
             Invite Friends
-          </Button>
+          </AnimatedButton>
         </div>
 
         {/* Stats Overview */}
@@ -329,14 +329,14 @@ export default function WalletReferrals() {
           <CardContent>
             <div className="flex items-center space-x-3">
               <Input value={referralLink} readOnly className="flex-1" />
-              <Button onClick={copyReferralLink} variant="outline">
+              <AnimatedButton onClick={copyReferralLink} variant="outline">
                 <Copy className="h-4 w-4 mr-2" />
                 Copy
-              </Button>
-              <Button variant="outline">
+              </AnimatedButton>
+              <AnimatedButton variant="outline">
                 <Share2 className="h-4 w-4 mr-2" />
                 Share
-              </Button>
+              </AnimatedButton>
             </div>
 
             <div className="mt-4 p-4 bg-blue-50 rounded-lg">
@@ -513,21 +513,21 @@ export default function WalletReferrals() {
               </div>
 
               <div className="flex space-x-3">
-                <Button
+                <AnimatedButton
                   variant="outline"
                   onClick={() => setShowInviteModal(false)}
                   className="flex-1"
                 >
                   Cancel
-                </Button>
-                <Button
+                </AnimatedButton>
+                <AnimatedButton
                   onClick={handleSendInvites}
                   disabled={!inviteEmails.trim()}
                   className="flex-1 bg-blue-600 hover:bg-blue-700"
                 >
                   <Mail className="h-4 w-4 mr-2" />
                   Send Invites
-                </Button>
+                </AnimatedButton>
               </div>
             </div>
           </DialogContent>

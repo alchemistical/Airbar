@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { ArrowRight, Package, Plane, Lock, ShieldCheck, Camera, MapPin, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -113,18 +113,18 @@ export default function Hero() {
           {/* Dual CTAs with clear separation */}
           <div className="flex flex-col sm:flex-row gap-4 mb-4">
             <Link href="/send-package?intent=send&src=homepage_hero" onClick={() => handleCTAClick("send")}>
-              <Button size="lg" className="w-full sm:w-auto group text-base">
+              <AnimatedButton size="lg" className="w-full sm:w-auto group text-base">
                 <Package className="h-5 w-5 mr-2" />
                 Send a Package
                 <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              </AnimatedButton>
             </Link>
-            <Link href="/dashboard/traveler/trips/addtrip?intent=travel&src=homepage_hero" onClick={() => handleCTAClick("earn")}>
-              <Button size="lg" variant="outline" className="w-full sm:w-auto group text-base">
+            <Link href="/add-trip?intent=travel&src=homepage_hero" onClick={() => handleCTAClick("earn")}>
+              <AnimatedButton size="lg" variant="outline" className="w-full sm:w-auto group text-base">
                 <Plane className="h-5 w-5 mr-2" />
                 I'm Traveling
                 <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              </AnimatedButton>
             </Link>
           </div>
 

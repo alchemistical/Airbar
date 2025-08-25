@@ -1,5 +1,5 @@
 import { useLocation } from "wouter";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { track } from "@/lib/analytics";
 import { Send, Plane } from "lucide-react";
 
@@ -13,7 +13,7 @@ export default function EndConversionV2() {
 
   const handleTravelClick = () => {
     track("hp_end_cta_click", { intent: "travel" });
-    navigate("/dashboard/traveler/trips/addtrip?intent=travel");
+    navigate("/add-trip?intent=travel");
   };
 
   return (
@@ -28,16 +28,16 @@ export default function EndConversionV2() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button
+            <AnimatedButton
               size="lg"
               onClick={handleSendClick}
               className="min-w-[200px] group"
             >
               <Send className="mr-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               Send a Package
-            </Button>
+            </AnimatedButton>
             
-            <Button
+            <AnimatedButton
               size="lg"
               variant="outline"
               onClick={handleTravelClick}
@@ -45,7 +45,7 @@ export default function EndConversionV2() {
             >
               <Plane className="mr-2 h-5 w-5 group-hover:translate-y-[-2px] transition-transform" />
               List Your Trip
-            </Button>
+            </AnimatedButton>
           </div>
 
           <p className="text-sm text-gray-500 mt-8">

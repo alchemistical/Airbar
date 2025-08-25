@@ -1,6 +1,6 @@
 import { Shield, UserCheck, MapPin, Camera, Clock, FileText } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { cn } from "@/lib/utils";
 
 const safetyFeatures = [
@@ -88,7 +88,7 @@ export default function SafetyGridV2() {
                     <p className="text-gray-600 mb-3">
                       {feature.description}
                     </p>
-                    <Button
+                    <AnimatedButton
                       variant="link"
                       className="p-0 h-auto font-medium"
                       asChild
@@ -96,7 +96,7 @@ export default function SafetyGridV2() {
                       <a href={feature.link}>
                         Learn more →
                       </a>
-                    </Button>
+                    </AnimatedButton>
                   </div>
                 </div>
               </Card>

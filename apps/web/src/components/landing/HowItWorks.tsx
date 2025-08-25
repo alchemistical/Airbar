@@ -200,7 +200,7 @@ export default function HowItWorks() {
             href={
               userRole === "sender"
                 ? "/send-package"
-                : "/dashboard/traveler/trips/addtrip"
+                : "/add-trip"
             }
             className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-8 py-3 font-medium text-white transition-all hover:bg-blue-700 hover:scale-105"
           >

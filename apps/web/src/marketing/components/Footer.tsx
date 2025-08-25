@@ -9,7 +9,7 @@ export default function Footer() {
     services: [
       { label: "Dashboard", href: "/dashboard" },
       { label: "Send a Package", href: "/send-package" },
-      { label: "List Your Trip", href: "/dashboard/traveler/trips/addtrip" },
+      { label: "List Your Trip", href: "/add-trip" },
       { label: "Find Travelers", href: "/marketplace/trips" },
       { label: "Browse Packages", href: "/browse-packages" },
     ],

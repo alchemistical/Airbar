@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -133,9 +133,9 @@ export default function EstimatorV2() {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full" size="lg">
+              <AnimatedButton type="submit" className="w-full" size="lg">
                 Calculate Price
-              </Button>
+              </AnimatedButton>
             </form>
 
             {results && (
@@ -173,14 +173,14 @@ export default function EstimatorV2() {
             )}
 
             {results && (
-              <Button
+              <AnimatedButton
                 onClick={handleContinue}
                 className="w-full mt-6"
                 size="lg"
                 variant="default"
               >
                 Continue with This Quote
-              </Button>
+              </AnimatedButton>
             )}
           </Card>
 

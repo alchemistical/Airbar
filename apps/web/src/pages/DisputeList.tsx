@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -160,10 +160,10 @@ export default function DisputeList() {
           </p>
         </div>
         <Link href="/support/disputes/new">
-          <Button className="bg-airbar-blue hover:bg-blue-600 text-white">
+          <AnimatedButton className="bg-airbar-blue hover:bg-blue-600 text-white">
             <Plus className="h-4 w-4 mr-2" />
             Report Issue
-          </Button>
+          </AnimatedButton>
         </Link>
       </div>
 

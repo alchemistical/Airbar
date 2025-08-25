@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -249,14 +249,14 @@ export default function History() {
             </p>
           </div>
           <div className="flex space-x-3">
-            <Button variant="outline">
+            <AnimatedButton variant="outline">
               <Printer className="h-4 w-4 mr-2" />
               Print
-            </Button>
-            <Button variant="outline">
+            </AnimatedButton>
+            <AnimatedButton variant="outline">
               <Download className="h-4 w-4 mr-2" />
               Export CSV
-            </Button>
+            </AnimatedButton>
           </div>
         </div>
 
@@ -369,7 +369,7 @@ export default function History() {
                 placeholder="Select date range"
               />
 
-              <Button
+              <AnimatedButton
                 variant="outline"
                 onClick={() => {
                   setSearchTerm("");
@@ -380,7 +380,7 @@ export default function History() {
               >
                 <Filter className="h-4 w-4 mr-2" />
                 Clear
-              </Button>
+              </AnimatedButton>
             </div>
           </CardContent>
         </Card>
@@ -388,16 +388,16 @@ export default function History() {
         {/* Quick Filters */}
         <div className="flex space-x-4">
           <Link href="/dashboard/history/traveler">
-            <Button variant="outline" className="flex items-center space-x-2">
+            <AnimatedButton variant="outline" className="flex items-center space-x-2">
               <User className="h-4 w-4" />
               <span>Traveler History</span>
-            </Button>
+            </AnimatedButton>
           </Link>
           <Link href="/dashboard/history/sender">
-            <Button variant="outline" className="flex items-center space-x-2">
+            <AnimatedButton variant="outline" className="flex items-center space-x-2">
               <Package className="h-4 w-4" />
               <span>Sender History</span>
-            </Button>
+            </AnimatedButton>
           </Link>
         </div>
 
@@ -407,20 +407,20 @@ export default function History() {
             <div className="flex items-center justify-between">
               <CardTitle>History Records ({filteredRecords.length})</CardTitle>
               <div className="flex items-center space-x-2">
-                <Button
+                <AnimatedButton
                   variant={viewMode === "cards" ? "default" : "outline"}
                   size="sm"
                   onClick={() => setViewMode("cards")}
                 >
                   Cards
-                </Button>
-                <Button
+                </AnimatedButton>
+                <AnimatedButton
                   variant={viewMode === "list" ? "default" : "outline"}
                   size="sm"
                   onClick={() => setViewMode("list")}
                 >
                   List
-                </Button>
+                </AnimatedButton>
               </div>
             </div>
           </CardHeader>
@@ -607,10 +607,10 @@ export default function History() {
                         </Badge>
                       )}
                       <Link href={`/dashboard/history/view/${record.id}`}>
-                        <Button variant="outline" size="sm">
+                        <AnimatedButton variant="outline" size="sm">
                           <Eye className="h-4 w-4 mr-2" />
                           View Details
-                        </Button>
+                        </AnimatedButton>
                       </Link>
                     </div>
                   </div>

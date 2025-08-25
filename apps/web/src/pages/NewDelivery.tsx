@@ -7,7 +7,7 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -165,10 +165,10 @@ export default function NewDelivery() {
         </div>
 
         <div className="flex gap-2">
-          <Button className="flex-1">View Details</Button>
-          <Button variant="outline" className="flex-1">
+          <AnimatedButton className="flex-1">View Details</AnimatedButton>
+          <AnimatedButton variant="outline" className="flex-1">
             Send Request
-          </Button>
+          </AnimatedButton>
         </div>
       </CardContent>
     </Card>
@@ -255,14 +255,14 @@ export default function NewDelivery() {
                 </div>
 
                 <div className="flex gap-2 mt-4">
-                  <Button className="flex-1">
+                  <AnimatedButton className="flex-1">
                     <Search className="h-4 w-4 mr-2" />
                     Search Travelers
-                  </Button>
-                  <Button variant="outline">
+                  </AnimatedButton>
+                  <AnimatedButton variant="outline">
                     <Filter className="h-4 w-4 mr-2" />
                     More Filters
-                  </Button>
+                  </AnimatedButton>
                 </div>
               </CardContent>
             </Card>
@@ -313,11 +313,11 @@ export default function NewDelivery() {
                       verified travelers
                     </p>
                     <Link href="/send-package">
-                      <Button className="w-full">
+                      <AnimatedButton className="w-full">
                         <Package className="h-4 w-4 mr-2" />
                         Start Send Package Flow
                         <ArrowRight className="h-4 w-4 ml-2" />
-                      </Button>
+                      </AnimatedButton>
                     </Link>
                   </div>
 

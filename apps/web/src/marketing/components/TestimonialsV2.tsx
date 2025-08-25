@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
@@ -182,22 +182,22 @@ export default function TestimonialsV2() {
                   ))}
                 </div>
                 <div className="flex gap-2">
-                  <Button
+                  <AnimatedButton
                     size="icon"
                     variant="outline"
                     onClick={handlePrevious}
                     aria-label="Previous testimonial"
                   >
                     <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <Button
+                  </AnimatedButton>
+                  <AnimatedButton
                     size="icon"
                     variant="outline"
                     onClick={handleNext}
                     aria-label="Next testimonial"
                   >
                     <ChevronRight className="h-4 w-4" />
-                  </Button>
+                  </AnimatedButton>
                 </div>
               </div>
             </Card>

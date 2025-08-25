@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -443,14 +443,14 @@ export default function Tracking() {
 
           <Dialog>
             <DialogTrigger asChild>
-              <Button
+              <AnimatedButton
                 variant="outline"
                 size="sm"
                 onClick={() => setSelectedTracking(item)}
               >
                 <Eye className="h-4 w-4 mr-2" />
                 View Details
-              </Button>
+              </AnimatedButton>
             </DialogTrigger>
           </Dialog>
         </div>
@@ -481,37 +481,37 @@ export default function Tracking() {
           {activeRole === "traveler" && item.status !== "delivered" && (
             <div className="flex space-x-2">
               {item.status === "confirmed" && (
-                <Button size="sm" className="bg-yellow-600 hover:bg-yellow-700">
+                <AnimatedButton size="sm" className="bg-yellow-600 hover:bg-yellow-700">
                   Mark as Picked Up
-                </Button>
+                </AnimatedButton>
               )}
               {item.status === "picked-up" && (
-                <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
+                <AnimatedButton size="sm" className="bg-purple-600 hover:bg-purple-700">
                   Mark In Transit
-                </Button>
+                </AnimatedButton>
               )}
               {item.status === "in-transit" && (
-                <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                <AnimatedButton size="sm" className="bg-green-600 hover:bg-green-700">
                   Mark as Delivered
-                </Button>
+                </AnimatedButton>
               )}
             </div>
           )}
           {activeRole === "sender" && (
             <div className="flex space-x-2">
-              <Button variant="outline" size="sm">
+              <AnimatedButton variant="outline" size="sm">
                 <MessageCircle className="h-4 w-4 mr-1" />
                 Chat
-              </Button>
+              </AnimatedButton>
               {item.status !== "delivered" && (
-                <Button
+                <AnimatedButton
                   variant="outline"
                   size="sm"
                   className="text-red-600 border-red-600 hover:bg-red-50"
                 >
                   <AlertTriangle className="h-4 w-4 mr-1" />
                   Report Issue
-                </Button>
+                </AnimatedButton>
               )}
             </div>
           )}
@@ -746,22 +746,22 @@ export default function Tracking() {
                         </div>
 
                         <div className="flex space-x-2 pt-2">
-                          <Button
+                          <AnimatedButton
                             variant="outline"
                             size="sm"
                             className="flex-1"
                           >
                             <MessageCircle className="h-4 w-4 mr-2" />
                             Chat
-                          </Button>
-                          <Button
+                          </AnimatedButton>
+                          <AnimatedButton
                             variant="outline"
                             size="sm"
                             className="flex-1"
                           >
                             <Phone className="h-4 w-4 mr-2" />
                             Call
-                          </Button>
+                          </AnimatedButton>
                         </div>
                       </div>
                     </div>

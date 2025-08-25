@@ -2,7 +2,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import HowItWorksTabs from "../components/HowItWorksTabs";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Link } from "wouter";
 import { Shield, DollarSign, Clock, Package } from "lucide-react";
 
@@ -74,12 +74,12 @@ export default function HowItWorksPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/faq">
                 <a>
-                  <Button variant="outline">View FAQ</Button>
+                  <AnimatedButton variant="outline">View FAQ</AnimatedButton>
                 </a>
               </Link>
               <Link href="/contact">
                 <a>
-                  <Button>Contact Support</Button>
+                  <AnimatedButton>Contact Support</AnimatedButton>
                 </a>
               </Link>
             </div>

@@ -109,3 +109,72 @@ export interface MatchSortOptions {
   field: 'createdAt' | 'updatedAt' | 'agreedReward' | 'status'
   direction: 'asc' | 'desc'
 }
+
+export interface MatchResult {
+  id: string
+  packageId: string
+  tripId: string
+  status: MatchStatus
+  reward: number
+  price: number
+  type: "travel_profile" | "package_request"
+  matchScore: number
+  travelDate: string
+  capacity?: number
+  description?: string
+  createdAt: string
+  
+  user: {
+    id: string
+    name: string
+    avatar?: string
+    verified?: boolean
+    trustScore: number
+  }
+  
+  route: {
+    origin: string
+    destination: string
+  }
+  
+  package: {
+    description: string
+    weight: number
+    origin: string
+    destination: string
+  }
+  
+  trip: {
+    departureDate: string
+    origin: string
+    destination: string
+  }
+  
+  traveler: {
+    name: string
+    rating: number
+  }
+}
+
+export interface MatchDiscoveryParams {
+  origin?: string
+  destination?: string
+  dateFrom?: string
+  dateTo?: string
+  weightMin?: number
+  weightMax?: number
+  rewardMin?: number
+  rewardMax?: number
+  radius?: number
+  userType?: "sender" | "traveler"
+  dateRange?: {
+    start: string
+    end: string
+  }
+  filters?: {
+    categories?: string[]
+    maxWeight?: number
+    minReward?: number
+    maxReward?: number
+  }
+}

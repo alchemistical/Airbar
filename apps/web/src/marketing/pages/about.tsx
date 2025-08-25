@@ -141,7 +141,7 @@ export default function About() {
             <a href="/send-package" className="btn btn-white">
               Send a Package
             </a>
-            <a href="/dashboard/traveler/trips/addtrip" className="btn btn-outline-white">
+            <a href="/add-trip" className="btn btn-outline-white">
               Become a Traveler
             </a>
           </div>

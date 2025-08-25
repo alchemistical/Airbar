@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Link } from "wouter";
 import { Package, Plane, Search, CreditCard, Camera, DollarSign } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -112,10 +112,10 @@ export default function HowItWorksTabs() {
 
       {/* CTA */}
       <div className="text-center">
-        <Link href={activeTab === "sender" ? "/send-package" : "/dashboard/traveler/trips/addtrip"}>
-          <Button size="lg">
+        <Link href={activeTab === "sender" ? "/send-package" : "/add-trip"}>
+          <AnimatedButton size="lg">
             {activeTab === "sender" ? "Start Your First Package" : "Add Your Trip"}
-          </Button>
+          </AnimatedButton>
         </Link>
       </div>
     </div>

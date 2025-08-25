@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
-import { Button } from "@/components/ui/button";
+import { AnimatedAnimatedButton } from "@/components/ui/animated-button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChevronRight } from "lucide-react";
 import type { TripWithRequests } from "@shared/schema";
@@ -49,10 +49,10 @@ export default function UpcomingTrips({ userId }: UpcomingTripsProps) {
     <div className="rounded-lg bg-white p-6 shadow-md">
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-h3 text-airbar-black">Upcoming Trips</h2>
-        <Link href="/dashboard/traveler/trips/addtrip">
-          <Button className="bg-airbar-blue text-white hover:bg-blue-600">
+        <Link href="/add-trip">
+          <AnimatedButton className="bg-airbar-blue text-white hover:bg-blue-600">
             Add Trip
-          </Button>
+          </AnimatedButton>
         </Link>
       </div>
 

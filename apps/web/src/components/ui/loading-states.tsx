@@ -144,7 +144,7 @@ export const ErrorState: React.FC<{
         <div>
           <h4 className="font-medium text-red-800">{title}</h4>
           <p className="text-sm text-red-600 mt-1">{description}</p>
-          {error && import.meta.env.MODE === 'development' && (
+          {error && import.meta.env.DEV && (
             <details className="mt-2">
               <summary className="text-xs cursor-pointer">Error details</summary>
               <pre className="text-xs mt-1 bg-red-100 p-2 rounded overflow-auto max-h-20">

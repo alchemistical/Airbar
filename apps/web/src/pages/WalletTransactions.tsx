@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -164,10 +164,10 @@ export default function WalletTransactions() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Link href="/dashboard/wallet">
-              <Button variant="outline" size="sm">
+              <AnimatedButton variant="outline" size="sm">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Wallet
-              </Button>
+              </AnimatedButton>
             </Link>
             <div>
               <h1 className="text-h1 font-bold text-airbar-black">
@@ -178,10 +178,10 @@ export default function WalletTransactions() {
               </p>
             </div>
           </div>
-          <Button variant="outline">
+          <AnimatedButton variant="outline">
             <Download className="h-4 w-4 mr-2" />
             Export CSV
-          </Button>
+          </AnimatedButton>
         </div>
 
         {/* Summary Stats */}
@@ -273,7 +273,7 @@ export default function WalletTransactions() {
                 </SelectContent>
               </Select>
 
-              <Button
+              <AnimatedButton
                 variant="outline"
                 onClick={() => {
                   setSearchTerm("");
@@ -283,7 +283,7 @@ export default function WalletTransactions() {
               >
                 <Filter className="h-4 w-4 mr-2" />
                 Clear Filters
-              </Button>
+              </AnimatedButton>
             </div>
           </CardContent>
         </Card>

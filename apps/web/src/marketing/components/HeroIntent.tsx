@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { ChevronDown, Play } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { AnimatedAnimatedButton } from "@/components/ui/animated-button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
@@ -37,13 +37,17 @@ export default function HeroIntent() {
       navigate("/send-package?intent=send");
     } else if (intent === "travel") {
       track("hp_hero_travel_click");
-      navigate("/dashboard/traveler/trips/addtrip?intent=travel");
+      navigate("/add-trip?intent=travel");
     }
   };
 
   const handleMiniEstimatorSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    track("hp_hero_estimator_submit", miniEstimatorData);
+    track("hp_hero_estimator_submit", {
+      from: miniEstimatorData.from,
+      to: miniEstimatorData.to,
+      weight: miniEstimatorData.weight ? parseFloat(miniEstimatorData.weight) : undefined
+    });
     // Navigate to estimator section with prefilled data
     const params = new URLSearchParams(miniEstimatorData);
     window.location.hash = `#estimator?${params.toString()}`;
@@ -103,13 +107,13 @@ export default function HeroIntent() {
           {/* Action Area */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
             {intent && (
-              <Button
+              <AnimatedButton
                 size="lg"
                 onClick={handlePrimaryCTA}
                 className="h-14 px-8 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
               >
                 {intent === "send" ? tokens.cta.send : tokens.cta.travel}
-              </Button>
+              </AnimatedButton>
             )}
             
             <button
@@ -163,9 +167,9 @@ export default function HeroIntent() {
                       onChange={(e) => setMiniEstimatorData(prev => ({ ...prev, weight: e.target.value }))}
                     />
                   </div>
-                  <Button type="submit" className="w-full mt-4">
+                  <AnimatedButton type="submit" className="w-full mt-4">
                     Get Estimate
-                  </Button>
+                  </AnimatedButton>
                 </form>
               )}
             </div>

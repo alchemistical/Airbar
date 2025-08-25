@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -235,13 +235,13 @@ export default function Referrals() {
                 </label>
                 <div className="flex space-x-2">
                   <Input value={referralCode} readOnly className="font-mono" />
-                  <Button variant="outline" onClick={copyReferralCode}>
+                  <AnimatedButton variant="outline" onClick={copyReferralCode}>
                     {copySuccess ? (
                       <Check className="h-4 w-4" />
                     ) : (
                       <Copy className="h-4 w-4" />
                     )}
-                  </Button>
+                  </AnimatedButton>
                 </div>
               </div>
 
@@ -255,9 +255,9 @@ export default function Referrals() {
                     readOnly
                     className="text-sm"
                   />
-                  <Button variant="outline" onClick={copyReferralLink}>
+                  <AnimatedButton variant="outline" onClick={copyReferralLink}>
                     <Share className="h-4 w-4" />
-                  </Button>
+                  </AnimatedButton>
                 </div>
               </div>
 
@@ -266,30 +266,30 @@ export default function Referrals() {
                   Share on Social Media
                 </label>
                 <div className="flex space-x-2">
-                  <Button
+                  <AnimatedButton
                     variant="outline"
                     size="sm"
                     onClick={() => shareToSocial("twitter")}
                   >
                     <Twitter className="h-4 w-4 mr-2" />
                     Twitter
-                  </Button>
-                  <Button
+                  </AnimatedButton>
+                  <AnimatedButton
                     variant="outline"
                     size="sm"
                     onClick={() => shareToSocial("facebook")}
                   >
                     <Facebook className="h-4 w-4 mr-2" />
                     Facebook
-                  </Button>
-                  <Button
+                  </AnimatedButton>
+                  <AnimatedButton
                     variant="outline"
                     size="sm"
                     onClick={() => shareToSocial("linkedin")}
                   >
                     <Linkedin className="h-4 w-4 mr-2" />
                     LinkedIn
-                  </Button>
+                  </AnimatedButton>
                 </div>
               </div>
             </CardContent>
@@ -315,10 +315,10 @@ export default function Referrals() {
                 />
               </div>
 
-              <Button onClick={sendInvitation} className="w-full">
+              <AnimatedButton onClick={sendInvitation} className="w-full">
                 <MessageCircle className="h-4 w-4 mr-2" />
                 Send Invitation
-              </Button>
+              </AnimatedButton>
 
               <div className="bg-blue-50 p-4 rounded-lg">
                 <h4 className="font-medium text-blue-800 mb-2">

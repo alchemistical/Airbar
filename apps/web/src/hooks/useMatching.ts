@@ -135,9 +135,11 @@ export function useCreateMatchRequest() {
 export function useMatchDiscovery() {
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   
   const discover = async (params: any) => {
     setLoading(true)
+    setError(null)
     try {
       const response = await fetch('/api/match-discovery', {
         method: 'POST',
@@ -145,12 +147,25 @@ export function useMatchDiscovery() {
         credentials: 'include',
         body: JSON.stringify(params)
       })
+      if (!response.ok) {
+        throw new Error('Failed to discover matches')
+      }
       const data = await response.json()
       setResults(data)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unknown error')
+      setResults([])
     } finally {
       setLoading(false)
     }
   }
   
-  return { results, loading, discover }
+  return { 
+    results, 
+    data: results, 
+    loading, 
+    isLoading: loading, 
+    error, 
+    discover 
+  }
 }

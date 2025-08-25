@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { cn } from "@/lib/utils";
 
 export default function Header() {
@@ -61,10 +61,10 @@ export default function Header() {
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-4">
             <Link href="/auth/login">
-              <Button variant="ghost">Sign In</Button>
+              <AnimatedButton variant="ghost">Sign In</AnimatedButton>
             </Link>
             <Link href="/auth/register">
-              <Button>Get Started</Button>
+              <AnimatedButton>Get Started</AnimatedButton>
             </Link>
           </div>
 
@@ -105,12 +105,12 @@ export default function Header() {
               ))}
               <div className="flex flex-col gap-2 pt-4 border-t border-gray-200">
                 <Link href="/auth/login" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button variant="outline" className="w-full">
+                  <AnimatedButton variant="outline" className="w-full">
                     Sign In
-                  </Button>
+                  </AnimatedButton>
                 </Link>
                 <Link href="/auth/register" onClick={() => setIsMobileMenuOpen(false)}>
-                  <Button className="w-full">Get Started</Button>
+                  <AnimatedButton className="w-full">Get Started</AnimatedButton>
                 </Link>
               </div>
             </div>

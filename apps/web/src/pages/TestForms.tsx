@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { AnimatedAnimatedButton } from "@/components/ui/animated-button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLocation } from "wouter";
 import { Package, Plane } from "lucide-react";
@@ -27,13 +27,13 @@ export default function TestForms() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className="w-full">Test Send Package Flow</Button>
+              <AnimatedButton className="w-full">Test Send Package Flow</AnimatedButton>
             </CardContent>
           </Card>
 
           <Card 
             className="cursor-pointer hover:shadow-lg transition-shadow"
-            onClick={() => setLocation("/dashboard/traveler/trips/addtrip")}
+            onClick={() => setLocation("/add-trip")}
           >
             <CardHeader>
               <Plane className="h-8 w-8 text-primary mb-2" />
@@ -43,7 +43,7 @@ export default function TestForms() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className="w-full">Test Add Trip Flow</Button>
+              <AnimatedButton className="w-full">Test Add Trip Flow</AnimatedButton>
             </CardContent>
           </Card>
         </div>

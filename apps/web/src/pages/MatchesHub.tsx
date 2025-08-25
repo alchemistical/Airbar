@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -270,7 +270,7 @@ export default function MatchesHub() {
           {/* Actions based on status and role */}
           <div className="flex gap-2 pt-2">
             {requiresPayment && (
-              <Button
+              <AnimatedButton
                 size="sm"
                 className="flex-1"
                 onClick={e => {
@@ -282,11 +282,11 @@ export default function MatchesHub() {
               >
                 <CreditCard className="h-3.5 w-3.5 mr-1" />
                 Pay ${match.reward}
-              </Button>
+              </AnimatedButton>
             )}
             {canAccept && (
               <>
-                <Button
+                <AnimatedButton
                   size="sm"
                   className="flex-1"
                   onClick={e => {
@@ -295,8 +295,8 @@ export default function MatchesHub() {
                   }}
                 >
                   Accept
-                </Button>
-                <Button
+                </AnimatedButton>
+                <AnimatedButton
                   size="sm"
                   variant="outline"
                   className="flex-1"
@@ -306,18 +306,18 @@ export default function MatchesHub() {
                   }}
                 >
                   Decline
-                </Button>
+                </AnimatedButton>
               </>
             )}
             {match.status === "in_transit" && (
-              <Button size="sm" variant="outline" className="flex-1">
+              <AnimatedButton size="sm" variant="outline" className="flex-1">
                 Update Status
-              </Button>
+              </AnimatedButton>
             )}
             {match.status === "delivered" && !match.rating && (
-              <Button size="sm" variant="outline" className="flex-1">
+              <AnimatedButton size="sm" variant="outline" className="flex-1">
                 Rate & Review
-              </Button>
+              </AnimatedButton>
             )}
           </div>
         </CardContent>
@@ -368,7 +368,7 @@ export default function MatchesHub() {
           {state.description(roleFilter === "sender")}
         </p>
         {action && (
-          <Button onClick={() => navigate(action.href)}>{action.label}</Button>
+          <AnimatedButton onClick={() => navigate(action.href)}>{action.label}</AnimatedButton>
         )}
       </Card>
     );
@@ -387,7 +387,7 @@ export default function MatchesHub() {
           </div>
 
           {/* Global Action */}
-          <Button
+          <AnimatedButton
             onClick={() =>
               navigate(
                 roleFilter === "traveler"
@@ -398,7 +398,7 @@ export default function MatchesHub() {
           >
             <Plus className="h-4 w-4 mr-2" />
             Find New {roleFilter === "traveler" ? "Parcels" : "Trips"}
-          </Button>
+          </AnimatedButton>
         </div>
 
         {/* Stats Overview */}
@@ -415,14 +415,14 @@ export default function MatchesHub() {
                   your attention
                 </span>
               </div>
-              <Button
+              <AnimatedButton
                 size="sm"
                 variant="outline"
                 className="border-amber-600 text-amber-600 hover:bg-amber-100"
                 onClick={() => handleTabChange("pending")}
               >
                 View Now
-              </Button>
+              </AnimatedButton>
             </CardContent>
           </Card>
         )}
@@ -463,20 +463,20 @@ export default function MatchesHub() {
 
             {/* View Toggle */}
             <div className="flex items-center gap-2">
-              <Button
+              <AnimatedButton
                 variant={viewMode === "grid" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setViewMode("grid")}
               >
                 <Grid3X3 className="h-4 w-4" />
-              </Button>
-              <Button
+              </AnimatedButton>
+              <AnimatedButton
                 variant={viewMode === "list" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setViewMode("list")}
               >
                 <List className="h-4 w-4" />
-              </Button>
+              </AnimatedButton>
             </div>
           </div>
 
@@ -536,7 +536,7 @@ export default function MatchesHub() {
                   </label>
                 </div>
 
-                <Button
+                <AnimatedButton
                   variant="outline"
                   size="sm"
                   onClick={() => {
@@ -548,7 +548,7 @@ export default function MatchesHub() {
                 >
                   <Filter className="h-4 w-4 mr-2" />
                   Clear
-                </Button>
+                </AnimatedButton>
               </div>
             </CardContent>
           </Card>

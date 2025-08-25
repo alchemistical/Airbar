@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { AlertCircle } from "lucide-react";
 import { useLocation } from "wouter";
 
@@ -22,7 +22,7 @@ export function DisputeButton({
   };
 
   return (
-    <Button
+    <AnimatedButton
       variant={variant}
       size={size}
       onClick={handleDisputeClick}
@@ -30,6 +30,6 @@ export function DisputeButton({
     >
       <AlertCircle className="h-4 w-4 mr-2" />
       Dispute
-    </Button>
+    </AnimatedButton>
   );
 }

@@ -70,7 +70,7 @@ export default function PopularRoutes() {
     if (intent === "sender") {
       window.location.href = `/send-package?${query}`;
     } else if (intent === "traveler") {
-      window.location.href = `/dashboard/traveler/trips/addtrip?${query}`;
+      window.location.href = `/add-trip?${query}`;
     } else {
       // Show persona modal if intent not set
       window.location.href = `/?showPersonaModal=true&${query}`;

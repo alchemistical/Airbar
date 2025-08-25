@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { AnimatedAnimatedButton } from "@/components/ui/animated-button";
 import { cn } from "@/lib/utils";
 import { locationService } from "@/lib/locationService";
 
@@ -98,7 +98,7 @@ export function WeightInput({
           </div>
         </div>
         
-        <Button
+        <AnimatedButton
           type="button"
           variant="outline"
           size="sm"
@@ -106,7 +106,7 @@ export function WeightInput({
           className="px-3"
         >
           {unit === "kg" ? "→ lb" : "→ kg"}
-        </Button>
+        </AnimatedButton>
       </div>
       
       {error && (

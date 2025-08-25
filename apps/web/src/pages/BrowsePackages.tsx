@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -146,7 +146,7 @@ export default function BrowsePackages() {
           <div className="flex items-center justify-between">
             <CardTitle>Search Filters</CardTitle>
             {hasActiveFilters && (
-              <Button
+              <AnimatedButton
                 variant="ghost"
                 size="sm"
                 onClick={clearFilters}
@@ -154,7 +154,7 @@ export default function BrowsePackages() {
               >
                 <X className="h-4 w-4 mr-1" />
                 Clear Filters
-              </Button>
+              </AnimatedButton>
             )}
           </div>
         </CardHeader>
@@ -193,7 +193,7 @@ export default function BrowsePackages() {
               </label>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button
+                  <AnimatedButton
                     variant="outline"
                     className={cn(
                       "w-full justify-start text-left font-normal",
@@ -202,7 +202,7 @@ export default function BrowsePackages() {
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {fromDate ? format(fromDate, "PPP") : "Pick a date"}
-                  </Button>
+                  </AnimatedButton>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
@@ -221,7 +221,7 @@ export default function BrowsePackages() {
               </label>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button
+                  <AnimatedButton
                     variant="outline"
                     className={cn(
                       "w-full justify-start text-left font-normal",
@@ -230,7 +230,7 @@ export default function BrowsePackages() {
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {toDate ? format(toDate, "PPP") : "Pick a date"}
-                  </Button>
+                  </AnimatedButton>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar

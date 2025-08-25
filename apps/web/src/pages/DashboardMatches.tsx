@@ -3,7 +3,7 @@ import { useParams, Link } from "wouter";
 import { useAuth } from "@/context/AuthContext";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AnimatedAnimatedButton } from "@/components/ui/animated-button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -77,7 +77,7 @@ interface Match {
 export default function DashboardMatches() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const params = useParams();
+  const params = useParams<{matchId: string}>();
   const matchId = params.matchId;
   const [activeTab, setActiveTab] = useState<"sender" | "traveler">("sender");
   const [pickupNotes, setPickupNotes] = useState("");
@@ -229,9 +229,9 @@ export default function DashboardMatches() {
           <div className="flex items-center justify-between">
             <div>
               <Link href="/dashboard/matches">
-                <Button variant="ghost" size="sm" className="mb-2">
+                <AnimatedButton variant="ghost" size="sm" className="mb-2">
                   ← Back to Matches
-                </Button>
+                </AnimatedButton>
               </Link>
               <h1 className="text-h1">Match Details</h1>
             </div>
@@ -430,14 +430,14 @@ export default function DashboardMatches() {
                     </div>
                     {isUserSender && (
                       <div className="flex space-x-2">
-                        <Button size="sm" variant="outline" className="flex-1">
+                        <AnimatedButton size="sm" variant="outline" className="flex-1">
                           <Phone className="h-3 w-3 mr-1" />
                           Call
-                        </Button>
-                        <Button size="sm" variant="outline" className="flex-1">
+                        </AnimatedButton>
+                        <AnimatedButton size="sm" variant="outline" className="flex-1">
                           <MessageSquare className="h-3 w-3 mr-1" />
                           Chat
-                        </Button>
+                        </AnimatedButton>
                       </div>
                     )}
                   </div>
@@ -464,14 +464,14 @@ export default function DashboardMatches() {
                     </div>
                     {!isUserSender && (
                       <div className="flex space-x-2">
-                        <Button size="sm" variant="outline" className="flex-1">
+                        <AnimatedButton size="sm" variant="outline" className="flex-1">
                           <Phone className="h-3 w-3 mr-1" />
                           Call
-                        </Button>
-                        <Button size="sm" variant="outline" className="flex-1">
+                        </AnimatedButton>
+                        <AnimatedButton size="sm" variant="outline" className="flex-1">
                           <MessageSquare className="h-3 w-3 mr-1" />
                           Chat
-                        </Button>
+                        </AnimatedButton>
                       </div>
                     )}
                   </div>
@@ -490,10 +490,10 @@ export default function DashboardMatches() {
                       onOpenChange={setShowPickupModal}
                     >
                       <DialogTrigger asChild>
-                        <Button className="w-full">
+                        <AnimatedButton className="w-full">
                           <CheckCircle className="h-4 w-4 mr-2" />
                           Confirm Pickup
-                        </Button>
+                        </AnimatedButton>
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
@@ -522,7 +522,7 @@ export default function DashboardMatches() {
                               </p>
                             </div>
                           </div>
-                          <Button
+                          <AnimatedButton
                             className="w-full"
                             onClick={() =>
                               confirmPickupMutation.mutate({
@@ -533,7 +533,7 @@ export default function DashboardMatches() {
                             disabled={confirmPickupMutation.isPending}
                           >
                             Confirm Pickup
-                          </Button>
+                          </AnimatedButton>
                         </div>
                       </DialogContent>
                     </Dialog>
@@ -545,10 +545,10 @@ export default function DashboardMatches() {
                       onOpenChange={setShowDeliveryModal}
                     >
                       <DialogTrigger asChild>
-                        <Button className="w-full">
+                        <AnimatedButton className="w-full">
                           <CheckCircle className="h-4 w-4 mr-2" />
                           Confirm Delivery
-                        </Button>
+                        </AnimatedButton>
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
@@ -576,7 +576,7 @@ export default function DashboardMatches() {
                               </p>
                             </div>
                           </div>
-                          <Button
+                          <AnimatedButton
                             className="w-full"
                             onClick={() =>
                               confirmDeliveryMutation.mutate({
@@ -587,25 +587,25 @@ export default function DashboardMatches() {
                             disabled={confirmDeliveryMutation.isPending}
                           >
                             Confirm Delivery
-                          </Button>
+                          </AnimatedButton>
                         </div>
                       </DialogContent>
                     </Dialog>
                   )}
 
-                  <Button variant="outline" className="w-full">
+                  <AnimatedButton variant="outline" className="w-full">
                     <FileText className="h-4 w-4 mr-2" />
                     View Receipt
-                  </Button>
+                  </AnimatedButton>
 
                   {match.status === "delivered" && (
-                    <Button
+                    <AnimatedButton
                       variant="outline"
                       className="w-full text-destructive hover:bg-destructive hover:text-destructive-foreground"
                     >
                       <AlertCircle className="h-4 w-4 mr-2" />
                       Report Issue
-                    </Button>
+                    </AnimatedButton>
                   )}
                 </CardContent>
               </Card>
@@ -745,9 +745,9 @@ export default function DashboardMatches() {
                     </div>
 
                     <Link href={`/dashboard/matches/${match.id}`}>
-                      <Button variant="outline" className="w-full">
+                      <AnimatedButton variant="outline" className="w-full">
                         View Details
-                      </Button>
+                      </AnimatedButton>
                     </Link>
                   </CardContent>
                 </Card>
@@ -764,7 +764,7 @@ export default function DashboardMatches() {
                     : "Packages you're delivering will appear here"}
                 </p>
                 <Link href="/match-requests">
-                  <Button variant="outline">View Match Requests</Button>
+                  <AnimatedButton variant="outline">View Match Requests</AnimatedButton>
                 </Link>
               </Card>
             )}

@@ -1,0 +1,320 @@
+/**
+ * Mobile Responsiveness Enhancements
+ * Epic 4: Enhanced Dashboard & Silicon Valley Integration
+ * Ensures optimal mobile experience across all components
+ */
+
+/* Mobile-first breakpoints (Tailwind compatible) */
+/* sm: 640px, md: 768px, lg: 1024px, xl: 1280px, 2xl: 1536px */
+
+/* =============================================================================
+   GLOBAL MOBILE ENHANCEMENTS
+   ============================================================================= */
+
+/* Touch target improvements for mobile */
+@media (max-width: 768px) {
+  /* Ensure all interactive elements meet WCAG touch target size (44px minimum) */
+  button, 
+  [role="button"],
+  input[type="button"],
+  input[type="submit"],
+  .btn,
+  .animated-button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Improved mobile form spacing */
+  .form-item {
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Better mobile card layouts */
+  .card {
+    margin-bottom: 1rem;
+    border-radius: 12px;
+  }
+  
+  /* Mobile-optimized modals */
+  .modal, .dialog {
+    max-height: 90vh;
+    max-width: 95vw;
+    margin: 5vh auto;
+  }
+}
+
+/* =============================================================================
+   MOBILE DASHBOARD ENHANCEMENTS
+   ============================================================================= */
+
+@media (max-width: 1024px) {
+  /* Ensure dashboard stats are properly stacked */
+  .dashboard-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  @media (min-width: 640px) {
+    .dashboard-stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  /* Mobile-friendly quick actions */
+  .quick-actions {
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+  
+  .quick-actions > div {
+    flex: 0 0 auto;
+    min-width: 140px;
+  }
+}
+
+/* =============================================================================
+   MOBILE NAVIGATION ENHANCEMENTS
+   ============================================================================= */
+
+@media (max-width: 1024px) {
+  /* Mobile header adjustments */
+  header {
+    padding: 0.75rem 1rem;
+  }
+  
+  /* Mobile sidebar enhancements */
+  .sidebar-mobile {
+    width: 280px;
+    max-width: 85vw;
+  }
+  
+  /* Mobile navigation items */
+  .nav-item {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* =============================================================================
+   MOBILE FORM ENHANCEMENTS
+   ============================================================================= */
+
+@media (max-width: 768px) {
+  /* Multi-step forms mobile optimization */
+  .form-steps {
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+  
+  .form-step {
+    min-width: 80px;
+  }
+  
+  /* Mobile form grid adjustments */
+  .form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+  
+  /* Mobile input group adjustments */
+  .input-group {
+    flex-direction: column;
+  }
+  
+  .input-group > * {
+    width: 100% !important;
+    margin-bottom: 0.5rem;
+  }
+  
+  .input-group > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* =============================================================================
+   MOBILE TABLE ENHANCEMENTS
+   ============================================================================= */
+
+@media (max-width: 768px) {
+  /* Responsive table behavior */
+  .table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  /* Card-based table layout for very small screens */
+  .table-mobile-cards {
+    display: none;
+  }
+  
+  @media (max-width: 640px) {
+    .table-responsive {
+      display: none;
+    }
+    
+    .table-mobile-cards {
+      display: block;
+    }
+    
+    .table-mobile-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: white;
+    }
+  }
+}
+
+/* =============================================================================
+   MOBILE COMPONENT SPACING
+   ============================================================================= */
+
+@media (max-width: 768px) {
+  /* Consistent mobile padding */
+  .page-container {
+    padding: 1rem;
+  }
+  
+  .section-spacing {
+    margin-bottom: 2rem;
+  }
+  
+  /* Mobile card spacing */
+  .card-grid {
+    gap: 1rem;
+  }
+  
+  /* Mobile button groups */
+  .button-group {
+    flex-direction: column;
+  }
+  
+  .button-group > * {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .button-group > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* =============================================================================
+   MOBILE ANIMATIONS & PERFORMANCE
+   ============================================================================= */
+
+@media (max-width: 768px) {
+  /* Reduce motion for mobile performance */
+  @media (prefers-reduced-motion: no-preference) {
+    .mobile-optimized-animation {
+      transition-duration: 0.15s;
+    }
+  }
+  
+  /* Disable complex animations on mobile */
+  .complex-animation {
+    animation: none;
+    transform: none;
+  }
+  
+  /* Optimize hover states for touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    .hover-only {
+      display: none;
+    }
+    
+    .touch-friendly {
+      display: block;
+    }
+  }
+}
+
+/* =============================================================================
+   MOBILE ACCESSIBILITY ENHANCEMENTS
+   ============================================================================= */
+
+@media (max-width: 768px) {
+  /* Larger text for better readability */
+  .mobile-text-enhancement {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+  /* Better focus indicators on mobile */
+  :focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+  
+  /* Improved mobile skip links */
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: #3b82f6;
+    color: white;
+    padding: 8px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: top 0.3s;
+  }
+  
+  .skip-link:focus {
+    top: 6px;
+  }
+}
+
+/* =============================================================================
+   PRINT STYLES
+   ============================================================================= */
+
+@media print {
+  /* Hide navigation elements */
+  .sidebar,
+  .mobile-menu,
+  .nav-header,
+  button,
+  .btn {
+    display: none !important;
+  }
+  
+  /* Optimize content for printing */
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+    color: black;
+    background: white;
+  }
+  
+  .card {
+    border: 1px solid #ccc;
+    margin-bottom: 1rem;
+    page-break-inside: avoid;
+  }
+}
+
+/* =============================================================================
+   HIGH CONTRAST MODE
+   ============================================================================= */
+
+@media (prefers-contrast: high) {
+  .card, .button, .input {
+    border-width: 2px;
+    border-color: #000;
+  }
+  
+  .text-muted {
+    color: #000 !important;
+  }
+  
+  button:focus,
+  input:focus,
+  .btn:focus {
+    outline: 3px solid #000;
+    outline-offset: 2px;
+  }
+}

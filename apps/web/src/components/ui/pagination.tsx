@@ -36,13 +36,13 @@ PaginationItem.displayName = "PaginationItem";
 
 type PaginationLinkProps = {
   isActive?: boolean;
-} & Pick<ButtonProps, "size"> &
+} & Pick<AnimatedButtonProps, "size"> &
   React.ComponentProps<"a">;
 
 const PaginationLink = ({
   className,
   isActive,
-  size = "icon",
+  size = "icon-md",
   ...props
 }: PaginationLinkProps) => (
   <a

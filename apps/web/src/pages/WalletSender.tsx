@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -457,19 +457,19 @@ export default function WalletSender() {
                       </div>
 
                       <div className="flex space-x-2">
-                        <Button
+                        <AnimatedButton
                           variant="outline"
                           size="sm"
                           onClick={() => downloadInvoice(payment)}
                         >
                           <FileText className="h-4 w-4 mr-2" />
                           Invoice
-                        </Button>
+                        </AnimatedButton>
 
-                        <Button variant="outline" size="sm">
+                        <AnimatedButton variant="outline" size="sm">
                           <Download className="h-4 w-4 mr-2" />
                           Receipt
-                        </Button>
+                        </AnimatedButton>
                       </div>
                     </div>
                   </div>

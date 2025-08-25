@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Search, Filter, MapPin, Calendar } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AnimatedAnimatedButton } from "@/components/ui/animated-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -211,30 +211,30 @@ export function MatchDiscovery({
             </div>
           </div>
 
-          {/* Action Buttons */}
+          {/* Action AnimatedButtons */}
           <div className="flex flex-wrap gap-3">
-            <Button
+            <AnimatedButton
               onClick={handleSearch}
               className="bg-blue-600 hover:bg-blue-700"
               disabled={!formData.origin.trim() || !formData.destination.trim()}
             >
               <Search className="h-4 w-4 mr-2" />
               Search Matches
-            </Button>
+            </AnimatedButton>
 
             {searchParams && (
-              <Button variant="outline" onClick={clearSearch}>
+              <AnimatedButton variant="outline" onClick={clearSearch}>
                 Clear Search
-              </Button>
+              </AnimatedButton>
             )}
 
             {/* Advanced Filters */}
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline">
+                <AnimatedButton variant="outline">
                   <Filter className="h-4 w-4 mr-2" />
                   Filters
-                </Button>
+                </AnimatedButton>
               </SheetTrigger>
               <SheetContent>
                 <SheetHeader>
@@ -359,13 +359,13 @@ export function MatchDiscovery({
                 <p className="text-red-600">
                   Failed to load matches. Please try again.
                 </p>
-                <Button
+                <AnimatedButton
                   variant="outline"
                   onClick={handleSearch}
                   className="mt-2"
                 >
                   Retry
-                </Button>
+                </AnimatedButton>
               </div>
             </Card>
           )}
@@ -395,9 +395,9 @@ export function MatchDiscovery({
                       Try adjusting your search criteria or check back later for
                       new {userType === "sender" ? "travelers" : "packages"}.
                     </p>
-                    <Button variant="outline" onClick={clearSearch}>
+                    <AnimatedButton variant="outline" onClick={clearSearch}>
                       New Search
-                    </Button>
+                    </AnimatedButton>
                   </div>
                 </Card>
               )}

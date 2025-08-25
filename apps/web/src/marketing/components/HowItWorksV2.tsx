@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { track } from "@/lib/analytics";
 import { getStoredIntent } from "@/lib/intent";
 import { Package, CreditCard, CheckCircle } from "lucide-react";
@@ -57,7 +57,7 @@ export default function HowItWorksV2() {
     track("hp_hiw_cta_click", { intent: activeIntent });
     const route = activeIntent === "send" 
       ? "/send-package?intent=send" 
-      : "/dashboard/traveler/trips/addtrip?intent=travel";
+      : "/add-trip?intent=travel";
     navigate(route);
   };
 
@@ -111,9 +111,9 @@ export default function HowItWorksV2() {
         </div>
 
         <div className="text-center">
-          <Button size="lg" onClick={handleCTA}>
+          <AnimatedButton size="lg" onClick={handleCTA}>
             {activeIntent === "send" ? "Start Sending" : "Start Earning"}
-          </Button>
+          </AnimatedButton>
         </div>
       </div>
     </section>

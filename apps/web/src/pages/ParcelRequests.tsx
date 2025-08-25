@@ -12,7 +12,7 @@ import {
   Calendar,
   ArrowRight,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -184,10 +184,10 @@ export default function ParcelRequests() {
               </p>
               {!searchTerm && statusFilter === "all" && (
                 <Link href="/dashboard/traveler/trips">
-                  <Button>
+                  <AnimatedButton>
                     <MapPin className="h-4 w-4 mr-2" />
                     View My Trips
-                  </Button>
+                  </AnimatedButton>
                 </Link>
               )}
             </CardContent>
@@ -267,29 +267,29 @@ export default function ParcelRequests() {
                     {/* Right side - Actions */}
                     <div className="flex flex-col space-y-2 ml-6">
                       <Link href={`/parcel-request/${request.id}`}>
-                        <Button variant="outline" size="sm" className="w-full">
+                        <AnimatedButton variant="outline" size="sm" className="w-full">
                           <Eye className="h-4 w-4 mr-2" />
                           View Details
-                        </Button>
+                        </AnimatedButton>
                       </Link>
 
                       {request.status.toLowerCase() === "pending" && (
                         <div className="flex space-x-2">
-                          <Button
+                          <AnimatedButton
                             size="sm"
                             className="bg-green-600 hover:bg-green-700"
                           >
                             <CheckCircle className="h-4 w-4 mr-1" />
                             Accept
-                          </Button>
-                          <Button
+                          </AnimatedButton>
+                          <AnimatedButton
                             variant="outline"
                             size="sm"
                             className="text-red-600 hover:text-red-700 hover:bg-red-50"
                           >
                             <X className="h-4 w-4 mr-1" />
                             Decline
-                          </Button>
+                          </AnimatedButton>
                         </div>
                       )}
                     </div>

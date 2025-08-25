@@ -60,7 +60,7 @@ export const Hero: React.FC<HeroProps> = ({ role, onQuoteSubmit }) => {
                   if (role === "sender") {
                     navigate("/send-package");
                   } else {
-                    navigate("/dashboard/traveler/trips/addtrip");
+                    navigate("/add-trip");
                   }
                 }}
               >

@@ -2,7 +2,7 @@ import * as React from "react";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -82,7 +82,7 @@ export function DateRangePicker({
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <Button
+        <AnimatedButton
           variant="outline"
           className={cn(
             "w-full justify-start text-left font-normal h-9 text-sm px-3",
@@ -92,14 +92,14 @@ export function DateRangePicker({
         >
           <CalendarIcon className="mr-1.5 h-3.5 w-3.5" />
           <span className="truncate">{formatDateRange()}</span>
-        </Button>
+        </AnimatedButton>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
         <div className="flex">
           {/* Preset Ranges */}
           <div className="border-r p-3 space-y-1">
             <p className="text-sm font-medium mb-2">Quick Select</p>
-            <Button
+            <AnimatedButton
               variant="ghost"
               size="sm"
               className="w-full justify-start text-xs"
@@ -112,8 +112,8 @@ export function DateRangePicker({
               }}
             >
               Next 7 days
-            </Button>
-            <Button
+            </AnimatedButton>
+            <AnimatedButton
               variant="ghost"
               size="sm"
               className="w-full justify-start text-xs"
@@ -126,8 +126,8 @@ export function DateRangePicker({
               }}
             >
               Next 30 days
-            </Button>
-            <Button
+            </AnimatedButton>
+            <AnimatedButton
               variant="ghost"
               size="sm"
               className="w-full justify-start text-xs"
@@ -148,8 +148,8 @@ export function DateRangePicker({
               }}
             >
               This month
-            </Button>
-            <Button
+            </AnimatedButton>
+            <AnimatedButton
               variant="ghost"
               size="sm"
               className="w-full justify-start text-xs"
@@ -170,7 +170,7 @@ export function DateRangePicker({
               }}
             >
               Next month
-            </Button>
+            </AnimatedButton>
           </div>
 
           {/* Calendars */}
@@ -202,7 +202,7 @@ export function DateRangePicker({
         </div>
 
         <div className="flex items-center justify-between p-3 border-t">
-          <Button
+          <AnimatedButton
             variant="ghost"
             size="sm"
             onClick={() => {
@@ -212,10 +212,10 @@ export function DateRangePicker({
             }}
           >
             Clear
-          </Button>
-          <Button size="sm" onClick={() => setIsOpen(false)}>
+          </AnimatedButton>
+          <AnimatedButton size="sm" onClick={() => setIsOpen(false)}>
             Done
-          </Button>
+          </AnimatedButton>
         </div>
       </PopoverContent>
     </Popover>

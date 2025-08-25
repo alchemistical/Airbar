@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Button } from "@/components/ui/button";
+import { AnimatedAnimatedButton } from "@/components/ui/animated-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -132,14 +132,14 @@ export function LocationSelect({
             )}
           </div>
         </div>
-        <Button
+        <AnimatedButton
           size="sm"
           variant="ghost"
           className="h-6 w-6 p-0"
           onClick={(e) => handleToggleFavorite(location, e)}
         >
           <Star className={cn("h-3 w-3", isFavorite && "fill-yellow-500 text-yellow-500")} />
-        </Button>
+        </AnimatedButton>
       </div>
     );
   };
@@ -154,7 +154,7 @@ export function LocationSelect({
       
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button
+          <AnimatedButton
             id={`location-${label}`}
             variant="outline"
             role="combobox"
@@ -179,7 +179,7 @@ export function LocationSelect({
                 }}
               />
             )}
-          </Button>
+          </AnimatedButton>
         </PopoverTrigger>
         
         <PopoverContent className="w-[400px] p-0" align="start">
@@ -236,13 +236,13 @@ export function LocationSelect({
                         No locations found
                       </p>
                       {!showManualEntry && (
-                        <Button
+                        <AnimatedButton
                           size="sm"
                           variant="outline"
                           onClick={() => setShowManualEntry(true)}
                         >
                           Enter address manually
-                        </Button>
+                        </AnimatedButton>
                       )}
                     </div>
                   )}
@@ -266,9 +266,9 @@ export function LocationSelect({
                       }}
                       className="flex-1"
                     />
-                    <Button size="sm" onClick={handleManualEntry}>
+                    <AnimatedButton size="sm" onClick={handleManualEntry}>
                       Add
-                    </Button>
+                    </AnimatedButton>
                   </div>
                 </div>
               )}

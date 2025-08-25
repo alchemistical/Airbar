@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { useAuth } from "@/context/AuthContext";
-import { Button } from "@/components/ui/button";
+// Legacy button replaced with AnimatedButton
 import {
   AnimatedCard,
   CardContent,
@@ -161,13 +161,13 @@ export default function Dashboard() {
         </div>
         {stat.link && (
           <Link href={stat.link}>
-            <Button
+            <AnimatedButton
               variant="ghost"
               size="sm"
               className="mt-3 p-0 h-auto text-sm text-primary hover:text-primary/80"
             >
               View details <ArrowRight className="h-3 w-3 ml-1" />
-            </Button>
+            </AnimatedButton>
           </Link>
         )}
       </div>
@@ -371,15 +371,15 @@ export default function Dashboard() {
                   <h2 className="text-h3">Wallet Overview</h2>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Button
+                  <AnimatedButton
                     variant={walletView === "summary" ? "default" : "outline"}
                     size="sm"
                     onClick={() => setWalletView("summary")}
                     className="rounded-lg"
                   >
                     Summary
-                  </Button>
-                  <Button
+                  </AnimatedButton>
+                  <AnimatedButton
                     variant={walletView === "graph" ? "default" : "outline"}
                     size="sm"
                     onClick={() => setWalletView("graph")}
@@ -387,7 +387,7 @@ export default function Dashboard() {
                   >
                     <BarChart3 className="h-4 w-4 mr-1" />
                     Graph
-                  </Button>
+                  </AnimatedButton>
                 </div>
               </div>
               {walletView === "summary" ? (
@@ -425,16 +425,16 @@ export default function Dashboard() {
               )}
               <div className="flex justify-between items-center">
                 <Link href="/dashboard/wallet">
-                  <Button variant="outline" className="rounded-lg">
+                  <AnimatedButton variant="outline" className="rounded-lg">
                     <Eye className="h-4 w-4 mr-2" />
                     View Details
-                  </Button>
+                  </AnimatedButton>
                 </Link>
                 <Link href="/dashboard/wallet/withdrawals">
-                  <Button className="bg-primary hover:bg-primary/90 text-white rounded-lg">
+                  <AnimatedButton variant="premium" className="rounded-lg">
                     <DollarSign className="h-4 w-4 mr-2" />
                     Withdraw Funds
-                  </Button>
+                  </AnimatedButton>
                 </Link>
               </div>
             </div>

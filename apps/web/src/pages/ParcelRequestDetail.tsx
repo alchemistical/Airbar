@@ -16,7 +16,7 @@ import {
   AlertCircle,
   Camera,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -142,10 +142,10 @@ export default function ParcelRequestDetail() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Link href="/dashboard/parcel-requests">
-              <Button variant="ghost" size="sm">
+              <AnimatedButton variant="ghost" size="sm">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Requests
-              </Button>
+              </AnimatedButton>
             </Link>
             <div>
               <h1 className="text-h1 font-bold text-airbar-black">
@@ -320,9 +320,9 @@ export default function ParcelRequestDetail() {
                       </p>
                     </div>
                     <Link href={`/trip/${parcelRequest.tripId}`}>
-                      <Button variant="outline" size="sm">
+                      <AnimatedButton variant="outline" size="sm">
                         View Trip Details
-                      </Button>
+                      </AnimatedButton>
                     </Link>
                   </div>
                 </CardContent>
@@ -375,10 +375,10 @@ export default function ParcelRequestDetail() {
                   </div>
                 </div>
 
-                <Button variant="outline" className="w-full">
+                <AnimatedButton variant="outline" className="w-full">
                   <MessageCircle className="h-4 w-4 mr-2" />
                   Message Sender
-                </Button>
+                </AnimatedButton>
               </CardContent>
             </Card>
 
@@ -389,26 +389,26 @@ export default function ParcelRequestDetail() {
                   <CardTitle>Actions</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  <Button
+                  <AnimatedButton
                     onClick={handleAccept}
                     className="w-full bg-green-600 hover:bg-green-700"
                   >
                     <CheckCircle className="h-4 w-4 mr-2" />
                     Accept Request
-                  </Button>
+                  </AnimatedButton>
 
                   <Dialog
                     open={showDeclineDialog}
                     onOpenChange={setShowDeclineDialog}
                   >
                     <DialogTrigger asChild>
-                      <Button
+                      <AnimatedButton
                         variant="outline"
                         className="w-full text-red-600 hover:text-red-700 hover:bg-red-50"
                       >
                         <X className="h-4 w-4 mr-2" />
                         Decline Request
-                      </Button>
+                      </AnimatedButton>
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
@@ -428,20 +428,20 @@ export default function ParcelRequestDetail() {
                           />
                         </div>
                         <div className="flex space-x-2">
-                          <Button
+                          <AnimatedButton
                             onClick={handleDecline}
                             variant="destructive"
                             className="flex-1"
                           >
                             Decline Request
-                          </Button>
-                          <Button
+                          </AnimatedButton>
+                          <AnimatedButton
                             onClick={() => setShowDeclineDialog(false)}
                             variant="outline"
                             className="flex-1"
                           >
                             Cancel
-                          </Button>
+                          </AnimatedButton>
                         </div>
                       </div>
                     </DialogContent>

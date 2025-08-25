@@ -2,7 +2,7 @@ import React, { lazy } from 'react';
 import { Route } from 'wouter';
 
 // Lazy load trip-related components for optimal code splitting
-const AddTripV2 = lazy(() => import('../pages/AddTripV2'));
+const AddTrip = lazy(() => import('../pages/AddTrip'));
 const TravelerTrips = lazy(() => import('../pages/TravelerTrips'));
 const MyTrips = lazy(() => import('../pages/MyTrips'));
 
@@ -13,10 +13,8 @@ const MyTrips = lazy(() => import('../pages/MyTrips'));
 export function TripRoutes() {
   return (
     <>
-      {/* Trip creation routes */}
-      <Route path="/add-trip" component={AddTripV2} />
-      <Route path="/dashboard/add-trip" component={AddTripV2} />
-      <Route path="/dashboard/traveler/trips/addtrip" component={AddTripV2} />
+      {/* Trip creation route - consolidated to single URL */}
+      <Route path="/add-trip" component={AddTrip} />
       
       {/* Trip management routes */}
       <Route path="/my-trips" component={MyTrips} />

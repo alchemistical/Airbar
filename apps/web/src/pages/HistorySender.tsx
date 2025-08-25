@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -177,10 +177,10 @@ export default function HistorySender() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Link href="/dashboard/history">
-              <Button variant="outline" size="sm">
+              <AnimatedButton variant="outline" size="sm">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to History
-              </Button>
+              </AnimatedButton>
             </Link>
             <div>
               <h1 className="text-h1 font-bold text-airbar-black">
@@ -292,7 +292,7 @@ export default function HistorySender() {
                 </SelectContent>
               </Select>
 
-              <Button
+              <AnimatedButton
                 variant="outline"
                 onClick={() => {
                   setSearchTerm("");
@@ -302,7 +302,7 @@ export default function HistorySender() {
               >
                 <Filter className="h-4 w-4 mr-2" />
                 Clear
-              </Button>
+              </AnimatedButton>
             </div>
           </CardContent>
         </Card>
@@ -415,10 +415,10 @@ export default function HistorySender() {
                           </p>
                         </div>
                         <Link href={`/dashboard/history/view/${record.id}`}>
-                          <Button variant="outline" size="sm">
+                          <AnimatedButton variant="outline" size="sm">
                             <Eye className="h-4 w-4 mr-2" />
                             View Details
-                          </Button>
+                          </AnimatedButton>
                         </Link>
                       </div>
                     </div>

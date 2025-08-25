@@ -66,7 +66,7 @@ export const Header: React.FC<HeaderProps> = ({ role, onRoleChange }) => {
                 if (role === "sender") {
                   navigate("/send-package");
                 } else {
-                  navigate("/dashboard/traveler/trips/addtrip");
+                  navigate("/add-trip");
                 }
               }}
             >

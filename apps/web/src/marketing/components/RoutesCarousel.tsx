@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Link } from "wouter";
 import { ArrowRight, MapPin, Calendar, DollarSign } from "lucide-react";
 
@@ -98,10 +98,10 @@ export default function RoutesCarousel() {
                   }
                 }}
               >
-                <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-white transition-colors">
+                <AnimatedButton variant="outline" className="w-full group-hover:bg-primary group-hover:text-white transition-colors">
                   View Trips
                   <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
+                </AnimatedButton>
               </Link>
             </CardContent>
           </Card>
@@ -110,9 +110,9 @@ export default function RoutesCarousel() {
       
       <div className="text-center mt-8">
         <Link href="/marketplace/trips">
-          <Button size="lg">
+          <AnimatedButton size="lg">
             Browse All Routes
-          </Button>
+          </AnimatedButton>
         </Link>
       </div>
     </div>

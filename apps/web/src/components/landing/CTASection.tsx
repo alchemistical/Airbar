@@ -105,7 +105,7 @@ export default function CTASection() {
             </div>
 
             <a
-              href="/dashboard/traveler/trips/addtrip"
+              href="/add-trip"
               className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-6 py-3 font-medium text-white transition-all hover:bg-green-700 hover:scale-105 w-full justify-center"
             >
               Post Your Trip

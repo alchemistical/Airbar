@@ -37,7 +37,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({
               if (primaryCta.includes("Start Shipping")) {
                 navigate("/send-package");
               } else if (primaryCta.includes("Post Your Trip")) {
-                navigate("/dashboard/traveler/trips/addtrip");
+                navigate("/add-trip");
               } else {
                 navigate("/dashboard");
               }

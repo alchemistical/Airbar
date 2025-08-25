@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Package, Plane, ArrowRight, Check, DollarSign, Shield, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -28,7 +28,7 @@ export default function AudienceCards() {
         { icon: Clock, text: "Get paid within 48 hours of delivery" },
       ],
       cta: "Start Earning Today",
-      ctaHref: "/dashboard/traveler/trips/addtrip",
+      ctaHref: "/add-trip",
     },
   };
 
@@ -80,7 +80,7 @@ export default function AudienceCards() {
         </ul>
 
         <Link href={`${currentContent.ctaHref}?intent=${activeTab === "senders" ? "send" : "travel"}&src=homepage_audience`}>
-          <Button 
+          <AnimatedButton 
             size="lg" 
             className="w-full sm:w-auto group"
             onClick={() => {
@@ -90,7 +90,7 @@ export default function AudienceCards() {
           >
             {currentContent.cta}
             <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-          </Button>
+          </AnimatedButton>
         </Link>
       </div>
     </div>

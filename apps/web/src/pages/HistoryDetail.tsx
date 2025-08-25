@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
@@ -172,10 +172,10 @@ export default function HistoryDetail() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Link href="/dashboard/history">
-              <Button variant="outline" size="sm">
+              <AnimatedButton variant="outline" size="sm">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to History
-              </Button>
+              </AnimatedButton>
             </Link>
             <div>
               <h1 className="text-h1 font-bold text-airbar-black">
@@ -455,19 +455,19 @@ export default function HistoryDetail() {
                 </div>
 
                 <div className="space-y-2">
-                  <Button
+                  <AnimatedButton
                     variant={isArchived ? "default" : "outline"}
                     className="w-full"
                     onClick={handleArchive}
                   >
                     <Archive className="h-4 w-4 mr-2" />
                     {isArchived ? "Unarchive" : "Archive Record"}
-                  </Button>
+                  </AnimatedButton>
 
-                  <Button variant="outline" className="w-full">
+                  <AnimatedButton variant="outline" className="w-full">
                     <CheckCircle className="h-4 w-4 mr-2" />
                     Mark as Reviewed
-                  </Button>
+                  </AnimatedButton>
                 </div>
               </CardContent>
             </Card>

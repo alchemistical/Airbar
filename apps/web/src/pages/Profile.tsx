@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/animated-card";
 import { Badge } from "@/components/ui/badge";
 import { AnimatedInput } from "@/components/ui/animated-input";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AnimatedTextarea } from "@/components/ui/animated-textarea";
 import { Switch } from "@/components/ui/switch";
