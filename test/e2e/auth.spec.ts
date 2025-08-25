@@ -149,7 +149,7 @@ test.describe('Navigation Flow', () => {
     
     // Test main navigation links
     const navigationLinks = [
-      { text: 'How It Works', expectedUrl: /how-it-works|/#how/ },
+      { text: 'How It Works', expectedUrl: /how-it-works|#how/ },
       { text: 'Safety', expectedUrl: /safety/ },
       { text: 'Pricing', expectedUrl: /pricing/ },
     ];
