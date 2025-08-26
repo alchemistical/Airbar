@@ -1,0 +1,81 @@
+# SSL/TLS Configuration for AirBar Production
+# ==========================================
+# Traefik configuration for automatic SSL certificate management
+
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v3.0
+    container_name: airbar-prod-traefik
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"  # Dashboard (disable in production)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/letsencrypt:/letsencrypt
+      - ./traefik/config:/config:ro
+    command:
+      # API and dashboard
+      - --api.dashboard=false  # Disable in production
+      - --api.insecure=false
+      
+      # Docker provider
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=airbar-prod-network
+      
+      # File provider for static configuration
+      - --providers.file.directory=/config
+      - --providers.file.watch=true
+      
+      # Entry points
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      
+      # HTTP to HTTPS redirect
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      - --entrypoints.web.http.redirections.entrypoint.permanent=true
+      
+      # Let's Encrypt ACME
+      - --certificatesresolvers.letsencrypt.acme.tlschallenge=true
+      - --certificatesresolvers.letsencrypt.acme.email=admin@airbar.com
+      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
+      - --certificatesresolvers.letsencrypt.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
+      
+      # Logging
+      - --log.level=INFO
+      - --log.format=json
+      - --accesslog=true
+      - --accesslog.format=json
+      
+      # Metrics for monitoring
+      - --metrics.prometheus=true
+      - --metrics.prometheus.addEntryPointsLabels=true
+      - --metrics.prometheus.addServicesLabels=true
+      
+      # Security headers
+      - --entrypoints.websecure.http.tls.options=default
+    labels:
+      # Dashboard access (remove in production)
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.airbar.com`)"
+      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.dashboard.middlewares=dashboard-auth"
+      - "traefik.http.middlewares.dashboard-auth.basicauth.users=admin:$$2y$$10$$hash"  # Generate with htpasswd
+    networks:
+      - airbar-prod-network
+    environment:
+      - CF_API_EMAIL=${CLOUDFLARE_EMAIL}  # If using Cloudflare DNS challenge
+      - CF_API_KEY=${CLOUDFLARE_API_KEY}
+
+networks:
+  airbar-prod-network:
+    external: true
+
+volumes:
+  traefik_letsencrypt:
+    driver: local

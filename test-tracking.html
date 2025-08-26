@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Tracking Route</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Tracking Route Test</h1>
+    
+    <div class="test">
+        <h3>Test Links:</h3>
+        <p><a href="http://localhost:5175/tracking" target="_blank">http://localhost:5175/tracking</a></p>
+        <p><a href="http://localhost:5175/dashboard/tracking" target="_blank">http://localhost:5175/dashboard/tracking</a></p>
+    </div>
+    
+    <div class="test">
+        <h3>Expected Results:</h3>
+        <ul>
+            <li>✅ Both links should load the tracking page</li>
+            <li>✅ Should show "Package Tracking" header</li>
+            <li>✅ Should have tabs for "As Traveler" and "As Sender"</li>
+            <li>✅ Should show mock tracking data with 3 packages</li>
+            <li>✅ No "Page Not Found" or error messages</li>
+        </ul>
+    </div>
+    
+    <div class="test">
+        <h3>Debugging Steps:</h3>
+        <ol>
+            <li>Open browser developer console (F12)</li>
+            <li>Check for any JavaScript errors in Console tab</li>
+            <li>Check Network tab for failed requests</li>
+            <li>Look for React component loading issues</li>
+        </ol>
+    </div>
+    
+    <div class="test">
+        <h3>Manual Test Checklist:</h3>
+        <label><input type="checkbox"> Tracking page loads without errors</label><br>
+        <label><input type="checkbox"> Dashboard layout appears (sidebar + header)</label><br>
+        <label><input type="checkbox"> "Package Tracking" title is visible</label><br>
+        <label><input type="checkbox"> Role tabs work (Traveler/Sender)</label><br>
+        <label><input type="checkbox"> Search and filter controls are present</label><br>
+        <label><input type="checkbox"> Mock tracking items are displayed</label><br>
+        <label><input type="checkbox"> "View Details" buttons work</label><br>
+    </div>
+    
+    <script>
+        console.log('🧪 Tracking Test Page Loaded');
+        console.log('Frontend Server: http://localhost:5175');
+        console.log('API Server: http://localhost:3001');
+        
+        // Test if servers are running
+        fetch('http://localhost:5175')
+            .then(() => console.log('✅ Frontend server is running'))
+            .catch(() => console.log('❌ Frontend server not accessible'));
+            
+        fetch('http://localhost:3001/api/health')
+            .then(() => console.log('✅ API server is running'))
+            .catch(() => console.log('❌ API server not accessible (may be rate limited)'));
+    </script>
+</body>
+</html>

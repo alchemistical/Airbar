@@ -94,7 +94,6 @@ export class AuthPrismaController {
             country: '',
             city: '',
             address: '',
-            postalCode: '',
           },
         });
 
@@ -108,9 +107,12 @@ export class AuthPrismaController {
       await prisma.session.create({
         data: {
           userId: result.user.id,
-          token: tokens.refreshToken,
+          sessionToken: tokens.accessToken,
+          refreshToken: tokens.refreshToken,
           expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-          userAgent: req.get('User-Agent') || '',
+          deviceInfo: {
+            userAgent: req.get('User-Agent') || '',
+          },
           ipAddress: req.ip || '',
         },
       });
@@ -209,9 +211,12 @@ export class AuthPrismaController {
       await prisma.session.create({
         data: {
           userId: user.id,
-          token: tokens.refreshToken,
+          sessionToken: tokens.accessToken,
+          refreshToken: tokens.refreshToken,
           expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-          userAgent: req.get('User-Agent') || '',
+          deviceInfo: {
+            userAgent: req.get('User-Agent') || '',
+          },
           ipAddress: req.ip || '',
         },
       });
@@ -282,7 +287,7 @@ export class AuthPrismaController {
       // Find session
       const session = await prisma.session.findFirst({
         where: {
-          token: refreshToken,
+          refreshToken: refreshToken,
           userId: payload.userId,
           expiresAt: { gt: new Date() },
         },

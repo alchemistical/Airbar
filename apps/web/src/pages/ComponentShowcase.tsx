@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AnimatedAnimatedButton } from '@/components/ui/animated-button';
+import { AnimatedButton } from '@/components/ui/animated-button';
 import { EnhancedInput } from '@/components/ui/enhanced-input';
 import { Skeleton, SkeletonCard, SkeletonAvatar, SkeletonTable } from '@/components/ui/enhanced-skeleton';
 import { usePWA } from '@/hooks/usePWA';
@@ -184,38 +184,38 @@ const ComponentShowcase: React.FC = () => {
                 <div className="space-y-2">
                   <h4 className="font-medium text-sm text-neutral-600">Variants</h4>
                   <div className="flex flex-wrap gap-2">
-                    <AnimatedAnimatedButton variant="primary">Primary</AnimatedAnimatedButton>
-                    <AnimatedAnimatedButton variant="secondary">Secondary</AnimatedAnimatedButton>
-                    <AnimatedAnimatedButton variant="success">Success</AnimatedAnimatedButton>
-                    <AnimatedAnimatedButton variant="destructive">Destructive</AnimatedAnimatedButton>
-                    <AnimatedAnimatedButton variant="warning">Warning</AnimatedAnimatedButton>
-                    <AnimatedAnimatedButton variant="outline">Outline</AnimatedAnimatedButton>
-                    <AnimatedAnimatedButton variant="ghost">Ghost</AnimatedAnimatedButton>
-                    <AnimatedAnimatedButton variant="link">Link</AnimatedAnimatedButton>
-                    <AnimatedAnimatedButton variant="premium">Premium ✨</AnimatedAnimatedButton>
-                    <AnimatedAnimatedButton variant="default">Default</AnimatedAnimatedButton>
+                    <AnimatedButton variant="primary">Primary</AnimatedButton>
+                    <AnimatedButton variant="secondary">Secondary</AnimatedButton>
+                    <AnimatedButton variant="success">Success</AnimatedButton>
+                    <AnimatedButton variant="destructive">Destructive</AnimatedButton>
+                    <AnimatedButton variant="warning">Warning</AnimatedButton>
+                    <AnimatedButton variant="outline">Outline</AnimatedButton>
+                    <AnimatedButton variant="ghost">Ghost</AnimatedButton>
+                    <AnimatedButton variant="link">Link</AnimatedButton>
+                    <AnimatedButton variant="premium">Premium ✨</AnimatedButton>
+                    <AnimatedButton variant="default">Default</AnimatedButton>
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <h4 className="font-medium text-sm text-neutral-600">Sizes</h4>
                   <div className="flex flex-wrap items-center gap-2">
-                    <AnimatedAnimatedButton size="xs">Extra Small</AnimatedAnimatedButton>
-                    <AnimatedAnimatedButton size="sm">Small</AnimatedAnimatedButton>
-                    <AnimatedAnimatedButton size="md">Medium</AnimatedAnimatedButton>
-                    <AnimatedAnimatedButton size="lg">Large</AnimatedAnimatedButton>
-                    <AnimatedAnimatedButton size="xl">Extra Large</AnimatedAnimatedButton>
+                    <AnimatedButton size="xs">Extra Small</AnimatedButton>
+                    <AnimatedButton size="sm">Small</AnimatedButton>
+                    <AnimatedButton size="md">Medium</AnimatedButton>
+                    <AnimatedButton size="lg">Large</AnimatedButton>
+                    <AnimatedButton size="xl">Extra Large</AnimatedButton>
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <h4 className="font-medium text-sm text-neutral-600">States & Icons</h4>
                   <div className="space-y-2">
-                    <AnimatedAnimatedButton loading leftIcon={<Zap />}>Loading</AnimatedAnimatedButton>
-                    <AnimatedAnimatedButton disabled>Disabled</AnimatedAnimatedButton>
-                    <AnimatedAnimatedButton leftIcon={<Lock />} rightIcon={<Sparkles />}>
+                    <AnimatedButton loading leftIcon={<Zap />}>Loading</AnimatedButton>
+                    <AnimatedButton disabled>Disabled</AnimatedButton>
+                    <AnimatedButton leftIcon={<Lock />} rightIcon={<Sparkles />}>
                       With Icons
-                    </AnimatedAnimatedButton>
+                    </AnimatedButton>
                   </div>
                 </div>
               </div>
@@ -301,9 +301,9 @@ const ComponentShowcase: React.FC = () => {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex gap-4 mb-6">
-                <AnimatedAnimatedButton onClick={triggerLoading}>
+                <AnimatedButton onClick={triggerLoading}>
                   Trigger Loading Demo
-                </AnimatedAnimatedButton>
+                </AnimatedButton>
                 <Badge variant={loading ? "warning" : "success"}>
                   {loading ? 'Loading...' : 'Ready'}
                 </Badge>
@@ -433,9 +433,9 @@ const ComponentShowcase: React.FC = () => {
                   </div>
                   
                   {canInstall && (
-                    <AnimatedAnimatedButton onClick={installApp} className="w-full">
+                    <AnimatedButton onClick={installApp} className="w-full">
                       Install AirBar App
-                    </AnimatedAnimatedButton>
+                    </AnimatedButton>
                   )}
                 </div>
 

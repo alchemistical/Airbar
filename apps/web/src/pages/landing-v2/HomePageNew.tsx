@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation } from "wouter";
 import { TooltipProvider } from "../../components/ui/tooltip";
 import { Header } from "../../components/landing/Header";
 import { Hero } from "../../components/landing/Hero";
@@ -12,6 +13,7 @@ import { FinalCTA } from "../../components/landing/FinalCTA";
 
 const HomePage: React.FC = () => {
   const [role, setRole] = useState<"sender" | "traveler">("sender");
+  const [, navigate] = useLocation();
 
   const handleQuoteSubmit = (form: {
     origin: string;
@@ -35,8 +37,14 @@ const HomePage: React.FC = () => {
       });
     }
 
-    // Handle quote logic here
-    console.log("Quote submitted:", form);
+    // Navigate to send package page with quote data
+    const params = new URLSearchParams({
+      origin: form.origin,
+      destination: form.destination,
+      value: form.itemValue.toString(),
+      size: form.size,
+    });
+    navigate(`/send-package?${params.toString()}`);
   };
 
   // Mock data - replace with real data

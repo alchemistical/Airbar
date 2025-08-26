@@ -3,7 +3,7 @@ import { useParams, Link } from "wouter";
 import { useAuth } from "@/context/AuthContext";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { AnimatedAnimatedButton } from "@/components/ui/animated-button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import {

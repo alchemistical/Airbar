@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { useAuth } from "@/context/AuthContext";
+import UnifiedDashboard from "@/components/dashboard/UnifiedDashboard";
 // Legacy button replaced with AnimatedButton
 import {
   AnimatedCard,
@@ -50,6 +51,7 @@ import { QueryStateWrapper, ErrorState, EmptyState } from "@/components/ui/loadi
 
 export default function Dashboard() {
   const [walletView, setWalletView] = useState<"summary" | "graph">("summary");
+  const [dashboardView, setDashboardView] = useState<"classic" | "unified">("unified");
   const { user, isAuthenticated } = useAuth();
   const { role, toggleRole } = useUserRole();
 
@@ -70,6 +72,29 @@ export default function Dashboard() {
           <Link href="/login" className="text-blue-600 hover:underline">Go to Login</Link>
         </div>
       </div>
+    );
+  }
+
+  // Show unified dashboard if selected
+  if (dashboardView === 'unified') {
+    return (
+      <DashboardErrorBoundary>
+        <DashboardLayout>
+          <div className="mb-4 flex justify-between items-center">
+            <h1 className="text-2xl font-bold">Dashboard</h1>
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="dashboard-toggle" className="text-sm">Classic</Label>
+              <Switch
+                id="dashboard-toggle"
+                checked={dashboardView === 'unified'}
+                onCheckedChange={(checked) => setDashboardView(checked ? 'unified' : 'classic')}
+              />
+              <Label htmlFor="dashboard-toggle" className="text-sm">Unified ✨</Label>
+            </div>
+          </div>
+          <UnifiedDashboard />
+        </DashboardLayout>
+      </DashboardErrorBoundary>
     );
   }
 
@@ -288,7 +313,7 @@ export default function Dashboard() {
           onRetry={() => window.location.reload()}
         >
           <div className="space-y-8">
-        {/* Role Toggle */}
+        {/* Dashboard & Role Toggle */}
         <AnimatedCard variant="interactive" className="mb-8">
           <CardContent className="py-6">
             <div className="flex items-center justify-between">
@@ -302,19 +327,34 @@ export default function Dashboard() {
                     : "Track your trips and earnings"}
                 </p>
               </div>
-              <div className="flex items-center space-x-3 bg-gray-50 rounded-xl p-3">
-                <Label htmlFor="role-toggle" variant="premium" size="sm">
-                  Sender
-                </Label>
-                <Switch
-                  id="role-toggle"
-                  checked={role === "traveler"}
-                  onCheckedChange={toggleRole}
-                  className="data-[state=checked]:bg-purple-600"
-                />
-                <Label htmlFor="role-toggle" variant="premium" size="sm">
-                  Traveler
-                </Label>
+              <div className="flex items-center space-x-6">
+                {/* Dashboard Toggle */}
+                <div className="flex items-center space-x-2 bg-purple-50 rounded-xl p-2">
+                  <Label htmlFor="dashboard-view-toggle" className="text-sm">Classic</Label>
+                  <Switch
+                    id="dashboard-view-toggle"
+                    checked={dashboardView === 'unified'}
+                    onCheckedChange={(checked) => setDashboardView(checked ? 'unified' : 'classic')}
+                    className="data-[state=checked]:bg-purple-600"
+                  />
+                  <Label htmlFor="dashboard-view-toggle" className="text-sm">Unified ✨</Label>
+                </div>
+                
+                {/* Role Toggle */}
+                <div className="flex items-center space-x-3 bg-gray-50 rounded-xl p-3">
+                  <Label htmlFor="role-toggle" variant="premium" size="sm">
+                    Sender
+                  </Label>
+                  <Switch
+                    id="role-toggle"
+                    checked={role === "traveler"}
+                    onCheckedChange={toggleRole}
+                    className="data-[state=checked]:bg-purple-600"
+                  />
+                  <Label htmlFor="role-toggle" variant="premium" size="sm">
+                    Traveler
+                  </Label>
+                </div>
               </div>
             </div>
           </CardContent>

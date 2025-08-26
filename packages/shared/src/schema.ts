@@ -105,8 +105,24 @@ export type DashboardMetrics = {
 
 export type TripWithRequests = Trip & {
   requestCount: number
+  fromCity: string
+  toCity: string
+  maxWeight?: number
+}
+
+export type ParcelRequest = Package & {
+  fromCity: string
+  toCity: string
+  collectionDate: string
+  rewardAmount: number
+  deadline: string
 }
 
 export type ParcelRequestWithSender = Package & {
   senderName: string
+  fromCity: string
+  toCity: string
+  collectionDate: string
+  rewardAmount: number
+  deadline: string
 }

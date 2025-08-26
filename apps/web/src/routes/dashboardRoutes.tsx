@@ -13,6 +13,10 @@ const Notifications = lazy(() => import('../pages/Notifications'));
 const Support = lazy(() => import('../pages/Support'));
 const Referrals = lazy(() => import('../pages/Referrals'));
 
+// Traveler and Sender specific components
+const TravelerTrips = lazy(() => import('../pages/TravelerTrips'));
+const SenderParcels = lazy(() => import('../pages/SenderParcels'));
+
 /**
  * Dashboard routes module
  * Contains all dashboard and user management routes with lazy loading
@@ -25,6 +29,10 @@ export function DashboardRoutes() {
       
       {/* Dashboard matches */}
       <Route path="/dashboard/matches" component={DashboardMatches} />
+      
+      {/* Traveler and Sender dashboards */}
+      <Route path="/dashboard/traveler" component={TravelerTrips} />
+      <Route path="/dashboard/sender" component={SenderParcels} />
       
       {/* User profile and settings */}
       <Route path="/profile" component={Profile} />

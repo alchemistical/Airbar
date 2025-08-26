@@ -1,4 +1,4 @@
-import { AnimatedAnimatedButton } from "@/components/ui/animated-button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLocation } from "wouter";
 import { Package, Plane } from "lucide-react";

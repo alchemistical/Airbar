@@ -145,6 +145,161 @@ export const dashboardApi = {
         ]
       };
     }
+  },
+
+  async getUnifiedDashboard(userId: string, mode: 'sender' | 'traveler' | 'dual' = 'dual') {
+    try {
+      const response = await apiRequest(`${API_BASE}/dashboard/unified?userId=${userId}&mode=${mode}`, { method: 'GET' });
+      const result = await response.json();
+      
+      if (!result.success) {
+        throw new Error(result.error?.message || 'Failed to fetch unified dashboard');
+      }
+      
+      return result.data;
+    } catch (error) {
+      console.log('Unified Dashboard API not available, using mock data for development');
+      
+      // Return comprehensive mock data for unified dashboard
+      return {
+        userStats: {
+          level: 3,
+          streakDays: 7,
+          trustLevel: 'GOLD',
+          badges: ['RELIABLE', 'FAST', 'HELPFUL'],
+          totalEarnings: 1250.25,
+          totalSavings: 340.75,
+          completedDeliveries: 23,
+          averageRating: 4.8,
+          loyaltyPoints: 1540
+        },
+        bestMatches: [
+          {
+            id: '1',
+            type: 'parcel',
+            from: 'New York',
+            to: 'Miami',
+            date: 'Dec 30',
+            matchScore: 95,
+            priceRange: '$45-65',
+            carrier: {
+              name: 'Sarah M.',
+              rating: 4.9,
+              trustLevel: 'PLATINUM'
+            },
+            parcel: {
+              weight: '2.5 kg',
+              description: 'Documents and small items'
+            },
+            urgency: 'high',
+            aiSuggestion: 'Perfect match! This traveler has 100% on-time delivery rate on this route.'
+          },
+          {
+            id: '2',
+            type: 'trip',
+            from: 'Los Angeles',
+            to: 'Chicago',
+            date: 'Jan 5',
+            matchScore: 87,
+            priceRange: '$30-50',
+            carrier: {
+              name: 'Mike R.',
+              rating: 4.7,
+              trustLevel: 'GOLD'
+            },
+            urgency: 'medium',
+            aiSuggestion: 'Great opportunity! This route typically saves senders 40% compared to courier services.'
+          },
+          {
+            id: '3',
+            type: 'parcel',
+            from: 'Boston',
+            to: 'Seattle',
+            date: 'Jan 12',
+            matchScore: 82,
+            priceRange: '$25-40',
+            parcel: {
+              weight: '1.8 kg',
+              description: 'Electronics'
+            },
+            urgency: 'low',
+            aiSuggestion: 'Good match for flexible timing. This traveler offers extra packaging protection.'
+          }
+        ],
+        quickActions: [
+          { id: '1', label: 'Add Trip', icon: 'plus', href: '/dashboard/traveler/trips/addtrip', priority: 'high' },
+          { id: '2', label: 'Send Package', icon: 'package', href: '/send-package', priority: 'high', count: 3 },
+          { id: '3', label: 'View Matches', icon: 'users', href: '/dashboard/matches', priority: 'medium', count: 5 },
+          { id: '4', label: 'Check Messages', icon: 'message', href: '/dashboard/messages', priority: 'medium', count: 2 },
+          { id: '5', label: 'Withdraw Funds', icon: 'wallet', href: '/dashboard/wallet', priority: 'low' },
+          { id: '6', label: 'Invite Friends', icon: 'heart', href: '/dashboard/referrals', priority: 'low' }
+        ],
+        activityStream: [
+          {
+            id: '1',
+            type: 'match_found',
+            message: '3 new matches found for your NYC → Miami trip!',
+            timestamp: '2 hours ago',
+            icon: 'sparkles'
+          },
+          {
+            id: '2',
+            type: 'payment_received',
+            message: 'Payment received: $125.00 from package delivery',
+            timestamp: '4 hours ago',
+            icon: 'dollar-sign'
+          },
+          {
+            id: '3',
+            type: 'level_up',
+            message: 'Congratulations! You reached Level 3!',
+            timestamp: '1 day ago',
+            icon: 'trophy'
+          },
+          {
+            id: '4',
+            type: 'review_received',
+            message: 'New 5-star review: "Excellent service, very reliable!"',
+            timestamp: '2 days ago',
+            icon: 'star'
+          }
+        ],
+        context: {
+          mode: mode,
+          primaryGoal: 'earn_money',
+          completionRate: 85
+        }
+      };
+    }
+  },
+
+  async setUserContext(context: { mode: string; primaryGoal: string }) {
+    try {
+      const response = await apiRequest(`${API_BASE}/dashboard/context`, { 
+        method: 'POST',
+        body: JSON.stringify(context)
+      });
+      return response.json();
+    } catch (error) {
+      console.log('Set user context API not available, returning success for development');
+      return { success: true };
+    }
+  },
+
+  async getActivityStream(limit: number = 10) {
+    try {
+      const response = await apiRequest(`${API_BASE}/dashboard/activity-stream?limit=${limit}`, { method: 'GET' });
+      return response.json();
+    } catch (error) {
+      console.log('Activity stream API not available, using mock data');
+      return {
+        success: true,
+        data: [
+          { id: '1', type: 'match', message: 'New match found!', timestamp: '1 hour ago', icon: 'sparkles' },
+          { id: '2', type: 'payment', message: 'Payment received: $50', timestamp: '3 hours ago', icon: 'dollar-sign' }
+        ]
+      };
+    }
   }
 };
 

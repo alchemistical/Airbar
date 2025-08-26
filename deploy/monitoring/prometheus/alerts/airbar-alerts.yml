@@ -1,0 +1,159 @@
+# AirBar Production Alert Rules
+# =============================
+
+groups:
+  - name: airbar-api
+    rules:
+      # API Health Alerts
+      - alert: APIDown
+        expr: up{job="airbar-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: api
+        annotations:
+          summary: "AirBar API is down"
+          description: "AirBar API has been down for more than 1 minute"
+          runbook_url: "https://docs.airbar.com/runbooks/api-down"
+
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{job="airbar-api",status=~"5.."}[5m]) > 0.1
+        for: 2m
+        labels:
+          severity: warning
+          service: api
+        annotations:
+          summary: "High error rate on AirBar API"
+          description: "Error rate is {{ $value }} errors per second"
+
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job="airbar-api"}[5m])) > 1
+        for: 3m
+        labels:
+          severity: warning
+          service: api
+        annotations:
+          summary: "High response time on AirBar API"
+          description: "95th percentile response time is {{ $value }}s"
+
+  - name: airbar-database
+    rules:
+      # Database Alerts
+      - alert: PostgreSQLDown
+        expr: up{job="postgres-exporter"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: database
+        annotations:
+          summary: "PostgreSQL is down"
+          description: "PostgreSQL database has been down for more than 1 minute"
+
+      - alert: HighDatabaseConnections
+        expr: pg_stat_activity_count > 80
+        for: 5m
+        labels:
+          severity: warning
+          service: database
+        annotations:
+          summary: "High number of database connections"
+          description: "Database has {{ $value }} active connections"
+
+      - alert: SlowQueries
+        expr: rate(pg_stat_database_tup_returned[5m]) / rate(pg_stat_database_tup_fetched[5m]) < 0.8
+        for: 5m
+        labels:
+          severity: warning
+          service: database
+        annotations:
+          summary: "Database queries are slow"
+          description: "Query efficiency is {{ $value }}"
+
+  - name: airbar-redis
+    rules:
+      # Redis Alerts
+      - alert: RedisDown
+        expr: up{job="redis-exporter"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: redis
+        annotations:
+          summary: "Redis is down"
+          description: "Redis cache has been down for more than 1 minute"
+
+      - alert: RedisMemoryHigh
+        expr: redis_memory_used_bytes / redis_memory_max_bytes > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          service: redis
+        annotations:
+          summary: "Redis memory usage is high"
+          description: "Redis memory usage is {{ $value | humanizePercentage }}"
+
+  - name: airbar-system
+    rules:
+      # System Resource Alerts
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 85
+        for: 5m
+        labels:
+          severity: warning
+          service: system
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU usage is {{ $value }}% on {{ $labels.instance }}"
+
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          service: system
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is {{ $value | humanizePercentage }} on {{ $labels.instance }}"
+
+      - alert: DiskSpaceLow
+        expr: (node_filesystem_avail_bytes / node_filesystem_size_bytes) < 0.1
+        for: 5m
+        labels:
+          severity: critical
+          service: system
+        annotations:
+          summary: "Low disk space"
+          description: "Disk space is {{ $value | humanizePercentage }} available on {{ $labels.instance }}"
+
+  - name: airbar-business
+    rules:
+      # Business Logic Alerts
+      - alert: HighAuthFailureRate
+        expr: rate(http_requests_total{job="airbar-api",endpoint="/api/auth/login",status="401"}[10m]) > 5
+        for: 5m
+        labels:
+          severity: warning
+          service: security
+        annotations:
+          summary: "High authentication failure rate"
+          description: "{{ $value }} failed login attempts per second"
+
+      - alert: NoNewRegistrations
+        expr: increase(http_requests_total{job="airbar-api",endpoint="/api/auth/register",status="201"}[1h]) == 0
+        for: 2h
+        labels:
+          severity: info
+          service: business
+        annotations:
+          summary: "No new user registrations"
+          description: "No new users have registered in the past 2 hours"
+
+      - alert: HighRateLimitHits
+        expr: rate(http_requests_total{job="airbar-api",status="429"}[5m]) > 1
+        for: 3m
+        labels:
+          severity: info
+          service: api
+        annotations:
+          summary: "High rate limit hits"
+          description: "{{ $value }} rate limit violations per second"

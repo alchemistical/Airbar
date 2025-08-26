@@ -159,7 +159,14 @@ export default function Checkout() {
   useEffect(() => {
     if (!matchId) return;
 
-    // Mock payment intent creation
+    // For demo purposes, use mock client secret directly
+    // In production, this would make an actual API call
+    setTimeout(() => {
+      setClientSecret("pi_mock_secret_" + matchId + "_" + Date.now());
+    }, 1500); // Simulate API delay
+
+    // Commented out actual API call for demo
+    /*
     apiRequest("/api/payments/checkout-session", {
       method: "POST",
       body: JSON.stringify({
@@ -169,7 +176,6 @@ export default function Checkout() {
     })
       .then((res) => res.json())
       .then((data) => {
-        // Mock client secret for demo
         setClientSecret(data.clientSecret || "pi_mock_secret_" + matchId);
       })
       .catch((err) => {
@@ -180,6 +186,7 @@ export default function Checkout() {
         });
         console.error("Payment init error:", err);
       });
+    */
   }, [matchId, matchRequest.reward, toast]);
 
   const handlePaymentSuccess = () => {

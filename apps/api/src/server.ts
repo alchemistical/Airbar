@@ -193,9 +193,11 @@ app.get('/api/openapi.yaml', generateOpenApiYaml);
 // API routes
 import authRoutes from './features/auth/routes/auth.routes'
 import dashboardRoutes from './features/dashboard/routes/dashboard.routes'
+import unifiedDashboardRoutes from './features/dashboard/routes/unified-dashboard.routes'
 
 app.use('/api/auth', authRoutes)
 app.use('/api/dashboard', dashboardRoutes)
+app.use('/api/dashboard', unifiedDashboardRoutes)
 
 // Additional feature routes will be added here as they're implemented
 // app.use('/api/trips', tripRoutes)

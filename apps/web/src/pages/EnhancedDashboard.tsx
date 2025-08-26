@@ -5,7 +5,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AnimatedAnimatedButton } from '@/components/ui/animated-button';
+import { AnimatedButton } from '@/components/ui/animated-button';
 import { EnhancedInput } from '@/components/ui/enhanced-input';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -215,13 +215,13 @@ const EnhancedDashboard: React.FC = () => {
           </div>
           
           <div className="flex gap-3">
-            <AnimatedAnimatedButton variant="outline" leftIcon={<Bell />}>
+            <AnimatedButton variant="outline" leftIcon={<Bell />}>
               Notifications
               <Badge variant="destructive" className="ml-2 text-xs px-1.5 py-0.5">3</Badge>
-            </AnimatedAnimatedButton>
-            <AnimatedAnimatedButton variant="primary" leftIcon={<Plus />}>
+            </AnimatedButton>
+            <AnimatedButton variant="primary" leftIcon={<Plus />}>
               New Trip
-            </AnimatedAnimatedButton>
+            </AnimatedButton>
           </div>
         </motion.div>
 
@@ -353,18 +353,18 @@ const EnhancedDashboard: React.FC = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  <AnimatedAnimatedButton variant="outline" className="w-full justify-start" leftIcon={<Plus />}>
+                  <AnimatedButton variant="outline" className="w-full justify-start" leftIcon={<Plus />}>
                     Add New Trip
-                  </AnimatedAnimatedButton>
-                  <AnimatedAnimatedButton variant="outline" className="w-full justify-start" leftIcon={<Search />}>
+                  </AnimatedButton>
+                  <AnimatedButton variant="outline" className="w-full justify-start" leftIcon={<Search />}>
                     Find Packages to Carry
-                  </AnimatedAnimatedButton>
-                  <AnimatedAnimatedButton variant="outline" className="w-full justify-start" leftIcon={<MessageSquare />}>
+                  </AnimatedButton>
+                  <AnimatedButton variant="outline" className="w-full justify-start" leftIcon={<MessageSquare />}>
                     Contact Support
-                  </AnimatedAnimatedButton>
-                  <AnimatedAnimatedButton variant="outline" className="w-full justify-start" leftIcon={<Settings />}>
+                  </AnimatedButton>
+                  <AnimatedButton variant="outline" className="w-full justify-start" leftIcon={<Settings />}>
                     Update Profile
-                  </AnimatedAnimatedButton>
+                  </AnimatedButton>
                 </CardContent>
               </Card>
             </div>
@@ -406,14 +406,14 @@ const EnhancedDashboard: React.FC = () => {
                   </div>
                   <div className="flex gap-2">
                     {(['all', 'active', 'completed'] as const).map((status) => (
-                      <AnimatedAnimatedButton
+                      <AnimatedButton
                         key={status}
                         variant={filterStatus === status ? "primary" : "outline"}
                         size="sm"
                         onClick={() => setFilterStatus(status)}
                       >
                         {status.charAt(0).toUpperCase() + status.slice(1)}
-                      </AnimatedAnimatedButton>
+                      </AnimatedButton>
                     ))}
                   </div>
                 </div>
@@ -459,9 +459,9 @@ const EnhancedDashboard: React.FC = () => {
                             <span>{trip.packages} packages</span>
                             <span className="text-green-600 font-medium">${trip.earnings}</span>
                           </div>
-                          <AnimatedAnimatedButton size="sm" variant="outline" leftIcon={<Eye />}>
+                          <AnimatedButton size="sm" variant="outline" leftIcon={<Eye />}>
                             View Details
-                          </AnimatedAnimatedButton>
+                          </AnimatedButton>
                         </div>
                       </CardContent>
                     </Card>
@@ -510,9 +510,9 @@ const EnhancedDashboard: React.FC = () => {
                         </div>
                         
                         <div className="mt-4 pt-4 border-t border-neutral-100">
-                          <AnimatedAnimatedButton size="sm" variant="primary" className="w-full">
+                          <AnimatedButton size="sm" variant="primary" className="w-full">
                             Manage Package
-                          </AnimatedAnimatedButton>
+                          </AnimatedButton>
                         </div>
                       </CardContent>
                     </Card>

@@ -9,6 +9,7 @@ import { MarketplaceRoutes } from './routes/marketplaceRoutes'
 import { DashboardRoutes } from './routes/dashboardRoutes'
 import { SessionTimeoutModal, useSessionTimeout } from './components/auth/SessionTimeoutModal'
 import { SuspenseWrapper, RoutePreloader, BundleTracker } from './utils/bundle-optimization'
+import { SendPackageErrorBoundary, CheckoutErrorBoundary, DashboardErrorBoundary } from './components/ui/contextual-error-boundaries'
 
 // Core pages not handled by route modules  
 const SendPackage = lazy(() => import('./pages/SendPackage'))
@@ -18,6 +19,7 @@ const LandingV2 = lazy(() => import('./pages/landing-v2/LandingV2'))
 // Main user journeys - lazy loaded
 const Matches = lazy(() => import('./pages/Matches'))
 const MatchesDiscovery = lazy(() => import('./pages/MatchesDiscovery'))
+const ErrorBoundaryDemo = lazy(() => import('./pages/ErrorBoundaryDemo'))
 const MatchRequests = lazy(() => import('./pages/MatchRequests'))
 const ParcelRequests = lazy(() => import('./pages/ParcelRequests'))
 const ParcelRequestDetail = lazy(() => import('./pages/ParcelRequestDetail'))
@@ -74,10 +76,16 @@ const AppContent = () => {
         {/* Core Routes */}
         <Route path="/" component={HomePageNew} />
         <Route path="/landing" component={LandingV2} />
-        <Route path="/send-package" component={SendPackage} />
+        <Route path="/send-package">
+          <SendPackageErrorBoundary>
+            <SendPackage />
+          </SendPackageErrorBoundary>
+        </Route>
         
         {/* Feature Route Modules */}
-        <DashboardRoutes />
+        <DashboardErrorBoundary>
+          <DashboardRoutes />
+        </DashboardErrorBoundary>
         <TripRoutes />
         <MarketplaceRoutes />
         <AuthRoutes />
@@ -101,13 +109,18 @@ const AppContent = () => {
         <Route path="/match-request/:id" component={MatchRequestDetail} />
         
         {/* Payment & Checkout */}
-        <Route path="/checkout" component={Checkout} />
+        <Route path="/checkout/:matchId">
+          <CheckoutErrorBoundary>
+            <Checkout />
+          </CheckoutErrorBoundary>
+        </Route>
         <Route path="/payment/checkout/:id" component={PaymentCheckout} />
         
         {/* Component Showcase */}
         <Route path="/showcase" component={ComponentShowcase} />
         <Route path="/components" component={ComponentShowcase} />
         <Route path="/demo" component={ComponentShowcase} />
+        <Route path="/error-demo" component={ErrorBoundaryDemo} />
         
         {/* Disputes */}
         <Route path="/disputes" component={DisputeList} />

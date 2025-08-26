@@ -43,6 +43,10 @@ model User {
   receivedReviews   Review[]  @relation("ReviewsReceived")
   disputes          Dispute[]
   messages          Message[]
+  
+  // NEW: Add relationships for dashboard features
+  activityEvents    ActivityEvent[]
+  preferences       UserPreference?
 
   @@map("users")
 }
@@ -74,6 +78,14 @@ model Profile {
   rating           Float     @default(0.0)
   reviewCount      Int       @default(0) @map("review_count")
   reliabilityScore Float     @default(100.0) @map("reliability_score")
+  
+  // NEW: Gamification fields
+  trustLevel       TrustLevel @default(BRONZE) @map("trust_level")
+  streakCount      Int        @default(0) @map("streak_count") 
+  badges           Json       @default("[]") @map("badges")
+  lastActivityDate DateTime?  @map("last_activity_date")
+  totalEarnings    Float      @default(0) @map("total_earnings")
+  totalSavings     Float      @default(0) @map("total_savings")
   
   createdAt        DateTime  @default(now()) @map("created_at")
   updatedAt        DateTime  @updatedAt @map("updated_at")
@@ -302,6 +314,11 @@ model Match {
   // Communication
   chatRoomId        String?     @unique @map("chat_room_id")
   
+  // NEW: AI matching fields
+  matchScore           Float @default(0.0) @map("match_score")
+  compatibilityFactors Json  @default("{}") @map("compatibility_factors") 
+  aiConfidence         Float @default(0.0) @map("ai_confidence")
+  
   createdAt         DateTime    @default(now()) @map("created_at")
   updatedAt         DateTime    @updatedAt @map("updated_at")
 
@@ -318,6 +335,7 @@ model Match {
   @@index([senderId])
   @@index([travelerId])
   @@index([status])
+  @@index([matchScore])
   @@map("matches")
 }
 
@@ -592,6 +610,29 @@ enum DisputeStatus {
   CLOSED
 }
 
+// NEW: Dashboard-related enums
+enum TrustLevel {
+  BRONZE
+  SILVER  
+  GOLD
+  PLATINUM
+}
+
+enum UserMode {
+  SENDER
+  TRAVELER
+  DUAL
+}
+
+enum ActivityEventType {
+  MATCH_FOUND
+  TRIP_POSTED
+  PACKAGE_DELIVERED
+  PAYMENT_RECEIVED
+  REVIEW_RECEIVED
+  ACHIEVEMENT_EARNED
+}
+
 // =============================================================================
 // ANALYTICS & SESSION MANAGEMENT
 // =============================================================================
@@ -668,4 +709,46 @@ model SystemHealth {
   @@index([timestamp])
   @@index([status])
   @@map("system_health")
+}
+
+// =============================================================================
+// DASHBOARD & ACTIVITY SYSTEM
+// =============================================================================
+
+// Activity Events model
+model ActivityEvent {
+  id             String            @id @default(cuid())
+  userId         String            @map("user_id")
+  eventType      ActivityEventType @map("event_type")
+  eventData      Json              @map("event_data")
+  displayMessage String            @map("display_message")
+  actionUrl      String?           @map("action_url")
+  priority       Int               @default(1)
+  isRead         Boolean           @default(false) @map("is_read")
+  createdAt      DateTime          @default(now()) @map("created_at")
+  updatedAt      DateTime          @updatedAt @map("updated_at")
+
+  // Relationships
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([userId, isRead])
+  @@map("activity_events")
+}
+
+// User Preferences model  
+model UserPreference {
+  id                   String   @id @default(cuid())
+  userId               String   @unique @map("user_id")
+  preferredMode        UserMode @default(DUAL) @map("preferred_mode")
+  dashboardLayout      Json     @default("{}") @map("dashboard_layout")
+  notificationSettings Json     @default("{}") @map("notification_settings")
+  matchingPreferences  Json     @default("{}") @map("matching_preferences")
+  createdAt            DateTime @default(now()) @map("created_at")
+  updatedAt            DateTime @updatedAt @map("updated_at")
+
+  // Relationships
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_preferences")
 }
